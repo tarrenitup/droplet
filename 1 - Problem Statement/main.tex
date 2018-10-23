@@ -1,0 +1,48 @@
+\documentclass[draftclsnofoot,onecolumn,journal,letterpaper,10pt]{IEEEtran}
+
+\usepackage{url}
+\usepackage{color}
+\usepackage{geometry}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{varwidth}
+\usepackage{setspace}
+\usepackage{float}
+
+\geometry{margin=0.75in}   
+\singlespacing
+
+\title{Group 13 Problem Statement}
+\author{by James Barry}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Abstract}
+
+This document asks why there is no convenient method for people to chronicle their notes and photos in a location-based way, and proposes an application that solves that problem. It is a speculative proposal and draws information from a meeting had with the client, David Vasquez. It focuses on explaining the problem, what our solution is, how our solution solves the problem, and how we'll make sure we're actually solving the problem along the way. It avoids going deep into the technical aspect of it, and instead looks at it in a broad, overhead way.
+
+\pagebreak
+
+\section{Problem}
+
+We're not so much looking to solve an intrinsic problem of the universe; we're looking to enrich the experience. People can write as many notes and take as many pictures as they want, but there's no way for them to tie those notes and pictures to locations or share those notes and pictures in a location-based way. There's plenty of social media applications that allow people to post about where they are, or post pictures they took at a certain place, but they can't actually post \textit{on} that location. That's what we'd like to make possible. 
+
+\section{Proposed Solution}
+
+Our group proposes Anchor, or, Droplet (working titles), a location-tagging mobile application that allows users to post on places. These posts could be text, photo, video, or any other type of post we can think of; however, the posts can only be viewed by others if they're near the location the post was made. This has a number of possible practical applications. For one, it would allow users to personally chronicle their adventures, as they could look back on exactly where they took certain photos of wrote certain notes, rather than just looking back on a giant list of notes and pictures. For two, it could be a great way for people to see what's going on near them. A cluster of recent posts could clue someone in that an event is happening nearby, and reading those posts could explain to them what exactly is happening. For three, businesses could post at their location to act as a sort of advertisement. This is, in greater detail, why we're proposing Anchor/Droplet. It has personal, social, and even business applications. 
+
+We think it best to not go into great detail on the technical aspect of our implementation, but there are a few things that our client has deemed important. First, we would like a post feed that shows a user all recent posts that they are in range of. Second, we'd like a map interface that allows the user to get a different perspective on these recent posts, letting them view exactly where they were made. Those are our two main goals, but more will certainly arise in the design process.
+
+\section{Performance Metrics}
+
+Our main performance metric is simply having an application that us and, more importantly, our client are happy with. Our goals our simple and clear, and sufficiently fulfilling all those goals is all we need to be successful. We aren't getting concerned with the sustainability or monetary practicality of the project at this stage. On top of this, though, we'd also like to do usability testing as a stretch goal for our project. This is a user-oriented, fully fledged mobile application, after all. Our client can be happy with it, but it's also important that consumers like the idea too. 
+
+We would also like to go through an exhaustive goal-defining and design process, so that we have a list of everything that we need to do. Since we aren't dealing with anything abstract, it should be easy to quantify our goals and then reach them over the next year. We should also create a time line during this process, so we know that we're completing goals in a timely manner. 
+
+Security is also a metric to consider. There are obvious safety concerns with an application that (potentially) tags your every move. One could learn a lot about a person without even needing to infiltrate our database; they could just look at the application and get an idea of where someone is at a given time. As such, users would need to be careful with just how much they post. We should also make an effort to educate our users about this to ensure they're not putting themselves in danger. We should also consider implementing a friends list or similar feature and allow users to post privately, so only those they trust can see what they're posting. However, it's difficult to use security as an actual \textit{metric} of success. It's more so just a consideration. 
+
+\end{document}
