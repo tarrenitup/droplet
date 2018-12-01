@@ -1,0 +1,351 @@
+\documentclass[draftclsnofoot, onecolumn, letterpaper,10pt,compsoc]{IEEEtran}
+
+\usepackage{url}
+\usepackage{color}
+\usepackage{geometry}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{varwidth}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{pgfgantt}
+\graphicspath{ {./images/} }
+
+\geometry{margin=0.75in}   
+\singlespacing
+
+%i pull \centerfloat from memoir here, so i can use it for figures
+\makeatletter
+\newcommand*{\centerfloat}{%
+  \parindent \z@
+  \leftskip \z@ \@plus 1fil \@minus \textwidth
+  \rightskip\leftskip
+  \parfillskip \z@skip}
+\makeatother
+
+\def \TitlePageHeader{Droplet Productions}
+\def \TitlePageTitle{Design}
+\def \GroupNumber{by Group 13}
+\def \GroupMembers{James Barry, Tarren Engberg, Dennis Li, James Luo,  Brice Ng}
+\def \CourseTitle{CS 461 - Senior Design}
+\def \CourseTerm{Fall 2018}
+
+\title{Group13Requirements}
+			
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+\renewcommand{\NameSigPair}[1]{#1}
+
+%i pull \centerfloat from memoir here, so i can use it for figures
+\makeatletter
+\newcommand*{\centerfloat}{%
+  \parindent \z@
+  \leftskip \z@ \@plus 1fil \@minus \textwidth
+  \rightskip\leftskip
+  \parfillskip \z@skip}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        \hfill    
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge \TitlePageHeader \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge \TitlePageTitle }\par
+            \vfill
+            \vspace{5pt}
+
+            \vspace{5pt}
+            {\Large
+                \NameSigPair{\GroupNumber}\par
+            	\NameSigPair{\GroupMembers}\par
+                \NameSigPair{\CourseTitle}\par
+                \NameSigPair{\CourseTerm}\par
+            }
+            \vspace{20pt}
+        }
+    \end{singlespace}
+    \begin{abstract}
+    This document outlines the current design and implementation plan for Droplet, and provides specific details about each individual part. The purpose of this document is to efficiently plan out the development of Droplet in order to create a schedule to follow. It includes specification for front end and back end components, and a timeline formatted as a Gantt Chart.
+    \end{abstract}
+\end{titlepage}
+
+\newpage
+\pagenumbering{arabic}
+\clearpage
+
+\pagebreak
+
+\tableofcontents
+
+\pagebreak
+
+\section{Introduction}
+The proposed project is a location-tagging mobile application called Droplet. Its goal is to bring physical connection to social media by making people explore the world to see posts made by others. Rather than posting to their account, as is typical on social media, users post on a location instead, and only users nearby can view and interact with those posts. When making a post, one can set a "splash radius" (hence the name Droplet), which is the distance in which other users can see their post. People can favorite and comment on posts made by others, assuming they are within this radius. A user can also review all the posts they have made, regardless of where they are, allowing them to chronicle their adventures and memories in a location-based way. This document details the tech options the team will be using, as well as the plan and timeline for the project's implementation.
+
+\section{Definitions}
+This section includes various definitions for potentially confusing terms used in the document. Please read this before reading the rest of the document.
+
+\begin{itemize}
+    \item \textbf{"The team" and "Droplet Productions"}: In the interest of formality, third person is the only perspective used in this document. As such, the team developing Droplet is referred to by these two terms throughout the document.
+\end{itemize}
+
+\newpage
+\section{Architectural Pattern}
+
+Architectural patterns are methods that solve commonly encountered problems in computer science. They are often used to help developers organize their code and projects into multiple interacting parts\cite{modelsdefined}. Various architectural patterns were explored in order to create an ideal model for Droplet. There is, evidently, much confusion in the computer science community about how to implement many common patterns, including the popular choice of MVC (Model View Controller)\cite{models}. Through this model analysis, Droplet Productions determined that RMR (Resource Method Representation) is the ideal pattern to follow. It is similar to the common understanding of MVC, but adapted to RESTful\footnote{RESTful is an architectural style meant to allow for interoperability between different web services.} methodologies. The Resource is the data to be served, the Method is how that data is served, and the Representation is how that data is displayed. In the case of Droplet, the database will be the Resource, the Method will be the internal API, and the Representation will be the end-user application. Details about the implementation of these parts of the project can be found later in the document. The following diagram was made to help demonstrate how these parts will interact. 
+
+\begin{figure}[H]
+    \centerfloat
+    \includegraphics[scale=.6]{images/DropletDataFlow.jpg}
+    \caption{Droplet Dataflow}
+    \label{fig:my_label}
+\end{figure}
+
+\newpage
+\section{Back End}
+
+\subsection{Database Tech - MongoDB}
+
+The tech review for database technology explored MySQL, MongoDB, and SQLite. Ultimately, the team decided to use MongoDB, a document-oriented NoSQL\footnote{"Not Only SQL", which simply means it isn't a structured query language but is used to accomplish the same goals.}. It maps data into structures formatted similarly to JSON objects, and is notable for its speed of query and ease of use in object oriented programming. It uses a simple function structure to get, post, put, and delete data.
+
+\begin{figure}[H]
+    \centerfloat
+    \includegraphics[scale=.8]{images/mongodb.jpg}
+    \caption{MongoDB Query Style}
+    \label{fig:my_label}
+\end{figure}
+
+The team's main reason for selecting MongoDB is because of its query speed. Droplet also has low data complexity with no explicit schema definition, so the unstructured nature of MongoDB files suits it well. The only foreseeable data needed for Droplet is Users and Posts, and MongoDB will make it very easy to nest posts within users. This makes a query for all the posts a user has made very simple, since their posts are nested within them; allowing users to review their past posts will be simple. Comments users make can then be nested within posts, so getting all data associated with a post will be easy. 
+
+A point of discussion for the team is how the application will determine what posts are nearby a given user; this could be done by querying all posts, which would require querying all users because of the nesting system, and determining which are close to the given user. This would take time and require a distance calculation. Because of this, it may be worth finding a more efficient way to find nearby posts. 
+
+\subsection{Server Tech - node.js}
+The back end server tech will be handled using Node.js and a RESTful API developed by the team.  Droplet will require accessing two servers, one database that is created to store user data and one that the map API Droplet intends to use will fetch from.  Particularly, Node.js is excellent for the back end due to its compatibility with RESTful API.  REST will be explained in depth later, but essentially it will use HTTP calls to request information from the server.  Node.js itself uses a single thread to I/O operations, but it converts Javascript to assembly language extremely quickly, allowing for minimal downtime between iterations of code.  The database being developed by Droplet will be using MongoDB, and as such the back end needs to be compatible with it.  Node.js offers such compatibility, and with its speed, it was the ideal option for Droplet.
+\begin{figure}[H]
+    \centerfloat
+    \includegraphics[scale=.8]{images/nodejs.JPG}
+    \caption{Example of accessing a MongoDB server}
+    \label{fig:my_label}
+\end{figure}
+
+\subsection{Internal API - RESTful}
+
+REST is a widely used architecture that takes advantage of HTTP calls to request data from the server. REST separates the user interface from the data storage, which improves the portability of the user interface and scalability of the server components. It also has stateless servers and structured access to resources. Stateless servers removes the servers need to remember the session data, and the team could create specific functions to access the data that match REST protocols. Furthermore, REST follows HTTP protocols, which allows for caching. In addition to these fundamental properties of REST, the team decided to use REST because its compatibility with both MongoDB and Node.js. \cite{restcompatability}
+
+RESTful API integration with MongoDB is well documented, and the team has had previous experience with implementing RESTful APIs. REST is a protocol that is already integrated within NodeJS. Based on compatibility, the team decided that a RESTful API would be the best to implement in Droplet.
+
+Overall, the team saw the simplicity of REST. Droplet does not handle a large amount of data; users and posts are the only stored information of note. Due to the simplicity and compatibility, REST is a simple way that requests can be made quickly.
+
+
+\subsection{Map API - MapBox}
+Droplet Productions has decided that the most optimal Map API is MapBox. MapBox is one of the most popular applications outside of Google Maps, and is widely used among mobile applications, including SnapChat. Based on the team's research of various Map APIs, MapBox has been determined to be the most optimal because of its location grabbing, highly customizable maps, and flexibility as the team decides on a specific platform (iOS, Android, React Native) to target.
+
+In terms of features, MapBox will provide the  necessary data for Droplet. \cite{mapboxreactnative} Droplet needs to provide map information and get a user's location for basic functionality. MapBox provides an SDK to customize maps. There are two ways of changing the style of the maps. The team can use preset styles that were created by MapBox such as street, dark, and light. \cite{mapboxreactnative} Another option is to create new styling through a MapBox Studio, which is a map designer tool. The map is a critical feature of Droplet and will complete the user experience. Droplet Productions plans to begin with preset styles, and add a personal, enhanced map after basic functionality is achieved. The two methods of changing the styles are shown below.
+\begin{figure}[H]
+    \centerfloat
+    \includegraphics[scale=.3]{images/MapStyleExample.jpg}
+    \caption{Styling - Preset Map}
+    \label{fig:my_label}
+\end{figure}
+\begin{figure}[H]
+    \centerfloat
+    \includegraphics[scale=.3]{images/MapBoxStudio.jpg}
+    \caption{Styling - MapBox Studio}
+    \label{fig:my_label}
+\end{figure}
+
+MapBox provides an API to get the device user location. The user location is critical because it is associated with which posts a user can view. Essentially, users will be attaching their location whenever they want to make a post. When users want to view posts, they can only see posts that have location near them. Geolocation is an essential tool that will be needed in Droplet, and MapBox provides solutions for this problem.
+
+ Not only does MapBox satisfy requirements for basic functionality of Droplet, but it provides other features that may be useful in the future. Some features that stand out are augmented reality, data analytics, and 3D visualization. Data analytics could be used by consumers and developers to see how people are using the application. Augmented reality and 3D visualization of the maps would be an extra feature for users to make the experience more entertaining. 
+
+
+Flexibility was another reason why the team had decided on MapBox. MapBox has documentation for all of the potential target platforms. They provide documentation for native iOS, native Android, and React Native. In addition to basic documentation, MapBox provides “Getting Started” pages that help developers quickly integrate the API into their application. Furthermore, there is GitHub community that is centered around resolving issues that developers encounter with the SDK. Based on these resources, the team thinks that implementing MapBox in Droplet will not be difficult. The documentation for the various platforms can be seen below.
+
+\begin{figure}[H]
+    \centerfloat
+    \includegraphics[scale=.2]{images/MapBoxiOS.jpg}
+    \caption{Implementation - iOS}
+    \label{fig:my_label}
+\end{figure}
+\begin{figure}[H]
+    \centerfloat
+    \includegraphics[scale=.2]{images/MapBoxAndroid.jpg}
+    \caption{Implementation - Android}
+    \label{fig:my_label}
+\end{figure}
+\begin{figure}[H]
+    \centerfloat
+    \includegraphics[scale=.2]{images/MapBoxReactNative.jpg}
+    \caption{Implementation - React Native}
+    \label{fig:my_label}
+\end{figure}
+
+The main negative aspect of MapBox is the cost. The API is free until 50,000 mobile requests. The team will need to discuss this problem with Droplet's client to determine if MapBox should be used. In case of pricing issues, OpenStreetMap is a free alternative. MapBox is built on OpenStreetMap, but is more polished for various platforms and more well documented. In conclusion, MapBox will be the most optimal for Droplet based on flexibility with platforms, customizable maps, and location features. 
+
+\subsection{Data Handling}
+
+\subsubsection{Redux/Flux}
+Redux is a library based on the Flux method of data processing and rendering for React based User Interfaces. It is comprised of stores, actions, reducers, and subscriptions. Actions are things a component can do, reducers take a component through the process of doing an action, stores store the actions and subscriptions watch and handle state changes. Redux can be thought of as a predictable state container for JavaScript apps. Redux is not explicitly necessary for simple apps and many developers who do not handle lots of data will find that React on its own works fine without Redux. 
+
+\subsubsection{Higher Order Components \& View Components vs. Container Components}
+Higher-order components take components in and return a transformed version of that component. This is advantageous for reusing code and abstracting repeated portions of similar components. Also, engineers may decide to split components into two broad categories. Firstly, visual components and secondarily, container components.
+
+\newpage
+\section{Front End}
+
+\subsection{Prototyping and Testing - InVision}
+Development of the front end will begin with prototyping the user interface. The prototypes will be used to measure the usability of the design, and once a design is decided on, it will be used to give the team a reference for what the final product should look like. The team will be using InVision to build the prototypes. InVision works by having the user add interactions to uploaded, static images in order to create an interactive, high-fidelity prototype \cite{invision}. The team already has several client-approved static images (shown below) illustrating the current intended final design for parts of the user interface, so the team will add to, iterate, and test on these designs until they have all the intended functionality and meet the team's usability standards. 
+\begin{figure}[H]
+    \captionsetup{justification=centering}
+    \centerfloat
+    \includegraphics[scale=.25]{home.jpg}
+    \includegraphics[scale=.25]{maps.jpg}
+    \includegraphics[scale=.25]{new_droplet.jpg}
+    \caption{Initial user interface design mockups}
+    \label{fig:my_label}
+\end{figure}
+InVision features support for Android, iOS, and web apps, so if the intended platform changes during development, the team will still be able to use InVision for prototyping. In addition, InVision's integration with several communication apps used by the team, such as Trello \cite{trelloIV} and Slack \cite{slackIV}, as well its built in support for collaborative work, make it the optimal choice for the team's prototyping. 
+
+The prototypes will undergo usability testing, meaning that the team will give the prototypes to individuals not involved with the project and observe as they attempt to navigate the user interface \cite{usability}. Testers will receive only a short description of the app and its features before the testing starts. Once the test begins, the observer(s) will still answer any questions the tester may have, but they will make note of any feature of element of the user interface that the tester was unable to understand on their own. Testers will be encouraged to think aloud during the test in order to give observer(s) a better idea of the thought process behind their decisions \cite{usabilitymod}. After the test, the observer(s) will conduct a brief interview to go over any impressions and suggestions the tester had for the user interface. After a few tests, the team will go over the feedback as a group and then decide on what changes to make before going through the testing process again. This process of testing and changing the prototype will continue until the team agrees that any additional changes made to the prototype will only yield limited improvements, or only serve to overcomplicate the user interface.
+\subsection{User Interface Framework}
+
+There are three general options available today for building the client view for a mobile app. The decision will be made by weighing the pros and cons between React Native, iOS/Android native and Progressive Web App (PWA). Each of these has strengths and weaknesses both short-term and long. The team will examine each and run tests by making pre-development mini apps in order to make an informed decision on which will give the user of Droplet the best and smoothest possible experience.
+
+\subsubsection{React Native}
+React Native is a relatively new User Interface building framework that is based on component architecture rather than traditional, large MVC style structures. Developers will write in JavaScript in order to build the application and rely on the Facebook React Native renderer to output both iOS and Android versions of the application. There are obvious benefits to having one code base rather than two separate ones. App consistency across platforms is one important advantage of this model. Additionally, since the development of React Native apps is very similar to React's web development, the cross-over to building a web-app is fairly fast by comparison. Droplet's client has mentioned that in the future it would be nice to have a web version of the app built for the larger screens of computers with more options possible for users. The article 'Let's Get Clear About React Native' details the pros and cons of React Native and allows readers to know that companies often opt for it due to its time saving and resource saving nature. Building a native app takes a larger team and more time to complete, whereas building a React Native app can be done faster and includes the vast majority of the features of a fully Native app. One important note is that React Native Apps are NOT ionic. Ionic apps are essentially web browsers with no tool/utility bars. React Native apps actually translate to real Native API calls provided by the developer tools of Android and iOS. \cite{simplytechnologies}.
+
+
+Pros include:
+\begin{itemize}
+    \item Live \& Hot reloading.
+    \item Pre-built Components Increase Dev speed.
+    \item Native Performance.
+    \item Simplified UI.
+    \item Growing Community.
+    \item Immutability Tends Towards Stable, Testable and Predictable App
+\end{itemize}
+
+Cons include:
+\begin{itemize}
+    \item User Navigation custom components need work. Wix has a good nav component.
+    \item Few custom modules.
+    \item May require Native code and knowledge.
+    \item Not great for computation intensive clients
+\end{itemize}
+
+\subsubsection{Native: iOS, Android}
+Native app development is ideal for a number of reasons. First, developers get access to all available developer tools and APIs provided by the operating system's maker. iOS and/or Android development would open up all possibilities and lend the deepest level of customization and raw efficiency. Since Native apps have every sensor and hardware resource readily available to it, the app is not limited in its functional abilities now or in the future as phones get more functionality. Native apps use UI kits provided by Apple and Google, making the user experience potentially more recognizable, if used properly. Some of the downsides of Native apps are that they must be downloaded and installed. Meaning the user must go through Apple's and Google App approval process in order to get the app published to the App Store and Google Play Store. Users only have a certain amount of storage and even a free app may not seem free if it takes up lots of space on a users phone. Developers must make distinct and different applications for iOS and Android platforms. Opening up the possibility of having different bugs and different performance between platforms. Development for iOS and Android tends to be more time costly. One of the largest downsides to native apps is that they must be upgraded regularly to fix bugs and resolve issues, which requires users who want to upgrade their apps. PWA solutions will load a new version on app launch and tend to take up much less space.
+
+\subsubsection{Progressive Web App (PWA)}
+Progressive Web Apps are defined by Google and offer the best of both the web and native applications. Web apps do not require download and installation, users may save them to their phone's home screen or app drawer and they work offline, unlike websites, through the use of service workers. PWAs also function on much less data when compared to Native applications, allowing users in underdeveloped countries to have access to them and also for users with small on-device storage to have more applications with less worry about storage space. Progressive web apps can also be discovered and crawled by search engines in order to make discover-ability possible on more than just the App Store or Google Play store. PWAs however, unless designed very carefully and executed well, often feel like a 'fake' app and since they do not use standard UI kits provided by an operating system, they can also feel cheap if not designed well. They are also not discover-able in the Google Play store or the Apple App Store. 
+
+\newpage
+\section{Gantt Chart}
+Below is an edited version of the Gantt Chart originally created for Droplet's requirements document. It reflects changes made during early stages of development based on the results of the tech review phase.
+
+\begin{figure}[H]
+\centerfloat
+
+\begin{ganttchart}{1}{30}
+
+\gantttitle{2018-2019 Capstone Schedule}{30} \\
+
+\gantttitle{Fall Term}{10}
+\gantttitle{Winter Term}{10}
+\gantttitle{Spring Term}{10} \\
+
+\gantttitlelist{1,...,10}{1}
+\gantttitlelist{1,...,10}{1}
+\gantttitlelist{1,...,10}{1}\\
+
+\ganttbar{Documentation}{1}{29} \\
+\ganttbar{Iterating on Prototype}{16}{27} \\
+\ganttbar{Tech Review and Design}{5}{10} \\
+\ganttlinkedbar{Back End Prototyping}{11}{14} \\
+\ganttlinkedbar{Front End Prototyping}{14}{16} \\
+\ganttlinkedbar{Alpha Testing}{16}{20} \\
+\ganttlinkedbar{Beta Testing}{21}{25} \\
+\ganttlinkedbar{Finalizing, Expo}{26}{30}
+
+%\ganttbar{Final Task}{8}{12}
+%\ganttlink{elem1}{elem2}
+%\ganttlink{elem2}{elem3}
+\end{ganttchart}
+
+\caption{Cursory schedule}
+
+\end{figure}
+
+\newpage
+\section{Conclusion}
+
+Droplet is a social mobile application that allows users to post in a location-based way. Droplet Productions is creating it, and this document covered various design decisions made in planning development. The application will follow the RMR (Resource Method Representation) architectural pattern. MongoDB will be used for hosting the database, with Node.js interacting with it by pulling and storing data while providing CRUD functionality. Development on the front end will begin with the creation of the prototype using InVision. Once the prototype has been sufficiently tested and approved, the team will move onto implementing the user interface.
+
+\newpage
+\begin{thebibliography}{10}
+\bibitem{simplytechnologies}
+\textit{“Let's Get Clear About React Native.”} Simply Technologies, \textit www.simplytechnologies.net/blog/2018/4/4/lets-get-clear-about-react-native.
+
+\bibitem{invision}
+“Free Prototype Platform for Website \& Mobile App UI Design,” 
+\textit{InVision}. 
+[Online]. Available: https://www.invisionapp.com/tour/website-mobile-prototyping-tool. [Accessed: Nov. 27, 2018].
+
+\bibitem{trelloIV}
+“InVision,” 
+\textit{Trello}. 
+[Online]. Available: https://trello.com/power-ups/596f2cb2d279152540b2bb31/invision. [Accessed: Nov. 27, 2018].
+
+\bibitem{slackIV}
+“InVision for Slack | Design better, faster-together,” 
+\textit{InVisionApp}. 
+[Online]. Available: https://www.invisionapp.com/feature/slack. [Accessed: Nov. 27, 2018].
+
+\bibitem{usability}
+"Usability Testing,"
+\textit{Usability.gov}
+[Online]. Available: https://www.usability.gov/how-to-and-tools/methods/usability-testing.html. [Accessed: Nov. 27, 2018].
+
+\bibitem{usabilitymod}
+"Running a Usability Test,"
+\textit{Usability.gov}
+[Online]. Available: https://www.usability.gov/how-to-and-tools/methods/running-usability-tests.html. [Accessed: Nov. 27, 2018].
+
+\bibitem{models}
+"A Beginner's Guide To MVC For The Web,"
+\textit{blog.ircmaxell.com}
+[Online]. Available: \url{https://blog.ircmaxell.com/2014/11/a-beginners-guide-to-mvc-for-web.html}.
+[Accessed: Nov.  2, 2018].
+
+\bibitem{modelsdefined}
+"10 Common Software Architectural Patterns in a nutshell,"
+\textit{towardsdatascience.com}
+[Online]. Available: \url{https://towardsdatascience.com/10-common-software-architectural-patterns-in-a-nutshell-a0b47a1e9013}.
+[Accessed: Nov.  27, 2018].
+
+\bibitem{mapboxreactnative}
+“First steps with the Mapbox Maps SDK for React Native,” 
+\textit{MapBox.com}. 
+[Online]. Available: https://www.mapbox.com/help/first-steps-react-native-sdk/ [Accessed: Nov. 27, 2018].
+
+\bibitem{restcompatability}
+“5 Steps to build a REST API in Node.js with MongoDB,” 
+\textit{Medium.com}. 
+[Online]. Available: https://medium.com/of-all-things-tech-progress/5-steps-to-build-a-rest-api-in-node-js-with-mongodb-e1f2113a39bd [Accessed: Nov. 27, 2018].
+
+\end{thebibliography}
+
+\end{document}
