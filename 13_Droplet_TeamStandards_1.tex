@@ -1,0 +1,121 @@
+\documentclass[draftclsnofoot, onecolumn,journal,letterpaper,10pt]{IEEEtran}
+
+\usepackage{url}
+\usepackage{color}
+\usepackage{geometry}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{varwidth}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{pgfgantt}
+\usepackage{array}
+\usepackage{frcursive}
+\graphicspath{ {./images/} }
+
+\geometry{margin=0.75in}
+\singlespacing
+
+\def \TitlePageHeader{Droplet}
+\def \TitlePageTitle{Team Standards}
+\def \GroupNumber{by Group 13}
+\def \GroupMembers{James Barry, Tarren Engberg, Dennis Li, James Luo,  Brice Ng}
+\def \CourseTitle{CS 461 - Senior Design}
+\def \CourseTerm{Fall 2018}
+
+\title{Group13Requirements}
+			
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+\renewcommand{\NameSigPair}[1]{#1}
+
+%i pull \centerfloat from memoir here, so i can use it for figures
+\makeatletter
+\newcommand*{\centerfloat}{%
+  \parindent \z@
+  \leftskip \z@ \@plus 1fil \@minus \textwidth
+  \rightskip\leftskip
+  \parfillskip \z@skip}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        \hfill    
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge \TitlePageHeader \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge \TitlePageTitle }\par
+            \vfill
+            \vspace{5pt}
+
+            \vspace{5pt}
+            {\Large
+                \NameSigPair{\GroupNumber}\par
+            	\NameSigPair{\GroupMembers}\par
+                \NameSigPair{\CourseTitle}\par
+                \NameSigPair{\CourseTerm}\par
+            }
+            \vspace{20pt}
+        }
+    \end{singlespace}
+\end{titlepage}
+
+\newpage
+\pagenumbering{arabic}
+\clearpage
+
+\pagebreak
+
+\section{Standards for Conduct}
+
+Our team will use online technologies for communication primarily. This includes technologies such as Slack for discussion, project related chat, feedback, and idea sharing; Trello for project and sub-project management and tracking; and Overleaf for collaborative TEX document creation. Our team will meet in-person only when necessary if there is an immediate issue to solve or if the client requires. Our meetings naturally occur at and after each of our regularly scheduled lecture classes. With busy and demanding schedules, our goal with collaboration is to maintain as much flexibility for each member of the team as necessary, with the knowledge that each of us have fluctuating work loads over the course of the term.
+
+\section{Standards for Work }
+Our team will be expected to do research on the technologies to determine if the technology is useful, and we should have a basic understanding of how to use it if necessary. 
+
+A specific task is considered to be complete if the group is satisfied with the quality, and would be considered deliverable to users.  The task has to pass a group evaluation before it is submitted.
+
+Coding comments are expected and should inform other developers the purpose of certain parts of the code. They should be neat, legible, and appear often to explain what is happening for possible further development.
+
+
+\section{Table}
+
+\begin{tabular} { |  m{8.2cm} | m{8.2cm}| }
+ \hline
+ Work Completion & Being that each task and sub-project is different and includes a separate set of variables, we will democratically decide when a task is complete by testing it and measuring whether the component of the project meets its individual requirements. \\
+ \hline
+ Work Quality & Our work quality will be subject to client approval. Our written integration tests will specify the standards of technical quality as determined by the minimum viable product described in the project requirements document. \\
+ \hline
+ Meeting Attendance & Each team member is expected to show up to meetings unless prior arrangements have been made, or an emergency. \\
+ \hline
+ Meeting Preparation & They should have a general understanding on the assignments and what to work on. Each member should be able to debrief the team on what they have been working on if necessary. \\
+ \hline
+ Conflict Management & Any conflicts regarding what should be done for the project will be decided through a vote, since we have an odd number of people. Alternatively, if we really can't decide, we will leave the decision making to the client. Personal conflicts will be resolved through an indifferent mediator. \\
+ \hline
+\end{tabular}
+
+\section{Signatures}
+(The team has opted to sign this document by typing our signatures.) 
+
+James Luo
+
+Dennis Li
+
+Tarren Engberg
+
+Brice Ng
+
+James Barry
+
+\end{document}
