@@ -1,0 +1,117 @@
+\documentclass[10pt, letterpaper,draftclsnofoot,onecolumn, compsoc]{IEEEtran}
+\usepackage[letterpaper,margin=0.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{titling}
+
+\title{Droplet: Location Tagging App - Group 13 Tech Review}
+\author{James Luo}
+\date{CS 461    Fall 2018}
+
+\begin{document}
+\begin{titlingpage}
+    \maketitle
+    \begin{abstract}
+      Our project is a location tagging mobile application that will allow users to make posts to their location. This tech review, rather than examining options for the actual implementation of the app, focuses on comparing technology that would help smooth out the work. This includes user interface prototyping tools which can help to create functional prototypes for our UI, and git GUI clients to reduce any git related difficulties. Specifically, this document examines InVision, Adobe XD CC, and Balsamiq Mockups for UI prototyping tools, and GitHub Desktop, Sourcetree, and GitKraken for Git GUIs. 
+    \end{abstract}
+\end{titlingpage}
+
+
+\section{Introduction}
+At present, there are many social media applications that allow people to post about where they are or post pictures they took at a certain place, but those applications cannot truly post \textit{on} that location. The goal of our project is to create a location-tagging mobile application that allows users to make posts to places on a map, acting as a platform for documenting memories of adventures or special moments by location, as well as sharing those memories with others who have the app and enter the same physical location. Our hope is that this will act as a social media platform that returns some of the focus to the social aspect by encouraging users to go out and see what people have posted nearby. 
+
+My role in the project is to focus on the front end, such as the design and implementation of the user interface. However, instead reviewing technology meant for the actual implementation of the front end, this tech review will examine tools that will improve the workflow of the project. This refers to user interface prototyping tools to streamline the UI design process and Git GUI clients to reduce the problems that confusion with Git might cause.
+
+\section{User Interface/Experience Prototyping Tools}
+A poorly designed user interface, be it ugly or difficult to use (or both), can go a long way in turning potential users away \cite{usability}. Given that the project is more or less a kind of social media app, the number of users it can get will be extremely important. Because of this, having a good user interface is a must. UI/UX prototyping tools would allow us to better visualize what we want our final product to look like, while also also allowing us to test out our UI designs to see if they allow for a good user experience. Out of the numerous options available, I chose to look at InVision, Adobe XD, and Balsamiq Mockups. 
+
+\subsection{InVision}
+InVision is a prototyping tool that focuses on having the designer add interactions to static images in order to create an interactive, high-fidelity prototype \cite{invision}. One of our team members has already created several static images to work as examples for the final product, so InVision's lack of support in creating those images is not much of a problem. In addition to that, it supports prototyping for not only both Android and iOS, but also web apps. Given that we have yet to decide on whether it will be an Android or iOS app, and that we might be using something like Progressive Web Apps to make it usable on as a website as well, having a tool that supports prototyping in all three environments would be very helpful. It also supports integration with several communication apps that our team is currently using, such as Trello \cite{trelloIV} and Slack \cite{slackIV}, and has plenty of support built in for collaborative work. Although popularity is not a direct reason to use it, being the most popular prototyping tool in the world and being used by major websites, such as Twitter and LinkedIn \cite{11best}, give it credibility as a prototyping tool. 
+
+\subsection{Adobe XD CC}
+Adobe XD is another prototyping tool meant for high-fidelity prototypes, but unlike InVision, Adobe XD supports both designing and prototyping allowing users to switch between the two seamlessly \cite{adobexd}. It has quite a bit of overlap with InVision in terms of functionality, as they both allow for prototyping for web and mobile apps, viewing changes in real-time \cite{11best}, supporting collaboration apps such as Slack, and both can be used on Mac and Windows. Although its support for UI design is a positive over InVision, AdobeXD is quite new, having only been officially released a year ago \cite{adobexdbeta} (although it had been in beta for quite some time before that). Being new is not a problem by itself, but it currently lacks usage to its name compared to InVision, and the added step of importing designs in InVision is not particularly difficult either.
+
+\subsection{Balsamiq Mockups}
+Balsamiq Mockups is a much simpler tool compared to the previous two, and it focuses on creating low-fidelity prototypes in a manner similar to sketching it out on paper \cite{balsamiq}. The simplicity of Balsamiq means it would be much easier to learn, and it would allow us to quickly sketch out rough designs during the period when we are still figuring out what we want the interface to look like. However, Balsamiq's original intended use was to create wireframes, not prototypes, so the interactions are all basic ones without much flexibility \cite{5best}. That, in addition to its low-fidelity focus, make it a poor choice for creating any kind of detailed or "finished" prototype. On the other hand, a "finished" prototype is not always necessary, as Balsamiq may be enough to create a sufficiently usable prototype for us to test with. Even if we do decide to create a final prototype using something else, we may end up using Balsamiq during the early stages of the design process.
+
+\section{Git GUI Clients}
+Our group has already decided on using Git as our version control system. That being said, running Git using the command line can be confusing at times. It lacks any form of visualization, and locating and remembering the differences on each branch can be difficult when the only information is in the branch name. I have looked into several Git GUI clients in the hopes that it will help streamline our Git usage and ensure that we can focus our attention on the implementation of the product, rather than on dealing with problems related to our version control system. Specifically, I have looked into GitHub Desktop, Sourcetree, and GitKraken.
+
+\subsection{GitHub Desktop}
+As the name implies, GitHub Desktop is an extension for GitHub, featuring smooth integration for any repositories hosted on the website \cite{gitgui}. Given that it is already a requirement for groups to put their projects on GitHub, the guarantee of having an easy transition to the GUI is something to consider. Although not entirely relevant for this project, it is worth noting that GitHub Desktop fails to support repositories not on GitHub. GitHub Desktop contains many of the same features that GitHub has, such as syntax highlighting, branch comparisons, improved support for tracking changes, etc \cite{githubdesk}. That being said, this is also a negative point, as it can be said to provide little over what GitHub already does. One point that it does have over GitHub is that it features editor and shell integration, allowing users to easily swap between their shell and GitHub Desktop and streamlining the process of swapping between editing and version control.
+
+\subsection{Sourcetree}
+Sourcetree is another Git GUI client that is slightly more advanced that GitHub Desktop, but also contains some additional features \cite{gitgui}. Like GitHub Desktop, it supports the use of GitHub repositories, and has the same basic features such as highlighting changes and branch differences. It also features detailed, color-coded branch diagrams that clearly display the commits, merges, etc. On top of that, Sourcetree allows users to stage and discard changes on not just files, but individual lines \cite{sourcetree}. This adds a lot of flexibility for the user, enabling them to commit only the changes they are confident in without having to delete any other experimental changes they might have. It also has a better interface for searching for file changes, branches, and commits.
+
+\subsection{GitKraken}
+GitKraken is a git GUI that is considerably more complex and feature-laden than the previous two. It shares many of the same features mentioned in the previous two options, including a visual display for branch, merge, and commit history, as well as Sourcetree's colored branch diagrams \cite{gitkraken}. On top of that, it also includes features such as drag and drop functionality and a built in code editor with a split view for checking differences. In addition to all that, the paid version also includes an in-app merge conflict editor, simplifying the process of fixing merge conflicts. 
+
+\section{Conclusion}
+Among the researched user interface prototyping tools, InVision is probably the one that best suits out needs. Balsamiq Mockups is good for initial sketches, but lacks support for the level of detail that we would want to have when modelling the final design. The addition of being able to design in Adobe XD is indeed an advantage it has over InVision, but there are countless programs for drawing up designs, and InVision support a variety of file formats, so the added step is a minor issue. Other than that, Adobe and InVision provide many of the same features, but as InVision is the more commonly used choice, it seems to be the more reliable option. For Git GUIs, Sourcetree appears to be the best choice. GitHub Desktop offers few additional features beyond what GitHub already provides, and many of those features are included or improved upon in the other two options as well. On the other hand, while GitKraken does offer plenty of additional features over the other two, many of them are unnecessary for a project of this scale, so the added complexity may instead slow down work by raising the learning curve. Although the in-app merge conflict editor seems like it would be a useful feature, the fact that it is hidden behind a paywall pushes the appeal of it down a little. Sourcetree provides more visual clarity and flexibility than GitHub Desktop does with its branch diagrams and individual line commits, and it contains more than enough features for our purposes, placing it above the more complex GitKraken.
+
+\begin{thebibliography}{19}
+\bibitem{usability}
+"The Real Effects Of Bad Web Design,"
+\textit{Usability Geek}.
+[Online]. Available: https://usabilitygeek.com/real-effects-bad-web-design/. [Accessed: Nov. 29, 2018].
+\bibitem{invision}
+“Free Prototype Platform for Website \& Mobile App UI Design,” 
+\textit{InVision}. 
+[Online]. Available: https://www.invisionapp.com/tour/website-mobile-prototyping-tool. [Accessed: Nov. 1, 2018].
+
+\bibitem{trelloIV}
+“InVision,” 
+\textit{Trello}. 
+[Online]. Available: https://trello.com/power-ups/596f2cb2d279152540b2bb31/invision. [Accessed: Nov. 1, 2018].
+
+\bibitem{slackIV}
+“InVision for Slack | Design better, faster-together,” 
+\textit{InVisionApp}. 
+[Online]. Available: https://www.invisionapp.com/feature/slack. [Accessed: Nov. 1, 2018].
+
+\bibitem{11best}
+"11 Best Prototyping Tools For UI/UX Designers — How To Choose The Right One?," 
+\textit{theuxblog.com}.
+Jun. 18, 2018. [Online]. Available: https://medium.theuxblog.com/11-best-prototyping-tools-for-ui-ux-designers-how-to-choose-the-right-one-c5dc69720c47. [Accessed: Nov. 1, 2018].
+
+\bibitem{adobexd}
+"Adobe XD CC,"
+\textit{Adobe}.
+[Online]. Available: https://www.adobe.com/products/xd/details.html?promoid=599F8RK9\&mv=other. [Accessed: Nov. 1, 2018].
+
+\bibitem{adobexdbeta}
+F. Lardinois, "Adobe's XD prototyping and wireframing tool is now out of beta," 
+\textit{TechCrunch}.
+Oct. 18, 2017. [Online]. Available: https://techcrunch.com/2017/10/18/adobe-xd-designing-at-the-speed-of-thought/. [Accessed: Nov. 1, 2018].
+
+\bibitem{balsamiq}
+"Balsamiq. Rapid, effective and fun wireframing software. | Balsamiq,"
+\textit{Baldamiq}.
+[Online]. Available: https://balsamiq.com/. [Accessed: Nov. 1, 2018].
+
+\bibitem{5best}
+"5 Best Software Prototyping Design Tools for UX/UI Designers in 2018,"
+\textit{Medium}.
+Apr. 12, 2018. [Online]. Available: https://medium.com/mockplus/ptoyo5-best-software-prototyping-design-tools-for-ux-ui-designers-in-2018-9bc72effd2d3. [Accessed: Nov. 1, 2018].
+
+\bibitem{gitgui}
+L. Thakkar, "Best Git GUI clients for Windows 10/8/7,"
+\textit{The Windows Club}.
+Mar. 3, 2018. [Online]. Available: https://www.thewindowsclub.com/git-gui-clients-for-windows. [Accessed: Nov. 2, 2018].
+
+\bibitem{githubdesk}
+"GitHub Desktop,"
+\textit{GitHub Desktop}.
+[Online]. Available: https://desktop.github.com/. [Accessed: Nov. 2, 2018].
+
+\bibitem{sourcetree}
+"Sourcetree,"
+\textit{Sourcetree}.
+[Online]. Available: https://www.sourcetreeapp.com/. [Accessed: Nov. 2, 2018].
+
+\bibitem{gitkraken}
+"Best Git Client 2018 - Features | GitKraken,"
+\textit{GitKraken}.
+[Online]. Available: https://www.gitkraken.com/git-client. [Accessed: Nov. 2, 2018].
+
+\end{thebibliography}
+\end{document}
