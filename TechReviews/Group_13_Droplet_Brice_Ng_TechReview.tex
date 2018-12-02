@@ -1,0 +1,119 @@
+%\documentclass[draftclsnofoot, onecolumn,journal,letterpaper,10pt]{IEEEtran}
+\documentclass[draftclsnofoot, onecolumn, letterpaper,10pt,compsoc]{IEEEtran}
+
+\usepackage{url}
+\usepackage{color}
+\usepackage{geometry}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{varwidth}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{graphicx}
+%\usepackage{pgfgantt}
+\graphicspath{ {./images/} }
+
+\geometry{margin=0.75in}   
+\singlespacing
+
+\def \TitlePageHeader{Droplet Productions}
+\def \TitlePageTitle{Tech Review}
+\def \GroupNumber{by Group 13}
+\def \GroupMembers{Brice Ng}
+\def \CourseTitle{CS 461 - Senior Design}
+\def \CourseTerm{Fall 2018}
+
+\title{Group13Requirements}
+			
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+\renewcommand{\NameSigPair}[1]{#1}
+
+%i pull \centerfloat from memoir here, so i can use it for figures
+\makeatletter
+\newcommand*{\centerfloat}{%
+  \parindent \z@
+  \leftskip \z@ \@plus 1fil \@minus \textwidth
+  \rightskip\leftskip
+  \parfillskip \z@skip}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        \hfill    
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge \TitlePageHeader \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge \TitlePageTitle }\par
+            \vfill
+            \vspace{5pt}
+
+            \vspace{5pt}
+            {\Large
+                \NameSigPair{\GroupNumber}\par
+            	\NameSigPair{\GroupMembers}\par
+                \NameSigPair{\CourseTitle}\par
+                \NameSigPair{\CourseTerm}\par
+            }
+            \vspace{20pt}
+        }
+    \end{singlespace}
+    \begin{abstract}
+    This document explores various technology choices Droplet can choose from.  The goal of the technology review is to brainstorm what technologies the team will use over the course of developing Droplet, analyzing the advantages and disadvantages of each technology and ultimately choosing the one best suited for Droplet.
+    \end{abstract}
+\end{titlepage}
+
+\newpage
+\pagenumbering{arabic}
+\clearpage
+
+\pagebreak
+
+\section{Introduction}
+This tech review will touch on the internal server-side of our project, a mobile application called Droplet.  Droplet is a geographical location tagger that will allow users to post text, videos, or pictures at their location on a map displayed in the app.  Other users will then be able to see the post if they are within a "splash radius" of the post.  With the project being a mobile application, the technology going to make up the communication between database and application requires careful consideration, as different options could be preferable to others.  While not necessarily a direct part of this project, choosing a standard integrated development environment for the team to use is very beneficial, as it would ensure that code compiles the same across all testing devices.  This review looks at various technologies available for an integrated development environment and back-end use to determine which is better suited for this project.
+
+\section{Server Tech}
+\subsection{Node.js}
+Node.js is probably the most well known of these run time development technologies, but that does not  make it the best option.  First of all, Node.js itself is a way to run JavaScript server-side.  Whenever Node.js has a major update or release, APIs may receive updates that are not compatible with older versions, rendering your application useless until changes are made [1].  Currently, Node.js has an API available in C and C++ called N-API that stabilizes addons from previous versions of JavaScript.  It would allow our application to run using a newer version of Node,js, and also allow the use of older utilities that may not be compatible with the newer version [2].  In addition to the assurance of backwards compatibility, N-API also features error handling, such as throwing exceptions and fatal errors, and cross compatibility between iOS and Android for mobile app development.\\
+One flaw of Node.js is its threading.  Node.js offers a single thread for processes, which in turn limits scaling.  This can be circumvented with what Node.js calls \textit{clusters}.  The module allows the creation of child processes via \textit{fork()}, called a worker.  Specifically, the cluster module allows Node.js to use a multi-core processor if one is available, allowing for multithreading and ultimately increasing speed.
+\subsection{Go}
+Golang, shortened to simply Go, is a programming language strictly for back-end, unlike Node.js.  Go has been climbing in popularity in recent years, businesses being drawn to the efficiency of Go's multi-core processing [3].  Golang contains several useful packages, including \textit{database}, a package providing SQL-like interfaces and \textit{crypto}, which the team would use to possibly encrypt the users data.  It also includes an \textit{image} package, which allows for the encoding and decoding of .jpeg, .png and .gif files.  For mobile app development, Go has a tool called Gomobile, which is specifically for building and running mobile applications.  Gomobile is compatible with both Android and iOS, opening the possibility of cross platform development as well.\\
+As mentioned earlier, Go is faster than Node.js, as it uses multithreading immediately while Node.js runs on a single thread by default and needs to implement a package to use multi-core functions.  Golang uses a \textit{goroutine} to start another process.  The routine resides in the same address space as the parent, and so memory must be synchronized [4].  This multiprocessing ability makes Go scale much better than Node.js will with its single thread processing ability.
+\subsection{Python}
+Python has mobile development tools for each Android and iOS.  Python-for-android allows for android application packages to be strictly Python.  Python-for-android supports both Python 2 and Python 3, and is compatible with other Python mobile tools like Kivy (a Python mobile development tool) [5].  To use Python for an iOS device, Kivy is a Python library that allows for cross-platform compatibility.  Kivy includes many widgets and modules pertaining to our project, such as the camera module, allowing for  camera input manupulation, or a text module for creating text (such as posting a comment) [6].\\
+The drawbacks of Python are it's underdeveloped mobile development tools.  The tools listed above are just becoming stable releases, with Kivy just becoming stable during 2018.  Kivy is also based off Pygame, cross-platform Python modules for creating games.  Because of this, many Kivy modules are modeled for video games and not a social application.
+\pagebreak
+\section{Integrated Development Environment (IDE)}
+\subsection{Android Studio}
+The Android Studio Integrated Development Environment (IDE) is an Android specific app development environment.  Android Studio has a fast processing time, and includes a testing environment for testing across multiple devices and settings [7].  Features such as this are very helpful when testing to expand the scope of the application, and will help debug the application during development.  The IDE interface itself is laid out in a very intuitive format, with easy navigation and the code editor will suggest possible options as you type, resulting in efficient, productive work.  Android Studio also has integrated GitHub synchronization, allowing for the team to stay up to date with versions of applications.  Android Studio accepts a wide array of languages such as Java, C/C++/C\# and Corona, so it does not feel limited in language choices.  Unfortunately, being Android Studio, they do not offer compatibility with iOS, limiting the platforms Droplet can be accessed from.
+\subsection{Visual Studio}
+Visual Studio also provides a selection of languages to choose from, including Python, C/C++, and Go.  Visual Studio has many features, including the Azure App service, a platform that allows features like a sign-in verification and the ability to sync data offline.  This is particularly useful for our application where Internet connection may not always be assured.  The debugging toolkit Visual Studio is equipped with is an easy to use feature that will greatly help in the implementation phase of the project.  Breakpoints can be assigned easily and compilation errors identify the line of the error with clarity.  While not necessarily features exclusive to Visual Studio, these tools are cross-language and allow precise monitoring of values.\\
+Unlike Android Studio, Visual Studio has the ability to develop for Android, iOS, or Windows.  Not limiting the platform our application can be on would be a nice feature, and has no drawback on the implementation of the app.  Similar to Android Studio, Visual Studio also offers a code sharing service in the form of a portable class library [8].  Additionally, Docker has Visual Studio support, allowing for applications developed in Visual Studio to be added to a Docker container.
+\subsection{Eclipse}
+Eclipse is an IDE that features Java, C/C++ and PHP language support.  Like Visual Studio, Eclipse has a code completing feature that tries to autofill what you are typing.  However, it takes it a step further and checks syntax as well during editing. Eclipse has much more customization options available than Visual or Android Studio and lets the user customize the platform to best handle different programming languages.  The Eclipse IDE comes equipped with packages for the various languages it supports, including Java, C/C++ and Rust.\\
+Eclipse also has a great refactoring feature, as well as good debugging tools.  This is great for updating code or updating to a newer version of software.  If the code written breaks due to an update, the refactoring tool will help greatly with keeping functionality the same.  This refactoring tool would be very useful in the future of Droplet when it scales beyond the initial scope of the project.  As Droplet grows, efficiency becomes a major factor and if the initial design is not efficient, lag occurs.  Should that happen, having refactoring tools like the ones in Eclipse would help minimize code complexity and improve readability.
+\section{Conclusion}
+Each of the back-end options are great in their own right, but for the purpose of this project, Node.js seems the best fit.  With N-API enabling newer versions of Node.js to be compatible with older addons, functions made would have no fear of being rendered incompatible.  While Go seems like a good choice, it does not have all the correct features, and the packages it does have are not what the team is looking for.  The functionalities of the packages just do not line up with what the project is trying to accomplish, and Python has the worst mobile development tools of the three.  Of the IDE's discussed, Visual Studio stands out as the best due to its compatibility with a variety programming languages and the support with Docker.  Eclipse is a close second place, but Visual Studio has many of the same functionalities with less customization and better documentation.
+\pagebreak
+\section{Works Cited}
+\begin{enumerate}
+\item \textit{Releases}, Node.js, Node.js Foundation, nodejs.org/en/about/releases/. Accessed October 30, 2018. [Online].
+\item \textit{Node.js v11.0.0 Documentation}, N-API | Node.js v11.0.0 Documentation, Node.js Foundation, nodejs.org/api/n-api.html\#n\_api\_n\_api. Accessed October 30, 2018. [Online].
+\item \textit{Frequently Asked Questions}, The GoProgramming Language, Google, https://golang.org/doc/faq. Accessed October 31, 2018. [Online].
+\item \textit{Goroutines}, A Tour of Go, Google, https://tour.golang.org/concurrency/1. Accessed November 1, 2018. [Online].
+\item \textit{python-for-android}, python-for-android, Alexander Tylor, https://python-for-android.readthedocs.io/en/latest/. Accessed November 1, 2018. [Online].
+\item \textit{Welcome to Kivy}, Kivy, The Kivy Authors, https://kivy.org/doc/stable/. Accessed November 1, 2018. [Online].
+\item \textit{Everything you need to build on Android}, Android Studio, Google Developers, https://developer.android.com/studio/features/. Accessed November 1, 2018. [Online].
+\item \textit{Cross-platform mobile development in Visual Studio}, Visual Studio Docs, Microsoft, https://docs.microsoft.com/en-us/visualstudio/cross-platform/cross-platform-mobile-development-in-visual-studio?view=vs-2017. Accessed November 2, 2018. [Online].
+\end{enumerate}
+\end{document}
