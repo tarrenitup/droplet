@@ -1,0 +1,131 @@
+
+\documentclass[draftclsnofoot, onecolumn, compsoc, 10pt]{IEEEtran}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{titling}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{url}
+
+\usepackage{setspace}
+\geometry{textheight=9.5in, textwidth=7in}
+\graphicspath{ {images/} }
+\linespread{1.0}
+\parindent=0.0in
+\parskip=0.2in
+\doublespacing
+
+\title{Senior Design}
+\author{Oregon State University\\CS 461\\2018\\\\Prepared By:\\Dennis Li\\}
+
+
+\def \CapstoneTeamNumber{		Dennis Li	}
+\def \CapstoneProjectName{		Tech Review }
+
+
+
+
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        \hfill
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge Senior Design\par
+            Group 13\\
+            \vspace{1in}
+            \textbf{\Huge\CapstoneProjectName}\par
+            \vspace{1in}
+            {\large Prepared by }\par
+            \CapstoneTeamNumber\par
+            \vspace{5pt}
+            \vspace{20pt}
+        }
+        \vfill
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\clearpage
+\pagebreak
+
+
+\section{Introduction}
+Our group aims to create Droplet, a location-tagging mobile application that allows users to post on places. Droplet adds a richness to a person’s life by both documenting memories of adventures or special moments by location, as well as sharing those memories with others who have the app and enter the same physical location. Our group has divided our project into various portions. My role is to focus on API Development, both the Maps API and server/client API. In the tech review, I will be reviewing possible options for Maps API, Server/Client API, and Platforms for our group to see which one would be the most viable option. The factors that will affect which technologies will be used are features, price, documentation, and ease-of-use.  
+
+
+		
+\section{Maps API}    
+
+	\subsection{Google Maps}
+    Currently, Google Maps is the leader for Mapping APIs with 25 million updates everyday. In the Google Maps Platform, Google provides developers with a Maps, Routes, and Places API. Google Maps provides users with rich, active maps that can be customized. In addition to Google Maps, Google Places give comprehensive location data all over the world. In addition to these important feature, Google also is planning to release an Augmented Reality feature into their maps. All of these features will help our users explore the world around them. 
+    
+    In terms of pricing, Mobile Native Maps API are free. Google Maps API is free for native iOS/Android applications. If we were to create an application using React Native, the cost of the would be \$7.00 per thousand request for the first 100,000 requests, and then \$5.60 per thousand requests. In terms of Google Places API, for the first 100,000 requests, it is \$17 per thousand request, and it lowers to \$13.60 per thousand request after 100,000 monthly requests. Google does gives a 200 dollar monthly credit, which lets us use the Places API allows for up to 70,000 requests.
+    
+    The entire Google Maps Platform is very well documented. Google provides steps on how to implement their maps and provides sample code. In addition, there are various tools that they provide to customize their maps. Google Maps is easy to use due to its documentation, but can be more complex if we plan to implement more advanced features. Overall, Google Maps is a great option with many features, but it has a high price point.
+    \cite{GoogleMaps}
+
+	\subsection{Map Box}
+	MapBox is a live location platform that is built off of the OpenStreetMap API. It is one of the most popular Mapping APIs outside of Google Maps. It provides many features that are similar to Google Maps API. It has navigation, augmented reality, and customizable maps. A big difference between Google Maps and MapBox is that the maps are more customizeable than Google Maps. It appears that Google Maps limits its customization to certain features, and MapBox has an API and documentation page dedicated to customizing our maps. This is very important because our maps will affect the user experience and help us distinguish from other competitors. In addition to customization, they provide a data visualization tool. 
+
+    MapBox is significantly cheaper than Google Maps. This service is free for the first 50,000 monthly active users, geocode requests, directions request, and other requests. Then is raises to \$0.50 per 1000 requests. Compared to Google Maps, I think MapBox would be a better option for the price because it allows us to have 50,000 requests for free.
+
+    If we look their documentation, MapBox has documentation for both Web and Mobile apps. We will either be using their Android or React Native API. Based on their webpage, it seems like MapBox is highly focused in Mobile Applications, and they will provide a lot of support in the Mobile API. They have an excellent tutorial that guides you how to set up a basic map. After set up, our team would be able to learn from their documentation. In comparison to Google, Google Maps has their Android API readily available, but it may be more difficult to implement if we do a multi-platform React Native application. MapBox would be a great alternative because we have the option to do both, and they are well documented. MapBox stands out from other options because it is highly customizable and it is well documented for iOS, Android, and React Native.
+     \cite{MapBox}
+
+
+     
+     \subsection{OpenStreetMap}
+     OpenStreetMap is an free, open source Mapping API. In terms of features, OpenStreetMap has many features such as customizable maps, augmented reality, and even games. Pokemon Go is build off of OpenStreetMap. It also supports offline maps. Overall, it has similar features as MapBox and Google Maps. 
+     
+     OpenStreetMap is free and open source. Although it is free, OpenSourceMap is more limited in documentation compared to the other options. To implement an Android application, it provides sample applications that we can follow and many libraries in their Wiki page that our team could follow. There are two open source projects that we can follow and use a reference as we continue to build this application. Then we can build off of the libraries they provide. There are many more closed projects that they provide on the Wiki. These projects are very detailed and well-polished. It seems like our team would be able to do a lot with this API, but the learning curve would be very steep.
+     
+     In terms of a creating a React Native application, they do not have documentation, and they reference using MapBox as a resource. In terms of viability, I think this would be a good API for creating and Android application, but it would be difficult. I do not think we should use this API if we made a multi-platform API.
+      \cite{OpenStreetMap}
+
+			
+\section{Server/Client API}
+    \subsection{REST}
+    REST is a widely used architecture architecture is a takes advantage of HTTP calls to request data from the server. Since REST follows HTTP protocols, it uses its benefits in terms of caching. Also, it has stateless servers and structured access to resources. Stateless servers removes the servers need to remember the session data, and we could create specific functions to access the data that match REST protocols. 
+
+    Some of it limitations is that multiple requests may need to be made to retrieve specific data. Today, Web and Mobile applications are data-driven and have large sets of data. If we want to requests for different data entities, we would have to do one REST call for one entity and another REST call for another entity. Overtime with many users, there would be many REST calls to our server. In addition, there is the problem of over fetching data. When we make a REST call, we retrieve the entire JSON data. For example, if we were to request for a human, we would get their ID, job, phone number, address. If we only wanted to learn about their job and phone number, we can’t request for specific entities, but we get the entire set of data. 
+
+    In terms of using REST for our application, it seems like a reasonable option because we do not have many users. REST is simple to oblige too, but other people have had problems scaling their applications. If we were planning to have many users in the future, we would need to refracture the code or switch to a different architecture to accommodate for this problem. 
+     \cite{RestvsGraph}
+
+    
+    \subsection{GraphQL}
+    
+    GraphQL is a query language, specification, and collection of tools designed to operate with a  single HTTP endpoint. It has a different approach than REST because it does not deal with dedicated resources, but instead, everything is in a graph and interconnected. GraphQL allows user to tailor specific requests that REST does not. Essentially this removes the problem of making multiple requests for data, and it eliminates over fetching. GraphQL provides the specific data that developers need in one call instead of making multiple trips and receiving unnecessary data. 
+
+    The downsides of GraphQL is using is very specific structure in requesting the data. In GraphQL, the response matches the shape of the query, so if you need to respond in a very specific structure, you'll have to add a transformation layer to reshape the response. In addition to this, GraphQL can’t respond with an infinite depth of tree. You will have to know the depth of the tree with the data you are calling. 
+
+    After researching this technology, I have concluded that GraphQL is an excellent resource to use if we have a lot of data and many users requesting this data. The learning curve is a bit higher for GraphQL, but it is a great, scalable option. I would not use if we only made simple calls to our server, and if the data is simple.
+    \cite{RestvsGraph}
+    \cite{GraphQLCons}
+    
+    \subsection{Conclusion}
+    There are many options for bot Mapping and Server/Client APIs. Each of these APIs have their own distinct features and drawbacks. Our teams is looking for the best APIs that would support our location-based social media platform. For Mapping APIs, I think that MapBox would be the most beneficial for our group. It has both Android and React Native support. More important,y it is more customizeable than its competitor, Google. For the Server/Client API, I think GraphQL would suite our platform the best. It is useful for large, complex sets of data, and it is more scalabe than REST.
+    
+
+
+
+
+		
+
+	
+\newpage
+\bibliographystyle{IEEEtran}
+\bibliography{References.bib}
+
+\end{document}
