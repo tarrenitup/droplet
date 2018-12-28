@@ -1,0 +1,34 @@
+body {
+  margin: 0;
+  padding: 0;
+  color: #35322D;
+  background-color: #595756;
+  min-width: 320px;
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, p, dl, dd {
+  margin: 0;
+}
+
+input {
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+  select,
+  textarea,
+  input {
+    font-size: 16px;
+  }
+}

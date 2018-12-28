@@ -1,0 +1,26 @@
+main.sample-screen {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0px;
+    left: 0px;
+    background-color: #EFECEA;
+    padding-top: 40px;
+    padding-bottom: 55px;
+}
+
+div.card {
+    background-color: #FFFFFF;
+    margin: 25px;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 6px 40px rgba(0, 0, 0, 0.2), 
+                0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+div.card div.card-top img.profile-pic {
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+    border-radius: 50%;
+}

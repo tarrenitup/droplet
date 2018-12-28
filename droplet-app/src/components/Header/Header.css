@@ -1,0 +1,23 @@
+header.app-header {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 100vw;
+    height: 40px;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+    border-bottom: 1px solid rgba(0,0,0,0.14);
+    backdrop-filter: blur(7px);
+}
+
+header.app-header img.logo {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 10px;
+    height: 16px;
+    background-size: 10px 16px;
+}
