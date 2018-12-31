@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import Header from '../Header/Header.js'
-import SampleScreen from '../SampleScreen/SampleScreen.js'
+import ScreenSlider from '../ScreenSlider/ScreenSlider.js'
 import Footer from '../Footer/Footer.js'
 
 class App extends Component {
@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        <SampleScreen />
+        <ScreenSlider />
         <Footer />
       </div>
     );
