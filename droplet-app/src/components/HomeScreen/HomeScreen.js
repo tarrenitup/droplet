@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import Card from '../Card/Card.js'
-import './Screen.css'
+import './HomeScreen.css'
 import sampleProfPic from './images/profile.jpg'
 
-const Screen = () => (
-    <section className='sample-screen'>
+const HomeScreen = (props) => (
+    <main className='home-screen'>
         <Card 
             profilePic={{pic: sampleProfPic, alt: 'A profile pic'}}
             username='@sampleUser'
@@ -29,7 +29,7 @@ const Screen = () => (
             text='Yooo'
             likes='000'
         />
-    </section>
+    </main>
 )
 
-export default Screen;
+export default HomeScreen;

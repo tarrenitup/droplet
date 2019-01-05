@@ -1,5 +1,5 @@
-section.sample-screen {
-    position: absolute;
+main.like-screen {
+    position: relative;
     width: 100vw;
     height: 100vh;
     top: 0px;
