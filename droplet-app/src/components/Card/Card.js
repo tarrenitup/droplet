@@ -10,6 +10,8 @@ class Card extends Component {
 
         this.state = {
             postText: '',
+            profilePic: '',
+            userName: '',
         }
     }
 
@@ -18,7 +20,11 @@ class Card extends Component {
             .then(results => {
                 return results.json()
             }).then(data => {
-                this.setState({postText: data.results[0].email})
+                this.setState({
+                    postText: data.results[0].email,
+                    profilePic: data.results[0].picture.thumbnail,
+                    userName: data.results[0].login.username,
+                })
             })
     }
 
@@ -26,8 +32,8 @@ class Card extends Component {
         return (
             <div className='card'>
                 <div className='card-top'>
-                    <img className='profile-pic' src={this.props.profilePic.pic} alt={this.props.profilePic.alt} />
-                    <p className='username'>{this.props.username}</p>
+                    <img className='profile-pic' src={this.state.profilePic} />
+                    <p className='username'>{this.state.userName}</p>
                 </div>
                 
                 <p className='card-text'>{this.state.postText}</p>
