@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './NewScreen.css'
 
 const NewScreen = () => (

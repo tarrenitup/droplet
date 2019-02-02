@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import MapBackground from '../MapBackground/MapBackground.js'
 import './MapScreen.css'
 
 const MapScreen = () => (

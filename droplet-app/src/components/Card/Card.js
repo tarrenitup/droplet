@@ -32,7 +32,7 @@ class Card extends Component {
         return (
             <div className='card'>
                 <div className='card-top'>
-                    <img className='profile-pic' src={this.state.profilePic} />
+                    <img className='profile-pic' src={this.state.profilePic} alt='profile' />
                     <p className='username'>{this.state.userName}</p>
                 </div>
                 
