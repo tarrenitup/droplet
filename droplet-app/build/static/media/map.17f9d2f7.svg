@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="20px" viewBox="0 0 16 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="maps---post-detail" transform="translate(-89.000000, -604.000000)" fill-rule="nonzero">
+            <g id="footer" transform="translate(-24.000000, 0.000000)">
+                <g id="Group" transform="translate(113.000000, 604.000000)">
+                    <path d="M8,20 C2.66666667,14.9455187 0,10.9455187 0,8 C0,3.581722 3.581722,0 8,0 C12.418278,0 16,3.581722 16,8 C16,10.9455187 13.3333333,14.9455187 8,20 Z M8,17.7640381 C12.3533529,13.6794027 14.5300293,10.4247233 14.5300293,8 C14.5300293,4.36291504 11.7333984,1.5255127 8,1.5255127 C4.26660156,1.5255127 1.54431152,4.20446777 1.54431152,8 C1.54431152,10.5303548 3.69620768,13.7850342 8,17.7640381 Z" id="Combined-Shape" fill="#444444"></path>
+                    <circle id="Oval-2" stroke="#444444" stroke-width="1.5" cx="8" cy="8" r="2.75"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
