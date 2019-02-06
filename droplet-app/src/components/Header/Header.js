@@ -4,7 +4,7 @@ import Logo from './logo.png'
 
 const Header = () => (
     <header className="app-header">
-        <img class='logo' src={Logo} alt='Droplet logo' />
+        <img className='logo' src={Logo} alt='Droplet logo' />
     </header>
 )
 

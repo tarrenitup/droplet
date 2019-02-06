@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="20px" viewBox="0 0 16 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>map icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="maps" transform="translate(-87.000000, -604.000000)" fill="#373F43" fill-rule="nonzero">
+            <g id="footer" transform="translate(-14.000000, 587.000000)">
+                <path d="M109,37 C103.666667,31.9455187 101,27.9455187 101,25 C101,20.581722 104.581722,17 109,17 C113.418278,17 117,20.581722 117,25 C117,27.9455187 114.333333,31.9455187 109,37 Z M109,28 C110.656854,28 112,26.6568542 112,25 C112,23.3431458 110.656854,22 109,22 C107.343146,22 106,23.3431458 106,25 C106,26.6568542 107.343146,28 109,28 Z" id="map-icon"></path>
+            </g>
+        </g>
+    </g>
+</svg>

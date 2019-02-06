@@ -3,7 +3,7 @@ import Card from '../Card/Card.js'
 import './HomeScreen.css'
 
 const HomeScreen = (props) => (
-    <main className='home-screen'>
+    <main className='home-screen screen'>
         <Card 
             likes='15'
         />
