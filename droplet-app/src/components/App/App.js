@@ -1,28 +1,19 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css'
-import { Route } from 'react-router-dom';
+
 import Header from '../Header/Header.js'
-import HomeScreen from '../HomeScreen/HomeScreen.js'
-import MapScreen from '../MapScreen/MapScreen.js'
-import NewScreen from '../NewScreen/NewScreen.js'
-import LikeScreen from '../LikeScreen/LikeScreen.js'
-import ProfileScreen from '../ProfileScreen/ProfileScreen.js'
+import ScreenOuter from '../ScreenOuter/ScreenOuter.js'
 import Footer from '../Footer/Footer.js'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Header />
-        <Route exact path='/' component={HomeScreen} />
-        <Route path='/map' component={MapScreen} />
-        <Route path='/new' component={NewScreen} />
-        <Route path='/likes' component={LikeScreen} />
-        <Route path='/profile' component={ProfileScreen} />
-        <Footer />
-      </div>
-    );
-  }
-}
+const App = () => (
+  <Router>
+    <div className="App">
+      <Header />
+      <ScreenOuter />
+      <Footer />
+    </div>
+  </Router>
+)
 
 export default App;
