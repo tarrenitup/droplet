@@ -1,7 +1,7 @@
 {
   "name": "droplet-app",
   "version": "0.1.0",
-    "body-parser": "^1.18.3",
+  "body-parser": "^1.18.3",
   "private": true,
   "dependencies": {
     "docker": "^1.0.0",
