@@ -4,7 +4,12 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const postRoutes = require('./api/routes/posts');
+//Models
+//require('./models/post');
+//require('./models/comment');
+
+//Routes
+const postRoutes = require('./api/routes/users');
 
 mongoose.connect('mongodb://admin:'+ process.env.MONGO_ATLAS_PW +'@droplet-shard-00-00-8shns.mongodb.net:27017,droplet-shard-00-01-8shns.mongodb.net:27017,droplet-shard-00-02-8shns.mongodb.net:27017/test?ssl=true&replicaSet=Droplet-shard-0&authSource=admin&retryWrites=true',
 {
@@ -28,7 +33,7 @@ app.use((req, res, next) => {
 });
 
 //Routes to handle requests
-app.use('/posts', postRoutes);
+app.use('/users', postRoutes);
 
 //404 error handling
 app.use((req, res, next) => {
