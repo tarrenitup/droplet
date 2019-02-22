@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './ProfileScreen.css'
 
 const ProfileScreen = () => (
-    <main className='profile-screen'>
+    <main className='profile-screen screen'>
         profile stuff here.
     </main>
 )
