@@ -1,25 +1,35 @@
-export default class Auth{
-    constructor(){
-        this.login = this.login.bind(this);
-    }
+const jwt = require('jsonwebtoken')
 
-    login(username,password){
-        fetch('localhost:3000/users/signin',{
-            method:'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: {
-                username,
-                password
-            })
-        })
-        .then(function(res){
-            return res.json();
-        })
-        .then(function(json){
-            console.log(JSON.stringify(json));
+const secret = 'temporaryKey'
+
+function generateJWT(user){
+    return new Promise((resolve, reject) => {
+        const payload = {sub: user.username};
+        jwt.sign(payload, secret, {expiresIn: '24h'}, function(err, token){
+            if(err){
+                reject(err);
+            }else{
+                resolve(token);
+            }
         });
-    }
+    });
 }
+
+function requireAuthentication(req, res, next){
+    const header = req.get('Authorization') || '';
+    const headerContent = header.split(' ');
+    const token = headerContent[0] === 'Bearer' ? headerContent[1] : null;
+    jwt.verify(token, secret, function(err, payload){
+        if(!err){
+            req.user = payload.sub;
+            next();
+        }else{
+            res.status(401).json({
+                error: "Authentication token is invalid"
+            });
+        }
+    });
+}
+
+exports.generateJWT = generateJWT;
+exports.requireAuthentication = requireAuthentication;

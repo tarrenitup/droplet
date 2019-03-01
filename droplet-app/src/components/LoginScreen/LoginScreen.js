@@ -23,7 +23,6 @@ class LoginScreen extends Component{
 
     onSubmit(event){
         event.preventDefault();
-        console.log("SUBMITED");
         this.login(this.state.username, this.state.password);
     }
 
@@ -50,7 +49,6 @@ class LoginScreen extends Component{
             console.log(JSON.stringify(json));
         });
     }
-
 
     render() {
       return (
@@ -81,6 +79,7 @@ class LoginScreen extends Component{
                     </form>
                 </div>
           </main>
+
       );
     }
 }

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 mongoose.set('useFindAndModify', false);
 const multer = require('multer');
-
+const {generateJWT, requireAuthentication} = require('../../src/components/Auth/Auth');
 //Create local directory to save pictures on
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -80,30 +80,65 @@ router.post('/signup',(req, res, next) => {
 //User signin
 router.post('/signin', function(req, res){
     //Find user to signin
-    User.findOne({username: req.body.username})
-    .exec()
-    .then(function(user){
-        bcrypt.compare(req.body.password, user.password, function(err, result){
-            if(err){
+    if(req.body && req.body.username && req.body.password){
+        User.findOne({username: req.body.username})
+        .exec()
+        .then(function(user){
+            if(user){
+                return bcrypt.compare(req.body.password, user.password);
+            }else{
+                return Promise.reject(401);
+            }
+        }).then(function(loginSucess){
+            if(loginSucess){
+                return generateJWT(req.body.username);
+            }else{
+                return Promise.reject(401);
+            }
+        }).then(function(token){
+            res.status(200).json({
+                token : token
+            });
+        }).catch(function(error){
+            console.log(error);
+            if (error === 401){
+                res.status(401).json({
+                    error: "Username or Password is invalid"
+                });
+            }else{
+                res.status(500).json({
+                    error: "Failed to find user"
+                });
+            }
+        });
+/*
+            bcrypt.compare(req.body.password, user.password, function(err, result){
+                if(err){
+                    return res.status(401).json({
+                        failed: 'Failed to Login: Username not found'
+                    });
+                }
+                if(result){
+                    return res.status(200).json({
+                        success: 'Welcome to Droplet!'
+                    });
+                }
                 return res.status(401).json({
-                    failed: 'Failed to Login: Username not found'
+                    failed: 'Failed to login'
                 });
-            }
-            if(result){
-                return res.status(200).json({
-                    success: 'Welcome to Droplet!'
-                });
-            }
-            return res.status(401).json({
-                failed: 'Failed to login'
+            });
+        })
+        .catch(error => {
+            res.status(500).json({
+                error: error
             });
         });
-    })
-    .catch(error => {
-        res.status(500).json({
-            error: error
+*/
+    }else{
+        res.status(400).json({
+            error: "Invalid request. Needs a username and password"
         });
-    });
+    }
 });
 
 //Read the posts of a user
