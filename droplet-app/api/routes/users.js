@@ -132,7 +132,7 @@ router.get('/getposts/:userId', (req, res, next) => {
 });
 
 //Get all posts
-router.get('/getallposts', (req,res,next) => {
+router.get('/getallposts', (req, res, next) => {
     Post.find({},(err, post) => {
       if(err) {
             return res.status(500).send(err);
@@ -143,6 +143,12 @@ router.get('/getallposts', (req,res,next) => {
             });
         }
     });
+});
+
+//Get all posts within X
+router.get('/getnearby/', (req, res, next) => {
+
+
 });
 
 //Create a post
@@ -162,6 +168,7 @@ router.post('/createpost/:userId', upload.single('postImage'), async (req, res, 
         post.username = user.username;
         post.content = req.body.content;
         post.postImage = req.file.path;
+        post.location = req.body.location;
         await post.save()
 
         //Associates the comment with a Post
@@ -180,6 +187,7 @@ router.post('/createpost/:userId', upload.single('postImage'), async (req, res, 
         post.username = user.username;
         post.content = req.body.content;
         post.postImage = undefined;
+        post.location = req.body.location;
         await post.save()
 
         //Associates the comment with a Post
@@ -244,7 +252,7 @@ router.delete('/deletepost/:postId', (req, res, next) => {
                 }
                 else {
                     //Remove post from user post array
-                    User.update({}, {$pullAll: { posts: Pid }}, (err, user) => {
+                    User.update({}, {$pull: { posts: Pid }}, (err, user) => {
                         if(err) {
                             return res.status(500).send(err);
                         }
@@ -254,7 +262,7 @@ router.delete('/deletepost/:postId', (req, res, next) => {
                                 id: user._id
                             });
                         }
-                    })
+                    });
                 }
             });
         }
