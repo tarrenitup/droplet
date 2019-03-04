@@ -114,20 +114,6 @@ router.post('/signin', function(req, res) {
             }else{
                 res.status(500).json({
                     error: "Failed to find user"
-=======
-    User.findOne({username: req.body.username})
-    .exec()
-    .then(function(user) {
-        bcrypt.compare(req.body.password, user.password, function(err, result) {
-            if(err) {
-                return res.status(401).json({
-                    failed: 'Failed to Login: Username not found'
-                });
-            }
-            if(result) {
-                return res.status(200).json({
-                    success: 'Welcome to Droplet!'
->>>>>>> d71b6ec6f808f6aa644ab283290e2527352c6b22
                 });
             }
         });
@@ -201,11 +187,7 @@ router.get('/getposts/:userId', (req, res, next) => {
 });
 
 //Get all posts
-<<<<<<< HEAD
-router.get('/getallposts', (req,res,next) => {
-=======
 router.get('/getallposts', (req, res, next) => {
->>>>>>> d71b6ec6f808f6aa644ab283290e2527352c6b22
     Post.find({},(err, post) => {
       if(err) {
             return res.status(500).send(err);
@@ -218,15 +200,12 @@ router.get('/getallposts', (req, res, next) => {
     });
 });
 
-<<<<<<< HEAD
-=======
 //Get all posts within X
 router.get('/getnearby/', (req, res, next) => {
 
 
 });
 
->>>>>>> d71b6ec6f808f6aa644ab283290e2527352c6b22
 //Create a post
 router.post('/createpost/:userId', upload.single('postImage'), async (req, res, next) => {
     //Get photo to upload
