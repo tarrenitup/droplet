@@ -1,72 +1,67 @@
-import React, { Component } from 'react'
+import React from 'react'
+import './NewPost.css'
 
-class NewPost extends Component{
-    constructor(){
-        super();
-        this.state = {
-            content:''
-        }
-        this.onChange = this.onChange.bind(this);
-        this.onPost = this.onPost.bind(this);
-    }
+import submitIcon from './submit-icon.svg'
 
-    onPost(event){
-        event.preventDefault();
-        console.log(this.state.content);
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition((position)=>{
-                console.log(position.coords.latitude);
-                console.log(position.coords.longitude);
-                //Change this to take either take user id from jwt, or query for it from database
-                fetch('http://localhost:3001/createpost/5c6f3ddf0bdffa32ac73664c',{
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'content-type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        content: "bababa",
-                        location: {
-                            coordinates: [position.coords.latitude, position.coords.longitude]
-                        }
-                    })
-                })
-                .then(function(res){
-                    return res.json();
-                })
-                .then(function(json){
-                    console.log(JSON.stringify(json));
-                });
-            })
-        }
-    }
+const PostTypeSelector = (props) => (
+    <div className='post-type-selector'>
+        <ul onClick={() => {console.log("hi!")}}>
+            <li><span className='text-icon' /></li>
+            <li><span className='photo-icon' /></li>
+            <li><span className='video-icon' /></li>
+        </ul>
+        <input type='hidden' name='postTypeSelector' value='' />
+    </div>
+)
 
-    onChange(event){
-        //event.target.name returns name from <input>
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
+const UserInfo = (props) => (
+    <div className='user-info'>
+        <img className='profile-picture' src={props.picture} alt='profile' />
+        <p className='username'>{props.name}</p>
+    </div>
+)
 
-    render(){
-        return(
-            <form>
-                <input
-                    className="form-text"
-                    placeholder="PostContent"
-                    name="content"
-                    type="text"
-                    onChange={this.onChange}
-                    />
-                <input
-                    className="newPost"
-                    value="Post"
-                    type="submit"
-                    onClick={this.onPost}
-                />
-            </form>
-        )
-    }
-}
+const SplashSlider = (props) => (
+    <div className='splash-slider'>
+        <p>Splash Range</p>
+        <span className='arrow left' onClick={() => {console.log("left!")}} />
+        <ul>
+            <li>3 feet</li>
+            <li>10 feet</li>
+            <li>100 feet</li>
+            <li>300 feet</li>
+            <li>1 mile</li>
+        </ul>
+        <span className='arrow right'  onClick={() => {console.log("right!")}}/>
+        <input name='splashSelection' type='hidden' value='' />
+    </div>
+)
 
-export default NewPost
+const Buttons = (props) => (
+    <div className='new-post-buttons'>
+        <div onClick={/*props.cancelNewPost*/ () => {console.log("cancel!")}} className='cancel'>
+            <span className='cancel new post'/>
+            <p>Nvm</p>
+        </div>
+        <input name='submit' type='submit' onClick={/*props.submitNewPost*/ () => {console.log("submit!")}} className='submit'>
+            {/* <img src={submitIcon} alt='submit new post'/>
+            <p>Drop</p> */}
+        </input>
+    </div>
+)
+
+const NewPost = (props) => (
+    <div className='new-post'>
+        <form name='newPostForm' method='post'>
+            <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
+            <PostTypeSelector postTypeSelect={props.postTypeSelect} />
+            <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
+            <input type="file" name="mediaFileToUpload" className="media-file-upload" />
+            <textarea className='post-text'/>
+            <SplashSlider />
+            <Buttons />
+        </form>
+    </div>
+)
+
+export default NewPost;

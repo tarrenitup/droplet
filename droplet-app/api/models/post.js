@@ -20,10 +20,6 @@ const postSchema = new mongoose.Schema({
         default: undefined
     },
 //    splash_rad: Number,
-//    location: {
-//        latitude: Number,
-//        longitude: Number
-//    },
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment',
@@ -36,6 +32,17 @@ const postSchema = new mongoose.Schema({
     updated: {
         type: Date,
         default: Date.now
+    },
+    location: {
+        type: {
+            type: String,
+            default: "Point",
+            required: true
+        },
+        coordinates: {
+            type: [],
+            required: true
+        }
     }
 });
 

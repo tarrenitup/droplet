@@ -1,3 +1,5 @@
+// This component not integrated into the app, only saving it to look at when trying to animate screen transitions.
+
 import React from 'react'
 import './ScreenOuter.css'
 import { Switch, Route, withRouter } from 'react-router-dom';
