@@ -90,13 +90,13 @@ router.post('/signin', function(req, res){
                 return Promise.reject(401);
             }
         }).then(function(loginSucess){
-            if(loginSucess){
+            if(loginSucess){    //JWT generation.
                 return generateJWT(req.body.username);
             }else{
                 return Promise.reject(401);
             }
         }).then(function(token){
-            res.status(200).json({
+            res.status(200).json({ //consider sending in additional information i.e. user id?
                 token : token
             });
         }).catch(function(error){
@@ -166,6 +166,20 @@ router.get('/getposts/:userId', (req, res, next) => {
     });
 });
 
+//Get all posts
+router.get('/getallposts', (req,res,next) => {
+    Post.find({},(err, post) => {
+      if(err) {
+            return res.status(500).send(err);
+        }
+        else {
+            res.status(200).send({
+                message: post
+            });
+        }
+    });
+});
+
 //Create a post
 router.post('/createpost/:userId', upload.single('postImage'), async (req, res, next) => {
     //Get photo to upload
@@ -183,6 +197,7 @@ router.post('/createpost/:userId', upload.single('postImage'), async (req, res, 
         post.username = user.username;
         post.content = req.body.content;
         post.postImage = req.file.path;
+        post.location = req.body.location;
         await post.save()
 
         //Associates the comment with a Post
@@ -201,6 +216,7 @@ router.post('/createpost/:userId', upload.single('postImage'), async (req, res, 
         post.username = user.username;
         post.content = req.body.content;
         post.postImage = undefined;
+        post.location = req.body.location;
         await post.save()
 
         //Associates the comment with a Post
