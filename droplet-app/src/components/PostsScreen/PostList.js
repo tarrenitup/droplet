@@ -14,7 +14,7 @@ const PostList = ({posts}) => {
                     date={post.created} 
                     picture={post.postImage} 
                     likes={post.likes} 
-                    edited={post.edited} 
+                    // edited={post.edited} 
                 />)
             )}
         </ul>
