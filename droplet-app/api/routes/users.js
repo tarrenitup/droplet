@@ -194,6 +194,12 @@ router.get('/getallposts', (req,res,next) => {
     });
 });
 
+//Get all posts within X
+router.get('/getnearby/', (req, res, next) => {
+
+
+});
+
 //Create a post
 router.post('/createpost/:userId', upload.single('postImage'), async (req, res, next) => {
     //Get photo to upload
