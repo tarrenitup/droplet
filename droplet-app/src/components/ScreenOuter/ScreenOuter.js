@@ -8,8 +8,11 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import HomeScreen from '../HomeScreen/HomeScreen.js'
 import MapScreen from '../MapScreen/MapScreen.js'
 import NewScreen from '../NewScreen/NewScreen.js'
-import LikeScreen from '../LikeScreen/LikeScreen.js'
+//CHANGED
+import LikeScreen from '../TempLikeScreen/LikeScreen.js'
 import ProfileScreen from '../ProfileScreen/ProfileScreen.js'
+import LoginScreen from '../LoginScreen/LoginScreen.js'
+import SignUpScreen from '../SignUpScreen/SignUpScreen.js'
 
 const ScreenOuter = ({ location }) => (
     <TransitionGroup className="transition-group">
@@ -25,6 +28,8 @@ const ScreenOuter = ({ location }) => (
                     <Route path='/new' component={NewScreen} />
                     <Route path='/likes' component={LikeScreen} />
                     <Route path='/profile' component={ProfileScreen} />
+                    <Route path='/login' component={LoginScreen} />
+                    <Route path='/signup' component={SignUpScreen} />
                 </Switch>
             </section>
         </CSSTransition>

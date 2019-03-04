@@ -3,7 +3,7 @@ body {
   padding: 0;
   color: #35322D;
   background-color: #595756;
-  min-width: 320px;
+  width: auto !important; 
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
