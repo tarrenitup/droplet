@@ -14,7 +14,7 @@ import Footer from '../Footer/Footer.js'
 const App = (props) => (
   <div className="App">
     <Header />
-    <Route path="/" component={PostsScreen} />
+    <Route exact path="/" component={PostsScreen} />
     <Route path="/map" component={MapScreen} />
     <Route path="/new" component={NewScreen} />
     <Route path="/likes" component={LikeScreen} />
@@ -23,8 +23,8 @@ const App = (props) => (
   </div>
 )
 
-App.propTypes = {  
-  children: PropTypes.object.isRequired
-};
+// App.propTypes = {  
+//   children: PropTypes.object.isRequired
+// };
 
 export default App;

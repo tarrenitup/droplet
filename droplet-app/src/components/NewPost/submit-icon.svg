@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="15px" viewBox="0 0 9 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>text anchor</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="new-droplet" transform="translate(-272.000000, -440.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="new-post-editor" transform="translate(25.000000, 171.000000)">
+                <g id="text-anchor" transform="translate(251.500000, 276.500000) scale(1, -1) translate(-251.500000, -276.500000) translate(247.000000, 269.000000)">
+                    <path d="M0.54727002,6.24151803 C0.199015948,5.63198425 0,4.92618998 0,4.17391304 C0,1.86872452 1.86872452,0 4.17391304,0 C6.47910156,0 8.34782609,1.86872452 8.34782609,4.17391304 C8.34782609,4.6320241 8.2740231,5.07289755 8.13765839,5.48529212 L8.14580503,5.48529212 L8.10987239,5.56649069 C8.03879554,5.76737628 7.95277628,5.96119682 7.85314966,6.14661834 L4.17921196,14.4487772 L0.54727002,6.24151803 Z" id="Combined-Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -22,7 +22,7 @@ const PostList = ({posts}) => {
 }
 
 PostList.propTypes = {
-  cats: PropTypes.array.isRequired
+  posts: PropTypes.array.isRequired
 }
 
 export default PostList;

@@ -1,11 +1,11 @@
 import React from 'react'
 import './NewPost.css'
 
-import submitIcon from './import-icon.svg'
+import submitIcon from './submit-icon.svg'
 
 const PostTypeSelector = (props) => (
     <div className='post-type-selector'>
-        <ul onClick={props.postTypeSelect}>
+        <ul onClick={() => {console.log("hi!")}}>
             <li><span className='text-icon' /></li>
             <li><span className='photo-icon' /></li>
             <li><span className='video-icon' /></li>
@@ -24,28 +24,28 @@ const UserInfo = (props) => (
 const SplashSlider = (props) => (
     <div className='splash-slider'>
         <p>Splash Range</p>
-        <span className='left-arrow' onClick={props.slideLeft} />
-        <ul>{/* eventually, this list should come from app config. Also, use hammer.js for touch slide */}
+        <span className='left-arrow' onClick={() => {console.log("left!")}} />
+        <ul>
             <li>3 feet</li>
             <li>10 feet</li>
             <li>100 feet</li>
             <li>300 feet</li>
             <li>1 mile</li>
         </ul>
-        <span className='right-arrow'  onClick={props.slideRight}/>
+        <span className='right-arrow'  onClick={() => {console.log("right!")}}/>
         <input name='splashSelection' type='hidden' value='' />
     </div>
 )
 
 const Buttons = (props) => (
     <div className='new-post-buttons'>
-        <div onClick={props.cancelNewPost} className='cancel'>
-            <span class='cancel new post'/>
+        <div onClick={/*props.cancelNewPost*/ () => {console.log("cancel!")}} className='cancel'>
+            <span className='cancel new post'/>
             <p>Nvm</p>
         </div>
-        <input name='submit' type='submit' onClick={props.submitNewPost} className='submit'>
-            <img src={submitIcon} alt='submit new post'/>
-            <p>Drop</p>
+        <input name='submit' type='submit' onClick={/*props.submitNewPost*/ () => {console.log("submit!")}} className='submit'>
+            {/* <img src={submitIcon} alt='submit new post'/>
+            <p>Drop</p> */}
         </input>
     </div>
 ) 
@@ -53,11 +53,10 @@ const Buttons = (props) => (
 const NewPost = (props) => (
     <div className='new-post'>
         <form name='newPostForm' method='post'>
-            <input type='hidden' name='location' value={props.getLocation} />
+            <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
             <PostTypeSelector postTypeSelect={props.postTypeSelect} />
-            <UserInfo name={props.name} picture={props.picture} />
+            <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
             <input type="file" name="mediaFileToUpload" />
-            <UserInfo />
             <textarea className='post-text'/>
             <SplashSlider />
             <Buttons />

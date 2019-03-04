@@ -7,9 +7,9 @@ import PostList from './PostList';
 import * as postsActions from '../../actions/postActions';
 
 const PostsScreen = (props) => (
-    <div className='posts-screen screen'>
+    <main className='posts-screen screen'>
        <PostList posts={props.posts} />
-    </div>
+    </main>
 )
 
 PostsScreen.propTypes = {
