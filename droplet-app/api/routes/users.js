@@ -106,6 +106,20 @@ router.post('/signin', function(req, res){
     });
 });
 
+//Get all posts
+router.get('/getallposts', (req,res,next) => {
+    Post.find({},(err, post) => {
+      if(err) {
+            return res.status(500).send(err);
+        }
+        else {
+            res.status(200).send({
+                message: post
+            });
+        }
+    });
+});
+
 //Read the posts of a user
 router.get('/getposts/:userId', (req, res, next) => {
     //Get id of user
