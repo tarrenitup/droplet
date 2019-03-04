@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 mongoose.set('useFindAndModify', false);
 const multer = require('multer');
 
-//Create local directory to save pictures on
+//Create local directory to save pictures in
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './uploads');
@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 });
 
 //Set max file upload size to 5 MB
-const upload = multer({storage: storage, limits:{
+const upload = multer({storage: storage, limits: {
     fileSize: 1024 * 1024 * 5
 }});
 
@@ -48,13 +48,13 @@ router.get('/',(req, res, next) => {
 router.post('/signup',(req, res, next) => {
 
     //encrypt password
-    bcrypt.hash(req.body.password, 10, function(err, hash){
-        if(err){
+    bcrypt.hash(req.body.password, 10, function(err, hash) {
+        if(err) {
             return res.status(500).json({
                 error: err
             });
         }
-        else{
+        else {
             const user = new User({
                 _id: new mongoose.Types.ObjectId(),
                 username: req.body.username,
@@ -62,7 +62,7 @@ router.post('/signup',(req, res, next) => {
             });
             user
             .save()
-            .then(function(result){
+            .then(function(result) {
                 console.log(result);
                 res.status(200).json({
                     success: 'New User has been created!'
@@ -78,18 +78,18 @@ router.post('/signup',(req, res, next) => {
 });
 
 //User signin
-router.post('/signin', function(req, res){
+router.post('/signin', function(req, res) {
     //Find user to signin
     User.findOne({username: req.body.username})
     .exec()
-    .then(function(user){
-        bcrypt.compare(req.body.password, user.password, function(err, result){
-            if(err){
+    .then(function(user) {
+        bcrypt.compare(req.body.password, user.password, function(err, result) {
+            if(err) {
                 return res.status(401).json({
                     failed: 'Failed to Login: Username not found'
                 });
             }
-            if(result){
+            if(result) {
                 return res.status(200).json({
                     success: 'Welcome to Droplet!'
                 });
@@ -113,10 +113,10 @@ router.get('/getposts/:userId', (req, res, next) => {
     User.findById(id)
     .exec()
     //Get successful
-    .then(doc =>{
+    .then(doc => {
         console.log(doc);
         //Found user id
-        if(doc){
+        if(doc) {
             res.status(200).json(doc);
         }
         //Cannot find user id
@@ -131,6 +131,26 @@ router.get('/getposts/:userId', (req, res, next) => {
     });
 });
 
+//Get all posts
+router.get('/getallposts', (req, res, next) => {
+    Post.find({},(err, post) => {
+      if(err) {
+            return res.status(500).send(err);
+        }
+        else {
+            res.status(200).send({
+                message: post
+            });
+        }
+    });
+});
+
+//Get all posts within X
+router.get('/getnearby/', (req, res, next) => {
+
+
+});
+
 //Create a post
 router.post('/createpost/:userId', upload.single('postImage'), async (req, res, next) => {
     //Get photo to upload
@@ -140,7 +160,7 @@ router.post('/createpost/:userId', upload.single('postImage'), async (req, res, 
     const user = await User.findOne({_id: req.params.userId});
 
     //If file found, upload post accordingly
-    if(req.file != undefined){
+    if(req.file != undefined) {
         //Create new post with image
         const post = new Post();
         post._id = new mongoose.Types.ObjectId();
@@ -148,6 +168,7 @@ router.post('/createpost/:userId', upload.single('postImage'), async (req, res, 
         post.username = user.username;
         post.content = req.body.content;
         post.postImage = req.file.path;
+        post.location = req.body.location;
         await post.save()
 
         //Associates the comment with a Post
@@ -158,7 +179,7 @@ router.post('/createpost/:userId', upload.single('postImage'), async (req, res, 
         res.send(post);
     }
     //If no file found, upload content only
-    else{
+    else {
         //Create new post with image
         const post = new Post();
         post._id = new mongoose.Types.ObjectId();
@@ -166,6 +187,7 @@ router.post('/createpost/:userId', upload.single('postImage'), async (req, res, 
         post.username = user.username;
         post.content = req.body.content;
         post.postImage = undefined;
+        post.location = req.body.location;
         await post.save()
 
         //Associates the comment with a Post
@@ -178,10 +200,11 @@ router.post('/createpost/:userId', upload.single('postImage'), async (req, res, 
 });
 
 //Update a user's post
-router.patch('/updatepost/:postId',(req, res, next) => {
+router.patch('/updatepost/:userId/:postId',(req, res, next) => {
 
     //Get id of post to update
     const Pid = req.params.postId;
+    const uid = req.params.userId;
 
     //Update list
     const updateOps = {};
@@ -213,33 +236,66 @@ router.patch('/updatepost/:postId',(req, res, next) => {
 router.delete('/deletepost/:postId', (req, res, next) => {
 
     //Get id of post to delete
-    const Uid = req.params.userId;
+//    const Uid = req.params.userId;
     const Pid = req.params.postId;
 
     //Remove post
     Post.findByIdAndRemove(Pid, (err, post) => {
-        if(err){
+        if(err) {
             return res.status(500).send(err);
         }
         else {
             //Remove comments associated with the post
             Comment.findOneAndRemove( { "post": Pid }, (err, comment) => {
-                if(err){
+                if(err) {
                     return res.status(500).send(err);
                 }
                 else {
                     //Remove post from user post array
                     User.update({}, {$pull: { posts: Pid }}, (err, user) => {
-                        if(err){
+                        if(err) {
                             return res.status(500).send(err);
                         }
-                        else{
+                        else {
                             res.status(200).send({
                                 message: "Post and its comments successfully deleted",
                                 id: user._id
                             });
                         }
-                    })
+                    });
+                }
+            });
+        }
+    });
+});
+
+//Like a post
+router.post('/:userId/:postId/like', (req, res, next) => {
+    //Find post to like
+    const Pid = req.params.postId;
+    const Uid = req.params.userId;
+
+    //Check if user has already liked the post
+    Post.find( { "_id" : Pid, likes: {$in: [Uid] }  }, (err, post) => {
+        if(err) {
+            return res.status(500).send(err);
+        }
+        //Already liked the post
+        else if(post.length > 0 ) {
+            return res.status(401).json({
+                success: "You have already liked this post!"
+            });
+         }
+        else {
+            //Like the post
+            Post.updateOne({ "_id" : Pid}, {$push: { likes: Uid}}, (err, post) => {
+                if(err) {
+                    return res.status(500).send(err);
+                }
+                else {
+                    return res.status(200).json({
+                        success: 'You have liked this post!'
+                    });
                 }
             });
         }
@@ -291,16 +347,16 @@ router.delete('/deletecomment/:userId/:postId/:commentId', (req, res, next) => {
 
     //Remove comment
     Comment.findByIdAndRemove(Cid, (err, post) => {
-        if(err){
+        if(err) {
             return res.status(500).send(err);
         }
         else {
             //Remove comment from post comment array
             Post.update({}, {$pull: { comments: Cid }}, (err, post) => {
-                if(err){
+                if(err) {
                     return res.status(500).send(err);
                 }
-                else{
+                else {
                     res.status(200).send({
                         message: "Comment successfully deleted",
                         id: post._id
