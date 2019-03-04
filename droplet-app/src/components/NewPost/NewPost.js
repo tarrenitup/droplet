@@ -24,7 +24,7 @@ const UserInfo = (props) => (
 const SplashSlider = (props) => (
     <div className='splash-slider'>
         <p>Splash Range</p>
-        <span className='left-arrow' onClick={() => {console.log("left!")}} />
+        <span className='arrow left' onClick={() => {console.log("left!")}} />
         <ul>
             <li>3 feet</li>
             <li>10 feet</li>
@@ -32,7 +32,7 @@ const SplashSlider = (props) => (
             <li>300 feet</li>
             <li>1 mile</li>
         </ul>
-        <span className='right-arrow'  onClick={() => {console.log("right!")}}/>
+        <span className='arrow right'  onClick={() => {console.log("right!")}}/>
         <input name='splashSelection' type='hidden' value='' />
     </div>
 )
@@ -56,7 +56,7 @@ const NewPost = (props) => (
             <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
             <PostTypeSelector postTypeSelect={props.postTypeSelect} />
             <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
-            <input type="file" name="mediaFileToUpload" />
+            <input type="file" name="mediaFileToUpload" className="media-file-upload" />
             <textarea className='post-text'/>
             <SplashSlider />
             <Buttons />
