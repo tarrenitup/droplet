@@ -3,7 +3,7 @@ import './NewPost.css'
 
 import submitIcon from './submit-icon.svg'
 
-const PostTypeSelector = (props) => (
+const PostTypeSelector = () => (
     <div className='post-type-selector'>
         <ul onClick={() => {console.log("hi!")}}>
             <li><span className='text-icon' /></li>
@@ -54,7 +54,7 @@ const NewPost = (props) => (
     <div className='new-post'>
         <form name='newPostForm' method='post'>
             <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
-            <PostTypeSelector postTypeSelect={props.postTypeSelect} />
+            <PostTypeSelector />
             <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
             <input type="file" name="mediaFileToUpload" className="media-file-upload" />
             <textarea className='post-text'/>
