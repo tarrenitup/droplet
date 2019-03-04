@@ -31,7 +31,7 @@ class LoginScreen extends Component{
         console.log("Login");
         console.log("User:", username);
         console.log("Pass:", password);
-        fetch('http://localhost:3001/users/signin',{
+        fetch('http://localhost:5000/users/signin',{
             method:'POST',
             headers: {
                 'Accept': 'application/json',
