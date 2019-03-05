@@ -28,13 +28,10 @@ const postSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-<<<<<<< HEAD
-=======
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
->>>>>>> master
     location: {
         type: {
             type: String,
