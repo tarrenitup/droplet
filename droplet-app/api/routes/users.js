@@ -249,7 +249,11 @@ router.post('/createpost/:userId', upload.single('postImage'), async (req, res, 
 });
 
 //Update a user's post
+<<<<<<< HEAD
 router.patch('/updatepost/:postId',(req, res, next) => {
+=======
+router.patch('/updatepost/:userId/:postId',(req,res,next) => {
+>>>>>>> master
 
     //Get id of post to update
     const Pid = req.params.postId;
