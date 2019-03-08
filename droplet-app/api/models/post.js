@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-//    userID:{
-//        type: mongoose.Schema.Types.ObjectId,
-//        ref: 'User',
-//        required: 'UserId is required'
-//   },
     username: {
         type: String,
         ref: 'User',
@@ -20,10 +15,6 @@ const postSchema = new mongoose.Schema({
         default: undefined
     },
 //    splash_rad: Number,
-//    location: {
-//        latitude: Number,
-//        longitude: Number
-//    },
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment',
@@ -36,6 +27,25 @@ const postSchema = new mongoose.Schema({
     updated: {
         type: Date,
         default: Date.now
+    },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    location: {
+        type: {
+            type: String,
+            default: "Point",
+            required: true
+        },
+        coordinates: {
+            type: [],
+            required: true
+        }
+    },
+    userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 
