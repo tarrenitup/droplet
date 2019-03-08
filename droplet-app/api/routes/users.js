@@ -4,28 +4,14 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 mongoose.set('useFindAndModify', false);
 const multer = require('multer');
-
-//Create local directory to save pictures in
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, './uploads');
-    },
-    filename: function(req, file, cb) {
-        cb(null, file.originalname);
-    }
-});
-
-//Set max file upload size to 5 MB
-const upload = multer({storage: storage, limits: {
-    fileSize: 1024 * 1024 * 5
-}});
+const {generateJWT, requireAuthentication} = require('../../src/components/Auth/Auth');
 
 //Models
 const User = require('../models/user');
 const Post = require('../models/post');
 const Comment = require('../models/comment');
 
-//Read all users
+//Get all users
 router.get('/',(req, res, next) => {
     //Fetch all users
     User.find()
@@ -45,7 +31,7 @@ router.get('/',(req, res, next) => {
 });
 
 //Create a user
-router.post('/signup',(req, res, next) => {
+router.post('/',(req, res, next) => {
 
     //encrypt password
     bcrypt.hash(req.body.password, 10, function(err, hash) {
@@ -80,324 +66,144 @@ router.post('/signup',(req, res, next) => {
 //User signin
 router.post('/signin', function(req, res) {
     //Find user to signin
-    User.findOne({username: req.body.username})
-    .exec()
-    .then(function(user) {
-        bcrypt.compare(req.body.password, user.password, function(err, result) {
-            if(err) {
-                return res.status(401).json({
-                    failed: 'Failed to Login: Username not found'
-                });
+    if(req.body && req.body.username && req.body.password) {
+        User.findOne({username: req.body.username})
+        .exec()
+        .then(function(user) {
+            if(user) {
+                return bcrypt.compare(req.body.password, user.password);
             }
-            if(result) {
-                return res.status(200).json({
-                    success: 'Welcome to Droplet!'
-                });
+            else {
+                return Promise.reject(401);
             }
-            return res.status(401).json({
-                failed: 'Failed to login'
+        })
+        .then(function(loginSucess) {
+            if(loginSucess) {    //JWT generation.
+                return generateJWT(req.body.username);
+            }
+            else {
+                return Promise.reject(401);
+            }
+        })
+        .then(function(token) {
+            res.status(200).json({ //consider sending in additional information i.e. user id?
+                token : token
             });
+        })
+        .catch(function(error) {
+            console.log(error);
+            if (error === 401) {
+                res.status(401).json({
+                    error: "Username or Password is invalid"
+                });
+            }
+            else {
+                res.status(500).json({
+                    error: "Failed to find user"
+                });
+            }
         });
-    })
-    .catch(error => {
-        res.status(500).json({
-            error: error
+     }
+     else {
+        res.status(400).json({
+            error: "Invalid request. Needs a username and password"
         });
-    });
+    }
 });
 
-//Read the posts of a user
-router.get('/getposts/:userId', (req, res, next) => {
-    //Get id of user
-    const id = req.params.userId;
-    User.findById(id)
+//Update a user's name
+router.patch('/:userId',(req, res, next) => {
+
+    //Get id of user to update
+    const Uid = req.params.userId;
+
+    //Update list
+    const updateOps = {};
+
+    //Update content field of a post
+    for(const ops of req.body) {
+        updateOps[ops.propName] = ops.value;
+    }
+
+    //Update user
+    User.update({_id: Uid}, {$set: updateOps})
     .exec()
-    //Get successful
-    .then(doc => {
-        console.log(doc);
-        //Found user id
-        if(doc) {
-            res.status(200).json(doc);
-        }
-        //Cannot find user id
-        else {
-            res.status(404).json({message: 'No valid user for given ID'});
-        }
+    //Update successful
+    .then(result => {
+        console.log(result);
+        res.status(200).json(result);
     })
-    //Get unsuccessful
+    //Update unsuccessful
     .catch(err => {
         console.log(err);
-        res.status(500).json({error: err});
+        res.status(500).json({
+            error: err
+        });
     });
 });
 
-//Get all posts
-router.get('/getallposts', (req, res, next) => {
-    Post.find({},(err, post) => {
-      if(err) {
-            return res.status(500).send(err);
+//Get the posts of a user
+router.get('/:userId', (req, res, next) => {
+    //Get id of user
+    const Uid = req.params.userId;
+
+    User.find({ _id: Uid }, {"_id": 0}, function(err, posts) {
+        if(err) {
+            return res.status(500).json({
+                error: err
+            });
         }
         else {
             res.status(200).send({
-                message: post
+                message: posts
             });
         }
     });
 });
 
-//Get all posts within X
-router.get('/getnearby/', (req, res, next) => {
+//Delete a user
+router.delete('/:userId', (req, res) => {
 
-
-});
-
-//Create a post
-router.post('/createpost/:userId', upload.single('postImage'), async (req, res, next) => {
-    //Get photo to upload
-    console.log(req.file);
-
-    //Find any one user to post on
-    const user = await User.findOne({_id: req.params.userId});
-
-    //If file found, upload post accordingly
-    if(req.file != undefined) {
-        //Create new post with image
-        const post = new Post();
-        post._id = new mongoose.Types.ObjectId();
-        post.userID = user._id;
-        post.username = user.username;
-        post.content = req.body.content;
-        post.postImage = req.file.path;
-        post.location = req.body.location;
-        await post.save()
-
-        //Associates the comment with a Post
-        user.posts.push(post._id);
-
-        //Save the post (so post is now in posts array)
-        await user.save();
-        res.send(post);
-    }
-    //If no file found, upload content only
-    else {
-        //Create new post with image
-        const post = new Post();
-        post._id = new mongoose.Types.ObjectId();
-        post.userID = user._id;
-        post.username = user.username;
-        post.content = req.body.content;
-        post.postImage = undefined;
-        post.location = req.body.location;
-        await post.save()
-
-        //Associates the comment with a Post
-        user.posts.push(post._id);
-
-        //Save the post (so post is now in posts array)
-        await user.save();
-        res.send(post);
-    }
-});
-
-//Update a user's post
-router.patch('/updatepost/:userId/:postId',(req, res, next) => {
-
-    //Get id of post to update
-    const Pid = req.params.postId;
-    const uid = req.params.userId;
-
-    //Update list
-    const updateOps = {};
-
-    //Update content field of a post
-    for(const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
-    }
-
-    //Updated date field
-    Post.updated = new Date();
-    Post.update({_id: Pid}, {$set: updateOps})
-    .exec()
-    //Update successful
-    .then(result => {
-        console.log(result);
-        res.status(200).json(result);
-    })
-    //Update unsuccessful
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            error: err
-        });
-    });
-});
-
-//Delete the post of a user
-router.delete('/deletepost/:postId', (req, res, next) => {
-
-    //Get id of post to delete
-//    const Uid = req.params.userId;
-    const Pid = req.params.postId;
-
-    //Remove post
-    Post.findByIdAndRemove(Pid, (err, post) => {
-        if(err) {
-            return res.status(500).send(err);
-        }
-        else {
-            //Remove comments associated with the post
-            Comment.findOneAndRemove( { "post": Pid }, (err, comment) => {
-                if(err) {
-                    return res.status(500).send(err);
-                }
-                else {
-                    //Remove post from user post array
-                    User.update({}, {$pull: { posts: Pid }}, (err, user) => {
-                        if(err) {
-                            return res.status(500).send(err);
-                        }
-                        else {
-                            res.status(200).send({
-                                message: "Post and its comments successfully deleted",
-                                id: user._id
-                            });
-                        }
-                    });
-                }
-            });
-        }
-    });
-});
-
-//Like a post
-router.post('/:userId/:postId/like', (req, res, next) => {
-    //Find post to like
-    const Pid = req.params.postId;
+    //Get id of user to delete
     const Uid = req.params.userId;
-
-    //Check if user has already liked the post
-    Post.find( { "_id" : Pid, likes: {$in: [Uid] }  }, (err, post) => {
-        if(err) {
-            return res.status(500).send(err);
-        }
-        //Already liked the post
-        else if(post.length > 0 ) {
-            return res.status(401).json({
-                success: "You have already liked this post!"
-            });
-         }
-        else {
-            //Like the post
-            Post.updateOne({ "_id" : Pid}, {$push: { likes: Uid}}, (err, post) => {
-                if(err) {
-                    return res.status(500).send(err);
-                }
-                else {
-                    return res.status(200).json({
-                        success: 'You have liked this post!'
-                    });
-                }
-            });
-        }
-    });
-});
-
-//Create a comment on a post
-router.post('/:userId/:postId/comment', async (req, res) => {
-
-    //Find any one post to comment on
-    const user = await User.findOne({_id: req.params.userId});
-    const post = await Post.findOne({_id: req.params.postId});
-
-    //Create a new comment
-    const comment = new Comment();
-
-    //Grab comment content and postId as described in comment.js
-    comment.username = user.username;
-    comment.content = req.body.content;
-    comment.post = post._id;
-
-    //save the comment
-    await comment.save();
-
-    //Associates the comment with a Post
-    post.comments.push(comment._id);
-
-    //Save the post (so comment is now in comments array)
-    await post.save();
-    res.send(comment);
-});
-
-//Read all comments on a post
-router.get('/getcomments/:postId', async (req, res) => {
-
-    //Get post and populate comment
-    //section with comments tied to post
-   const post = await Post.findOne({_id: req.params.postId}).populate('comments');
-   res.send(post);
-});
-
-//Delete a single comment from a post
-router.delete('/deletecomment/:userId/:postId/:commentId', (req, res, next) => {
-
-    //Get id of post to delete
-    const Uid = req.params.userId;
-    const Pid = req.params.postId;
-    const Cid = req.params.commentId;
-
-    //Remove comment
-    Comment.findByIdAndRemove(Cid, (err, post) => {
-        if(err) {
-            return res.status(500).send(err);
-        }
-        else {
-            //Remove comment from post comment array
-            Post.update({}, {$pull: { comments: Cid }}, (err, post) => {
-                if(err) {
-                    return res.status(500).send(err);
-                }
-                else {
-                    res.status(200).send({
-                        message: "Comment successfully deleted",
-                        id: post._id
-                    });
-                }
-            });
-        }
-    });
-});
-
-//Update the content of a comment
-router.patch('/updatecomment/:userId/:postId/:commentId',(req, res, next) => {
-
-    //Get id of comment to update
-    const Cid = req.params.commentId;
-
-    //Update list
-    const updateOps = {};
-
-    //Update content field of a post
-    for(const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
-    }
-
-    //Updated date field
-    Comment.updated = new Date();
-    //Update comment
-    Comment.updateOne({_id: Cid}, {$set: updateOps})
+    //Find the user
+    User.findOne({_id: Uid})
     .exec()
-    //Update successful
-    .then(result => {
-        console.log(result);
-        res.status(200).json(result);
+    .then((user) => {
+        var i = 0;
+        console.log(user.posts.length);
+        for(i = 0; i < user.posts.length; i++) {
+            Comment.deleteMany({post: user.posts[i]._id}, (err, comment) => {
+            })
+        }
     })
-    //Update unsuccessful
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            error: err
+    .then((user)=> {
+        Post.deleteMany({ userid: Uid }, (err, post) => {
+            if(err) {
+                return res.status(500).json({
+                    error: err
+                });
+            }
+            else {
+                User.deleteOne({ _id: Uid}, (err, user) =>{
+                    if(err) {
+                        return res.status(500).json({
+                            error: err
+                        });
+                    }
+                    else {
+                        return res.status(200).json({
+                            success: 'User and all associated content deleted!'
+                        });
+                    }
+                });
+            }
         });
-    });
+    })
+
+    //Remove users posts
+
+    //Remove user
 });
 
 module.exports = router;
