@@ -317,6 +317,39 @@ router.delete('/deletepost/:postId', (req, res, next) => {
     });
 });
 
+//Like a post
+router.post('/:userId/:postId/like', (req, res, next) => {
+    //Find post to like
+    const Pid = req.params.postId;
+    const Uid = req.params.userId;
+
+    //Check if user has already liked the post
+    Post.find( { "_id" : Pid, likes: {$in: [Uid] }  }, (err, post) => {
+        if(err) {
+            return res.status(500).send(err);
+        }
+        //Already liked the post
+        else if(post.length > 0 ) {
+            return res.status(401).json({
+                success: "You have already liked this post!"
+            });
+         }
+        else {
+            //Like the post
+            Post.updateOne({ "_id" : Pid}, {$push: { likes: Uid}}, (err, post) => {
+                if(err) {
+                    return res.status(500).send(err);
+                }
+                else {
+                    return res.status(200).json({
+                        success: 'You have liked this post!'
+                    });
+                }
+            });
+        }
+    });
+});
+
 //Create a comment on a post
 router.post('/:userId/:postId/comment', async (req, res) => {
 
