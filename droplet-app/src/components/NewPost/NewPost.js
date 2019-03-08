@@ -21,6 +21,19 @@ const UserInfo = (props) => (
     </div>
 )
 
+const FileUpload = () => (
+    <div className='file-upload-outer'>
+        <input type="file" accept="image/*" name="mediaFileToUpload" className="media-file-upload" />
+        <label for="file">This the label</label>
+    </div>
+)
+
+const TextArea = () => (
+    <div className='textarea-outer'>
+        <textarea className='post-text' placeholder='Make a post ...'/>
+    </div>
+)
+
 const SplashSlider = (props) => (
     <div className='splash-slider'>
         <p>Splash Range</p>
@@ -52,12 +65,12 @@ const Buttons = (props) => (
 
 const NewPost = (props) => (
     <div className='new-post'>
-        <form name='newPostForm' method='post'>
+        <form className='new-post-form' name='newPostForm' method='post'>
             <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
             <PostTypeSelector />
             <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
-            <input type="file" name="mediaFileToUpload" className="media-file-upload" />
-            <textarea className='post-text'/>
+            <FileUpload />
+            <TextArea />
             <SplashSlider />
             <Buttons />
         </form>
