@@ -127,6 +127,7 @@ div.user-info p.username {
 }
 
 div.user-info img.profile-picture {
+    object-fit: cover;
     width: 30px;
     height: 30px;
     background-size: 30px 30px;
@@ -219,7 +220,8 @@ div.splash-slider ol {
 div.splash-slider ol li {
     font-size: 13px;
     white-space: nowrap;
-    margin-right: 10px;
+    margin-right: 18px;
+    color: #818181;
 }
 
 
