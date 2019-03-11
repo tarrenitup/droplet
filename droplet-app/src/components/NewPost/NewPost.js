@@ -30,7 +30,7 @@ const FileUpload = () => (
 
 const TextArea = () => (
     <div className='textarea-outer'>
-        <textarea className='post-text' placeholder='Make a post ...'/>
+        <textarea className='post-text' placeholder='write a post ...'/>
     </div>
 )
 
@@ -38,13 +38,19 @@ const SplashSlider = (props) => (
     <div className='splash-slider'>
         <p>Splash Range</p>
         <span className='arrow left' onClick={() => {console.log("left!")}} />
-        <ul>
+        <ol>
             <li>3 feet</li>
             <li>10 feet</li>
             <li>100 feet</li>
             <li>300 feet</li>
-            <li>1 mile</li>
-        </ul>
+            <li>1 blah</li>
+            <li>2 blah</li>
+            <li>3 blah</li>
+            <li>4 blah</li>
+            <li>5 blah</li>
+            <li>6 blah</li>
+            <li>7 blah</li>
+        </ol>
         <span className='arrow right'  onClick={() => {console.log("right!")}}/>
         <input name='splashSelection' type='hidden' value='' />
     </div>
@@ -66,11 +72,13 @@ const Buttons = (props) => (
 const NewPost = (props) => (
     <div className='new-post'>
         <form className='new-post-form' name='newPostForm' method='post'>
-            <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
-            <PostTypeSelector />
-            <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
-            <FileUpload />
-            <TextArea />
+            <div className='top'>
+                <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
+                <PostTypeSelector />
+                <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
+                <FileUpload />
+                <TextArea />
+            </div>
             <SplashSlider />
             <Buttons />
         </form>
