@@ -1,9 +1,4 @@
 main.like-screen {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    top: 0px;
-    left: 0px;
     background-color: #EFECEA;
     padding-top: 40px;
     padding-bottom: 55px;

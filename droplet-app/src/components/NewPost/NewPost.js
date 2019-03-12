@@ -67,7 +67,7 @@ const Buttons = (props) => (
             <p>Drop</p> */}
         </input>
     </div>
-) 
+)
 
 const NewPost = (props) => (
     <div className='new-post'>

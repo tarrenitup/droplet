@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
+    import React, {Component} from 'react'
 import './LikeScreen.css'
-import Card from '../Card/Card.js'
+import Card from '../TempCards/Card.js'
 
 class LikeScreen extends Component{
     constructor(){
@@ -14,7 +14,7 @@ class LikeScreen extends Component{
     //DEFINE NUMPOSTS
     createPosts(){
         console.log("Testing Post list");
-        fetch('http://localhost:5000/users/getallposts')
+        fetch('http://localhost:3001/users/getallposts')
             .then(results => {
                 return results.json()
             }).then(data =>{
@@ -29,10 +29,10 @@ class LikeScreen extends Component{
         console.log(this.state.messages);
         const items = this.state.messages.map((message, key)=>
             <Card
-                key={message._id}
-                name={message.username}
-                text={message.content}
-                likes={message.likes.length}
+                key = {message._id}
+                userName = {message.username}
+                postText = {message.content}
+                likes = {message.likes.length}
             />
         );
         //Example...
