@@ -1,0 +1,42 @@
+main.signup-screen {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    top: 0px;
+    left: 0px;
+    background-color: #EFECEA;
+    padding-top: 40px;
+    padding-bottom: 55px;
+    display: flex;
+    justify-content: center;
+}
+
+.modal > form{
+    display: flex;
+    flex-direction: column;
+}
+
+.modal > h1{
+    text-align: center;
+    padding-top: 200px;
+    padding-bottom: 15px;
+}
+
+.form-text{
+    font-family: 'Arial';
+    padding: 5px;
+    margin-bottom: 20px;
+    height: 30px;
+    width: 250px;
+    border: 1px solid grey;
+}
+
+.submit{
+    height: 35px;
+    color: #fff;
+    background-color: #42c5f4;
+    border: none;
+    letter-spacing: 2px;
+    transition: .3s opacity ease;
+    cursor: pointer;
+}

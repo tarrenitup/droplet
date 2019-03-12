@@ -22,9 +22,9 @@ const Card = (props) => (
         </div>
 
         <PostMedia mediaType={props.mediaType} mediaSource={props.mediaSource} />
-        
+
         <p className='card-text'>{props.text}{props.edited ? ' edited' : ''}</p>
-    
+
         <div className='card-bottom'>
             <div className='likes'>
                 <img src={likesIcon} alt='The likes icon'/>
