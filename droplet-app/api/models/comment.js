@@ -22,6 +22,10 @@ const commentSchema = new mongoose.Schema({
     updated: {
         type: Date,
         default: Date.now
+    },
+    userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 

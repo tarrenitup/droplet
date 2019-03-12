@@ -4,7 +4,8 @@ header.app-header {
     justify-content: center;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.8);
-    width: 100vw;
+    width: 100%;
+    min-width: 320px;
     height: 40px;
     top: 0px;
     left: 0px;

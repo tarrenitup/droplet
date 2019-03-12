@@ -11,11 +11,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-//    location: {
-//        latitude: Number,
-//        longitude: Number,
-//        default: undefined
-//    },
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post',
