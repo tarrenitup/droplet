@@ -1,4 +1,5 @@
 export default {
+    loadingSpinner: 0,
     header: {
         themeId: 0,
     },

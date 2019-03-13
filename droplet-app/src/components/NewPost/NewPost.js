@@ -58,11 +58,11 @@ const SplashSlider = (props) => (
 
 const Buttons = (props) => (
     <div className='new-post-buttons'>
-        <div onClick={/*props.cancelNewPost*/ () => {console.log("cancel!")}} className='cancel'>
+        <div onClick={/*props.cancelNewPost*/ () => {console.log("cancel!")}} className='cancel button'>
             <span className='cancel new post'/>
             <p>Nvm</p>
         </div>
-        <input name='submit' type='submit' onClick={/*props.submitNewPost*/ () => {console.log("submit!")}} className='submit'>
+        <input name='submit' type='submit' onClick={/*props.submitNewPost*/ () => {console.log("submit!")}} className='submit button'>
             {/* <img src={submitIcon} alt='submit new post'/>
             <p>Drop</p> */}
         </input>

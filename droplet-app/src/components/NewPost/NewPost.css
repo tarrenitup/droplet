@@ -226,18 +226,26 @@ div.splash-slider ol li {
 
 
 /* Buttons */
+.button {
+    background-color: #00A9FF;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.button:hover {
+    background-color: #54C5FF;
+}
+
 div.new-post-buttons {
     display: flex;
-    background-color: #00A9FF;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
 div.cancel {
     padding: 12px 0;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
     text-transform: lowercase;
+    cursor: pointer;
 }
 
 div.new-post-buttons div.cancel {
@@ -250,13 +258,10 @@ div.new-post-buttons div.cancel {
 }
 
 input.submit {
-    background-color: transparent;
     text-transform: lowercase;
     padding: 12px 0;
     flex: 0 0 50%;
+    height: 100%;
     border: none;
     border-bottom-right-radius: 15px;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
 }
