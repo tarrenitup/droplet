@@ -27,6 +27,7 @@ class LikeScreen extends Component{
 
     render(){
         console.log(this.state.messages);
+/*
         const items = this.state.messages.map((message, key)=>
             <Card
                 key = {message._id}
@@ -34,12 +35,12 @@ class LikeScreen extends Component{
                 postText = {message.content}
                 likes = {message.likes.length}
             />
-        );
+        );*/
         //Example...
         //let PostItems = Posts.map((p) => <Card key = p.name>{p.name}</Card>);
         return(
             <main className='like-screen screen'>
-                {items}
+                //{items}
             </main>
         )
     }
