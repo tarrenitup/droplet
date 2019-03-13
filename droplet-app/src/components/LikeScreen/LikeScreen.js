@@ -14,7 +14,7 @@ class LikeScreen extends Component{
     //DEFINE NUMPOSTS
     createPosts(){
         console.log("Testing Post list");
-        fetch('http://localhost:5000/users/getallposts')
+        fetch('http://localhost:5000/posts/')
             .then(results => {
                 return results.json()
             }).then(data =>{
@@ -35,6 +35,7 @@ class LikeScreen extends Component{
                 likes={message.likes.length}
             />
         );
+
         //Example...
         //let PostItems = Posts.map((p) => <Card key = p.name>{p.name}</Card>);
         return(
