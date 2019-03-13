@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {withRouter} from 'react-router'
 import './LoginScreen.css'
 import Auth from '../Auth/Auth.js'
 
@@ -49,6 +50,7 @@ class LoginScreen extends Component{
             console.log(JSON.stringify(json.token));
             Auth.setCookie('token', json.token, 1);
         });
+        this.props.history.push('/');
     }
 
     render() {
