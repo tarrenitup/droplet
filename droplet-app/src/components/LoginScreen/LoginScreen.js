@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import './LoginScreen.css'
-//import Auth from '../Auth/Auth.js'
+import Auth from '../Auth/Auth.js'
 
 class LoginScreen extends Component{
     constructor(props){
@@ -46,7 +46,8 @@ class LoginScreen extends Component{
             return res.json();
         })
         .then(function(json){
-            console.log(JSON.stringify(json));
+            console.log(JSON.stringify(json.token));
+            Auth.setCookie('token', json.token, 1);
         });
     }
 

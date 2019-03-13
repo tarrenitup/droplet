@@ -28,7 +28,7 @@ class SignUpScreen extends Component{
 
 
     signup(username,password){
-        fetch('http://localhost:3001/users/signup',{
+        fetch('http://localhost:5000/users/',{
             method:'POST',
             headers: {
                 'Accept': 'application/json',
