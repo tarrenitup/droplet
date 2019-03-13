@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Test.css'
+import Auth from '../Auth/Auth.js'
 
 class Test extends Component{
     constructor(){
@@ -17,6 +18,11 @@ class Test extends Component{
         }
     }
 
+    onGetID(event){
+        event.preventDefault();
+        console.log(Auth.getCookie('token'));
+        console.log(Auth.parseJwt(Auth.getCookie('token')).sub);
+    }
 
     render(){
         return(
@@ -27,6 +33,12 @@ class Test extends Component{
                     value="Get Location"
                     type="submit"
                     onClick={this.onGetLocation}
+                />
+                <input
+                    className="getUserID"
+                    value="Get User ID"
+                    type="submit"
+                    onClick={this.onGetID}
                 />
                 </form>
             </main>
