@@ -12,6 +12,7 @@ const User = require('../models/user');
 const Post = require('../models/post');
 const Comment = require('../models/comment');
 
+
 //Get all users
 router.get('/',(req, res, next) => {
     //Fetch all users
@@ -78,10 +79,12 @@ router.post('/signin', function(req, res){
             }
         }).then(function(loginSucess){
             if(loginSucess){    //JWT generation.
-                return generateJWT(req.body.username);
+                return User.findOne({username: req.body.username});
             }else{
                 return Promise.reject(401);
             }
+        }).then(function(user){
+            return generateJWT(user._id);
         }).then(function(token){
             res.status(200).json({ //consider sending in additional information i.e. user id?
                 token : token

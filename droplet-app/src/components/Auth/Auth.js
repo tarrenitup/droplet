@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken')
 
 const secret = 'temporaryKey'
 
-function generateJWT(user){
+function generateJWT(userID){
     return new Promise((resolve, reject) => {
-        const payload = {sub: user.username};
+        const payload = {sub: userID};
         jwt.sign(payload, secret, {expiresIn: '24h'}, function(err, token){
             if(err){
                 reject(err);
