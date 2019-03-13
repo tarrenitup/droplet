@@ -120,27 +120,92 @@ router.patch('/:userId',(req, res, next) => {
     //Update list
     const updateOps = {};
 
-    //Update content field of a post
+    //if passwords are the same, update
+
+    //Update fields of a post
     for(const ops of req.body) {
         updateOps[ops.propName] = ops.value;
-    }
-
-    //Update user
-    User.update({_id: Uid}, {$set: updateOps})
-    .exec()
-    //Update successful
-    .then(result => {
-        console.log(result);
-        res.status(200).json(result);
-    })
-    //Update unsuccessful
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            error: err
+        User.findOne({_id: Uid})
+        .exec()
+        .then((user) => {
+            //If passwords match, update
+            bcrypt.compare(ops.value, user.password, function(err, res) {
+                if(res) {
+                    //Set new password
+                    updateOps[ops.propName] = ops.value;
+                    //hash new password
+                    bcrypt.hash(req.body.password, 10, function(err, hash) {
+                        if(err) {
+                            return res.status(500).json({
+                                error: err
+                            });
+                        }
+                        else {
+                            //Update user
+                            User.update({_id: Uid}, {$set: updateOps})
+                            .exec()
+                            //Update successful
+                            .then(result => {
+                                console.log(result);
+                                res.status(200).json(result);
+                            })
+                            //Update unsuccessful
+                            .catch(err => {
+                                console.log(err);
+                                res.status(500).json({
+                                    error: err
+                                });
+                            });
+                        }
+                    });
+                }
+                else {
+                    //passwords don't match
+                    console.log(ops.value);
+                }
+            });
         });
-    });
+    }
 });
+/*
+//Update user password
+router.patch('/:userId',(req, res, next) => {
+
+    const Uid = req.params.userId;
+
+    //user enters old pass
+    //Update list
+    const updateOps = {};
+
+    //if passwords are the same, update
+    if(updateOps[ops.propName] == user.password) {
+         updateOps[ops.propName] = ops.value;
+         bcrypt.hash(ops.value, 10, function(err, hash) {
+             if(err) {
+                 return res.status(500).json({
+                     error: err
+                 });
+             }
+             else {
+                //Update user
+                User.update({_id: Uid}, {$set: updateOps})
+                .exec()
+                //Update successful
+                .then(result => {
+                    console.log(result);
+                    res.status(200).json(result);
+                })
+                //Update unsuccessful
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+             }
+         });
+    }
+});*/
 
 //Get the posts of a user
 router.get('/:userId', (req, res, next) => {
@@ -171,13 +236,15 @@ router.delete('/:userId', (req, res) => {
     .exec()
     .then((user) => {
         var i = 0;
-        console.log(user.posts.length);
+        //console.log(user.posts.length);
         for(i = 0; i < user.posts.length; i++) {
+            //Delete all comments on posts
             Comment.deleteMany({post: user.posts[i]._id}, (err, comment) => {
             })
         }
     })
     .then((user)=> {
+        //Delete all user posts
         Post.deleteMany({ userid: Uid }, (err, post) => {
             if(err) {
                 return res.status(500).json({
@@ -185,7 +252,8 @@ router.delete('/:userId', (req, res) => {
                 });
             }
             else {
-                User.deleteOne({ _id: Uid}, (err, user) =>{
+                //Delete user
+                User.deleteOne({ _id: Uid}, (err, user) => {
                     if(err) {
                         return res.status(500).json({
                             error: err
@@ -200,10 +268,6 @@ router.delete('/:userId', (req, res) => {
             }
         });
     })
-
-    //Remove users posts
-
-    //Remove user
 });
 
 module.exports = router;
