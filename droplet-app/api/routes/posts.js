@@ -56,11 +56,15 @@ router.get('/nearby', (req, res, next) => {
                 distanceField: "dist.calculated",
                 key: "location",
                 includeLocs: "dist.location",
-                maxDistance: 100,
+                maxDistance: 10,
                 spherical: true
             }
         }
-    ]);
+    ])
+    .then(function(posts){
+        res.send(posts);
+    })
+    .catch(next)
 });
 
 //Create a post

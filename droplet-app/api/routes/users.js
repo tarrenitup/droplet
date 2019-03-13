@@ -167,45 +167,7 @@ router.patch('/:userId',(req, res, next) => {
         });
     }
 });
-/*
-//Update user password
-router.patch('/:userId',(req, res, next) => {
 
-    const Uid = req.params.userId;
-
-    //user enters old pass
-    //Update list
-    const updateOps = {};
-
-    //if passwords are the same, update
-    if(updateOps[ops.propName] == user.password) {
-         updateOps[ops.propName] = ops.value;
-         bcrypt.hash(ops.value, 10, function(err, hash) {
-             if(err) {
-                 return res.status(500).json({
-                     error: err
-                 });
-             }
-             else {
-                //Update user
-                User.update({_id: Uid}, {$set: updateOps})
-                .exec()
-                //Update successful
-                .then(result => {
-                    console.log(result);
-                    res.status(200).json(result);
-                })
-                //Update unsuccessful
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
-                    });
-                });
-             }
-         });
-    }
-});*/
 
 //Get the posts of a user
 router.get('/:userId', (req, res, next) => {
