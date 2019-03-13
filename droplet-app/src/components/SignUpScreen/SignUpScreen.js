@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {withRouter} from 'react-router'
 import './SignUpScreen.css'
 //import Auth from '../Auth/Auth.js'
 
@@ -45,6 +46,7 @@ class SignUpScreen extends Component{
         .then(function(json){
             console.log(JSON.stringify(json));
         });
+        this.props.history.push('/');
     }
 
     render() {

@@ -14,7 +14,7 @@ class LikeScreen extends Component{
     //DEFINE NUMPOSTS
     createPosts(){
         console.log("Testing Post list");
-        fetch('http://localhost:3001/users/getallposts')
+        fetch('http://localhost:5000/posts/')
             .then(results => {
                 return results.json()
             }).then(data =>{
