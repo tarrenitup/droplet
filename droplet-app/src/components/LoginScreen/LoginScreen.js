@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {withRouter} from 'react-router'
+//import {withRouter} from 'react-router'
 import './LoginScreen.css'
 import Auth from '../Auth/Auth.js'
 
@@ -12,7 +12,7 @@ class LoginScreen extends Component{
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-//        this.login = this.login.bind(this);
+        //this.login = this.login.bind(this);
     }
 
     onChange(event){
@@ -44,13 +44,21 @@ class LoginScreen extends Component{
             })
         })
         .then(function(res){
-            return res.json();
+            if(res.status == 200){
+                return res.json();
+            }
+            else{
+                return Promise.reject(res.status);
+            }
         })
         .then(function(json){
             console.log(JSON.stringify(json.token));
             Auth.setCookie('token', json.token, 1);
+            window.location.assign('/');
+        }).catch((error)=>{
+            console.log(error);
+            window.location.reload();
         });
-        this.props.history.push('/');
     }
 
     render() {

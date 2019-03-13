@@ -8,7 +8,8 @@ class SignUpScreen extends Component{
         super(props)
         this.state = {
             username:'',
-            password:''
+            password:'',
+            cpassword:''
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -24,29 +25,35 @@ class SignUpScreen extends Component{
 
     onSubmit(event){
         event.preventDefault();
-        this.signup(this.state.username, this.state.password);
+        this.signup(this.state.username, this.state.password, this.state.cpassword);
     }
 
 
-    signup(username,password){
-        fetch('http://localhost:5000/users/',{
-            method:'POST',
-            headers: {
-                'Accept': 'application/json',
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password
+    signup(username,password,cpass){
+        if(password==cpass){
+            fetch('http://localhost:5000/users/',{
+                method:'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
             })
-        })
-        .then(function(res){
-            return res.json();
-        })
-        .then(function(json){
-            console.log(JSON.stringify(json));
-        });
-        this.props.history.push('/');
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(json){
+                console.log(JSON.stringify(json));
+            });
+            this.props.history.push('/');
+            //window.location.assign('/');
+        }
+        else{
+            window.location.reload();
+        }
     }
 
     render() {
@@ -66,6 +73,13 @@ class SignUpScreen extends Component{
                             className="form-text"
                             placeholder="Password"
                             name="password"
+                            type="password"
+                            onChange={this.onChange}
+                        />
+                        <input
+                            className="form-text"
+                            placeholder="Confirm Password"
+                            name="cpassword"
                             type="password"
                             onChange={this.onChange}
                         />
