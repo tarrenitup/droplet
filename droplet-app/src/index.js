@@ -1,10 +1,25 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import './index.css';
-import App from './components/App/App.js';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux'
+import configureStore from './store/configureStore'
+import { loadPosts } from './actions/postActions';
+import App from './components/App/App'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+const store = configureStore()
 
-// change to register() before production launch.
+store.dispatch(loadPosts())
+
+render(
+    <Provider store={store}>
+        <Router>
+            <App />
+        </Router>
+    </Provider>,
+    document.getElementById('root')
+)
+
+// change to ".register()" on production branch.
 serviceWorker.unregister();

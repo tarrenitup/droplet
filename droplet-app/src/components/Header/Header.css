@@ -4,7 +4,8 @@ header.app-header {
     justify-content: center;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.8);
-    width: 100vw;
+    width: 100%;
+    min-width: 320px;
     height: 40px;
     top: 0px;
     left: 0px;
@@ -20,4 +21,19 @@ header.app-header img.logo {
     width: 10px;
     height: 16px;
     background-size: 10px 16px;
+}
+
+header.app-header div.theme-dot {
+    position: absolute;
+    display: block;
+    right: 15px;
+    top: 14px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 2px solid #373F43;
+}
+
+header.app-header div.theme-dot.dark-mode {
+    background-color: #FFFFFF;
 }

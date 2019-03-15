@@ -1,7 +1,10 @@
 main.new-screen {
     position: relative;
-    width: 100vw;
-    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 95px);
     top: 0px;
     left: 0px;
     background-color: #EFECEA;
