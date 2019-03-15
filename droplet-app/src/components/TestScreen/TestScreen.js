@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import './Test.css'
 import Auth from '../Auth/Auth.js'
 
-class Test extends Component{
+class Test extends Component {
     constructor(){
         super();
     }
 
-    onGetLocation(event){
+    onGetLocation(event) {
         event.preventDefault();
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition((position)=>{

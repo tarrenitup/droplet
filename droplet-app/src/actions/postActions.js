@@ -4,7 +4,7 @@ import * as types from './actionTypes'
 /* GET */
 export function loadPosts() { 
     return function(dispatch) {
-        return PostsApi.getSamplePosts().then(posts => { //switch back to getPosts (sample for testing only.)
+        return PostsApi.getSamplePosts().then(posts => { // switch back to getPosts (sample for testing only.)
             dispatch(loadPostsSuccess(posts))
         }).catch(error => {
             throw(error)
@@ -30,5 +30,5 @@ export function addPost() {
 }
 
 export function addPostSuccess(success) {
-    return {type: types.ADD_POSTS_SUCCESS, success};
+    return {type: types.ADD_POST_SUCCESS, success};
 }

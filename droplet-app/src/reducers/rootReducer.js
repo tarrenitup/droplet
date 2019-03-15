@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux';  
-import posts from './postsReducer';
+import { combineReducers } from 'redux'  
+import droplet from './postsReducer'
 
 const rootReducer = combineReducers({  
-  posts
+  droplet: droplet
 })
 
 export default rootReducer;  

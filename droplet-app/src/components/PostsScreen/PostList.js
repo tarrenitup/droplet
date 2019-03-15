@@ -4,8 +4,10 @@ import './PostList.css'
 import Card from '../Card/Card'
 
 const PostList = ({posts}) => {  
-  return (
+
+    return (
         <ul className="post-list">
+            
             {posts.map(post => (
                 <Card 
                     key={post._id} 
@@ -13,8 +15,7 @@ const PostList = ({posts}) => {
                     text={post.content} 
                     date={post.created} 
                     picture={post.postImage} 
-                    likes={post.likes} 
-                    // edited={post.edited} 
+                    likes={post.likes}
                 />)
             )}
         </ul>

@@ -24,7 +24,7 @@ const UserInfo = (props) => (
 const FileUpload = () => (
     <div className='file-upload-outer'>
         <input type="file" accept="image/*" name="mediaFileToUpload" className="media-file-upload" />
-        <label for="file">This the label</label>
+        <label htmlFor="file">This the label</label>
     </div>
 )
 

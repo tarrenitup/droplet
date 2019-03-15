@@ -30,7 +30,7 @@ export default {
             username: '@username',
             blurb: 'I like books and long walks on the beach.',
             posts: [],
-        }
+        },
     ],
     footer: {
         selectedPageIndex: 0,

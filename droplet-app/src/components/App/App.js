@@ -15,7 +15,7 @@ import Footer from '../Footer/Footer.js'
 
 
 //Test stuff
-import Test from '../TestScreen/Test.js'
+import Test from '../TestScreen/TestScreen.js'
 
 const App = (props) => (
   <div className="App">
