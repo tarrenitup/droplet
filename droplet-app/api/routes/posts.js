@@ -227,8 +227,10 @@ router.post('/:userId/:postId/like', (req, res, next) => {
                     return res.status(500).send(err);
                 }
                 else {
+                    Post.likesupdated = new Date();
                     return res.status(200).json({
-                        success: 'You have liked this post!'
+                        success: 'You have liked this post!',
+                        likesupdated: likesupdated
                     });
                 }
             });
