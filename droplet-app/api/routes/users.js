@@ -170,11 +170,12 @@ router.patch('/:userId',(req, res, next) => {
 
 
 //Get the posts of a user
+//Returns array of postId's
 router.get('/:userId', (req, res, next) => {
     //Get id of user
     const Uid = req.params.userId;
 
-    User.find({ _id: Uid }, {"_id": 0}, function(err, posts) {
+    User.find({ _id: Uid }, {"_id": 0, "password": 0}, function(err, posts) {
         if(err) {
             return res.status(500).json({
                 error: err
