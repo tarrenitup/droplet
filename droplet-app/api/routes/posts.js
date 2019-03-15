@@ -117,6 +117,24 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
     }
 });
 
+router.get('/:postId', (req, res, next) => {
+
+    //Get ID of post to return
+    const Pid = req.params.postId;
+
+    //Find the post
+    Post.find({_id: Pid}, (err, post) => {
+        if(err) {
+            return res.status(500).send(err);
+        }
+        else {
+            res.status(200).send({
+                message: post
+            });
+        }
+    });
+});
+
 //Update a user's post
 router.patch('/:postId',(req, res, next) => {
 
@@ -209,8 +227,10 @@ router.post('/:userId/:postId/like', (req, res, next) => {
                     return res.status(500).send(err);
                 }
                 else {
+                    Post.likesupdated = new Date();
                     return res.status(200).json({
-                        success: 'You have liked this post!'
+                        success: 'You have liked this post!',
+                        likesupdated: likesupdated
                     });
                 }
             });
