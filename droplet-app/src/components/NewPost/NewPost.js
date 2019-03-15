@@ -30,7 +30,7 @@ const FileUpload = () => (
 
 const TextArea = () => (
     <div className='textarea-outer'>
-        <textarea className='post-text' placeholder='write a post ...'/>
+        <textarea required className='post-text' placeholder='write a post ...'/>
     </div>
 )
 
@@ -52,7 +52,7 @@ const SplashSlider = (props) => (
             <li>7 blah</li>
         </ol>
         <span className='arrow right'  onClick={() => {console.log("right!")}}/>
-        <input name='splashSelection' type='hidden' value='' />
+        <input name='splashSelection' type='hidden' value='10' />
     </div>
 )
 
@@ -71,7 +71,7 @@ const Buttons = (props) => (
 
 const NewPost = (props) => (
     <div className='new-post'>
-        <form className='new-post-form' name='newPostForm' method='post'>
+        <form className='new-post-form' name='newPostForm' method='post' action="http://localhost:5000/posts">
             <div className='top'>
                 <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
                 <PostTypeSelector />

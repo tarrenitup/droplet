@@ -32,6 +32,10 @@ const postSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
+    likesupdated: {
+        type: Date,
+        default: undefined
+    },
     location: {
         type: {
             type: String,
@@ -40,6 +44,7 @@ const postSchema = new mongoose.Schema({
         },
         coordinates: {
             type: [],
+            index: '2dsphere',
             required: true
         }
     },
@@ -58,5 +63,7 @@ postSchema.post('remove', function(next){
   console.log({ comments: this._id });
   postSchema.remove({ comments: this._id });
 });
+
+postSchema.index({location: '2dsphere'});
 
 module.exports = mongoose.model('Post', postSchema);

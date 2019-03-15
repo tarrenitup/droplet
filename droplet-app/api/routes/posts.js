@@ -39,10 +39,32 @@ router.get('/', (req, res, next) => {
     });
 });
 
-//Get all posts within X
-router.get('/getnearby/:location', (req, res, next) => {
-
-
+//Get all posts within 10 meters
+router.get('/nearby', (req, res, next) => {
+    //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32
+    //maxDistance is in meters
+    var lng = parseFloat(req.query.lng);
+    var lat = parseFloat(req.query.lat);
+//    console.log(lng);
+//    console.log(lat);
+    //Find posts
+    Post.aggregate([
+        {
+            $geoNear: {
+                //Find the location from given coords.
+                near: { type: "Point", coordinates: [lng, lat] },
+                distanceField: "dist.calculated",
+                key: "location",
+                includeLocs: "dist.location",
+                maxDistance: 10,
+                spherical: true
+            }
+        }
+    ])
+    .then(function(posts){
+        res.send(posts);
+    })
+    .catch(next)
 });
 
 //Create a post
@@ -93,6 +115,24 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         await user.save();
         res.send(post);
     }
+});
+
+router.get('/:postId', (req, res, next) => {
+
+    //Get ID of post to return
+    const Pid = req.params.postId;
+
+    //Find the post
+    Post.find({_id: Pid}, (err, post) => {
+        if(err) {
+            return res.status(500).send(err);
+        }
+        else {
+            res.status(200).send({
+                message: post
+            });
+        }
+    });
 });
 
 //Update a user's post
@@ -187,8 +227,10 @@ router.post('/:userId/:postId/like', (req, res, next) => {
                     return res.status(500).send(err);
                 }
                 else {
+                    Post.likesupdated = new Date();
                     return res.status(200).json({
-                        success: 'You have liked this post!'
+                        success: 'You have liked this post!',
+                        likesupdated: likesupdated
                     });
                 }
             });

@@ -1,4 +1,6 @@
-class PostsApi { 
+class PostsApi {
+
+    /* GET */
     static getPosts() {
         return fetch('http://localhost:5000/posts').then(response => {
             return response.json()
@@ -41,6 +43,15 @@ class PostsApi {
                 resolve([post1, post2, post3])
             }
         )
+    }
+
+    /* POST */
+    static addNewPost() {
+        return fetch('http://localhost:5000/posts').then(response => {
+            return response.json()
+        }).catch(error => {
+            return error
+        });
     }
 }
 
