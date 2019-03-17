@@ -6,12 +6,10 @@ mongoose.set('useFindAndModify', false);
 const multer = require('multer');
 const {generateJWT, requireAuthentication} = require('../../src/components/Auth/Auth');
 
-
 //Models
 const User = require('../models/user');
 const Post = require('../models/post');
 const Comment = require('../models/comment');
-
 
 //Get all users
 router.get('/',(req, res, next) => {
@@ -36,13 +34,13 @@ router.get('/',(req, res, next) => {
 router.post('/',(req, res, next) => {
 
     //encrypt password
-    bcrypt.hash(req.body.password, 10, function(err, hash){
-        if(err){
+    bcrypt.hash(req.body.password, 10, function(err, hash) {
+        if(err) {
             return res.status(500).json({
                 error: err
             });
         }
-        else{
+        else {
             const user = new User({
                 _id: new mongoose.Types.ObjectId(),
                 username: req.body.username,
@@ -50,7 +48,7 @@ router.post('/',(req, res, next) => {
             });
             user
             .save()
-            .then(function(result){
+            .then(function(result) {
                 console.log(result);
                 res.status(200).json({
                     success: 'New User has been created!'
@@ -66,37 +64,40 @@ router.post('/',(req, res, next) => {
 });
 
 //User signin
-router.post('/signin', function(req, res){
+router.post('/signin', function(req, res) {
     //Find user to signin
-    if(req.body && req.body.username && req.body.password){
+    if(req.body && req.body.username && req.body.password) {
         User.findOne({username: req.body.username})
         .exec()
-        .then(function(user){
-            if(user){
+        .then(function(user) {
+            if(user) {
                 return bcrypt.compare(req.body.password, user.password);
-            }else{
+            }
+            else {
                 return Promise.reject(401);
             }
-        }).then(function(loginSucess){
-            if(loginSucess){    //JWT generation.
-                return User.findOne({username: req.body.username});
-            }else{
+        })
+        .then(function(loginSucess) {
+            if(loginSucess) {    //JWT generation.
+                return generateJWT(req.body.username);
+            }
+            else {
                 return Promise.reject(401);
             }
-        }).then(function(user){
-            return generateJWT(user._id);
-        }).then(function(token){
+        })
+        .then(function(token) {
             res.status(200).json({ //consider sending in additional information i.e. user id?
                 token : token
             });
-        }).catch(function(error){
+        })
+        .catch(function(error) {
             console.log(error);
-            if (error === 401){
+            if (error === 401) {
                 res.status(401).json({
                     error: "Username or Password is invalid"
                 });
-            }else{
-
+            }
+            else {
                 res.status(500).json({
                     error: "Failed to find user"
                 });
