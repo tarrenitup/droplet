@@ -30,22 +30,31 @@ class Map extends React.Component {
     };
   }
 
-  createMarker(lng, lat, map){
-    const el = document.createElement('div');
-    el.className = "marker";
+  createMarker(lng, lat, map, popupName, popupData, popupImage){
+    const m = document.createElement('div');
+    m.className = "marker";
 
+    const p = document.createElement('div');
+    p.className = "popup";
 
+    //Create Popup
+    var popup = new mapboxgl.Popup({ offset: 25 })
+      .setHTML('<h3>' + popupName + '</h3><p>' + popupData + '</p>' )
 
-
-    let marker = new mapboxgl.Marker(el)
+    //Add popup to marker
+    let marker = new mapboxgl.Marker(m)
       .setLngLat([lng, lat])
-      .addTo(map);
+      .addTo(map)
+      .setPopup(popup);
 
   }
 
-  componentDidMount() {
-    const { lng, lat, zoom } = this.state;
 
+
+
+  componentDidMount() {
+
+    const { lng, lat, zoom } = this.state;
     const map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/streets-v9',
@@ -53,9 +62,22 @@ class Map extends React.Component {
       zoom
     });
 
+    // Add geolocate control to the map.
+    map.addControl(new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true
+    }), 'top-left');
+
 
     map.on('move', () => {
       const { lng, lat } = map.getCenter();
+      const bounds = map.getBounds();
+      console.log("Center LNG LAT: " + lng + " " + lat);
+      console.log("NW boundary: " + bounds.getNorthWest());
+      console.log("SW boundary: " + bounds.getNorthWest());
+
 
       this.setState({
         lng: lng.toFixed(4),
@@ -64,13 +86,12 @@ class Map extends React.Component {
       });
     });
 
-    this.createMarker(-122.414, 37.776, map);
-    this.createMarker(-122.6587, 45.5122, map);
-    this.createMarker(-122.698059, 45.526893, map);
-    this.createMarker(-122.823782, 45.554519, map);
-    this.createMarker(-123.279047,44.567077,map);
-    this.createMarker(-123.270893,44.569584,map);
-
+    this.createMarker(-122.414, 37.776, map, "Name", "Data");
+    this.createMarker(-122.6587, 45.5122, map, "Name", "Data");
+    this.createMarker(-122.698059, 45.526893, map, "Name", "Data");
+    this.createMarker(-122.823782, 45.554519, map, "Name", "Data");
+    this.createMarker(-123.279047,44.567077,map, "Name", "Data");
+    this.createMarker(-123.270893,44.569584,map, "Name", "Data");
 
   }
 
