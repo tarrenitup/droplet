@@ -91,9 +91,9 @@ The project is a location-tagging mobile application called Droplet. Its goal is
 
 \section{Current Progress}
 \subsection{Database}
-The team has created a testing MongoDB server using an automated cloud service, and has successfully connected to the database.  In addition, back-end endpoints have been created for post and comment CRUD (Create, Read, Update, and Delete) functionality.  Posts have the option of being text, a picture, or a combination of both.  Database maintenance includes storing pictures in a local folder to minimize data stored on the database, and deleting the comments of a deleted post to minimize floating data.  Below is a snippit of code from the post schema Droplet has implemented.  This schema details what information the post will consist of, and what types the fields accept.
-
-\begin{lstlisting}
+The team has created a MongoDB server using an automated cloud service, and has successfully connected to the database.  In addition, back-end endpoints have been created for post and comment CRUD (Create, Read, Update, and Delete) functionality.  Posts have the option of being text, a picture, or a combination of both.  Below is a snippit of code from the post schema Droplet has implemented.  This schema details what information the post will consist of, and what types the fields accept.
+\small{
+\begin{lstlisting}[caption=Post Schema]
 const postSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     username: {
@@ -108,6 +108,7 @@ const postSchema = new mongoose.Schema({
         type: String,
         default: undefined
     },
+//    splash_rad: Number,
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment',
@@ -121,20 +122,49 @@ const postSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-//    location: {
-//        latitude: Number,
-//        longitude: Number,
-//        default: undefined
-//    },
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }]
+    }],
+    location: {
+        type: {
+            type: String,
+            default: "Point",
+            required: true
+        },
+        coordinates: {
+            type: [],
+            required: true
+        }
+    },
+    userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 \end{lstlisting}
+}
+The back-end currently allows for users to be created and deleted, each with a unique username, a hashed password, and an automatically generated unique ID.  These users can create posts, with each post structured as above.  The location field currently takes a GeoJSON input, consisting of a type and a coordinate pair.  To search for nearby posts, the team has utilized a built-in function MongoDB offers called \textit{geoNear}.  The function will search through the posts document in the database and compare each post location to the user's coordinates.  It then returns a sorted array of all posts within a specified radius.  \textit{GeoNear} also uses a spherical index when calculating distances between coordinates rather than a flat plane to better model the post's location.  Below is an example of the function used.
+\small{
+\begin{lstlisting}[caption=Get Nearby Posts]
+Post.aggregate([
+        {
+            $geoNear: {
+                near: { type: "Point", coordinates: [lng, lat] },
+                distanceField: "dist.calculated",
+                key: "location",
+                includeLocs: "dist.location",
+                maxDistance: 10,
+                spherical: true
+            }
+        }
+    ])
+\end{lstlisting}
+}\newline
 
-The back-end currently allows for users to be created, each with a unique username, a hashed password, and an automatically generated unique ID.  These users can create posts, with each post structured as above.  The location field is currently commented out due to not having the permissions to access IP location implemented.  As seen above, each post has a comment array to be filled with ID's of comments and a likes array to be filled with userID's of users who liked the post.  Below is the code used to like a post.
-\begin{lstlisting}
+As mentioned earlier, each post has a comment array to be filled with ID's of comments and a likes array to be filled with userID's of users who liked the post.  Below is the code used to like a post.  This first checks to see if a user has already liked a post by checking to see if the username is in the 'like' array.  If they have, then they cannot duplicate the like.  If the username is not in the array, then it is appended to the end and the array is updated.  Every other scenario generates an appropriate error.
+\small{
+\begin{lstlisting}[caption=Liking a Post]
 //Check if user has already liked the post
     Post.find( { "_id" : Pid, likes: {$in: [Uid] }  }, (err, post) => {
         if(err) {
@@ -161,10 +191,11 @@ The back-end currently allows for users to be created, each with a unique userna
         }
     });
 \end{lstlisting}
-This first checks to see if a user has already liked a post by checking to see if the username is in the 'like' array.  If they have, then they cannot duplicate the like.  If the username is not in the array, then it is appended to the end and the array is updated.  Every other scenario generates an appropriate error.
-
+}
+The team has also implemented cascading deletion for database maintenance.  An example of this is when a user is deleted; the user's comments, posts, and people's comments on those posts are all deleted.  Without cascading deletion, only the user would be deleted, and none of their content, leaving floating data in the database.  With cascading deletion, the database frees up memory for users and helps minimize server slowdown.
+\pagebreak
 \subsection{Map}
-The team has implemented a Map into the application using the MapBox API. Currently, they are able to display a basic Map onto the screen. This Map allows users to click and drag to various locations on the Map, and zoom into a specific location. In addition to displaying a Map, our team has successfully added markers onto the Map at distinct points with their longitude and latitudes. The marker icon has also been changed to the droplet icon to match our initial mock-ups. Currently, the style of the Map is very simple, but aesthetically pleasing for users.
+The team has implemented a map into the application using the MapBox API. Currently, they are able to display a basic map onto the screen. This map allows users to click and drag to various locations on the map, and zoom into a specific location. In addition to displaying a map, our team has successfully added markers onto the map at distinct points with their longitude and latitudes. The marker icon has also been changed to the droplet icon to match our initial mock-ups. These markers can be clicked on the display a pop-up of the username and the data attached to the posts. In addition to these UI aspects, the team is able to retrieve user location information and map screen information, which will be critical to deciding which posts to display to the users.
 
 \begin{figure}[!ht]
     \centering
@@ -182,75 +213,32 @@ The team has implemented a Map into the application using the MapBox API. Curren
 \pagebreak
 
 \subsection{Authentication}
-The team has opted to use JSON Web Tokens (JWTs) to handle user authentication, and currently there is a basic login page that is capable of parsing the user's inputs and storing them in the state. It's been linked to the back-end, allowing it to send the username and password to an existing database and receive a response back.
+The team has opted to use JSON Web Tokens (JWTs) to handle user authentication, and currently there is a login page that is capable of parsing the user's inputs, sending them to the server, and getting back and storing the server's response in a cookie. The JWTs payload stores the userID, which is a necessary component in several endpoints i.e. the ones for getting the profile information and making a post.
 
 \subsection{Other Client Screens}
-The team has managed to integrate the Redux client library to simplify the app state management and enforce a system for subscribing to app state changes that is immutable and functionally scalable. The home page is able to asynchronously fetch post data from the server and display their content in list view. Recent changes have included a reorganization of the navigation hierarchy to make the first three pages, which all have the same dynamic map background, to be considered the home page, with the three sub-pages of posts, map-only view and the new-post view. The new-post page is in progress and still under construction.
+The team has managed to integrate the Redux client library to simplify the app state management and enforce a system for subscribing to app state changes that is immutable and functionally scalable. The home page is able to asynchronously fetch post data from the server and display their content in list view. Recent changes have included a reorganization of the navigation hierarchy to make the first three pages, which all have the same dynamic map background, to be considered the home page. Along with these home pages, there are three sub-pages of posts, map-only view and the new-post view. The new-post page is still under construction.
 
 \section{Remaining Work}
 \subsection{Database}
-%The back-end currently was made without keeping track of users in mind.  It needs to be refactored with a user schema in place so that postId's are connected to a user, likewise with comments.  The appropriate endpoints will also need to be corrected to incorporate the new schema.  Comments are also missing Update functionality, and the endpoints are not connected to the front-end as of yet.
-Currently, the back-end has user, post and comment CRUD functionality.  The remaining back-end work that needs to be done is accept location information from the device, ideally the longitude and latitude, and implement the location field.  When the map is fully integrated, the team will need to determine how extract the information and use it meaningfully.  It should be noted that the back-end is not connected to the front-end aside from user authentication, and that the team is currently working on integrating the two. 
+Currently, the back-end has user, post, and comment CRUD functionality.  The remaining back-end work that needs to be implemented is the ability to accept location information from the device, in GeoJSON format.  When the map is fully integrated, the team will need to find a way to return that posts that are outside the range, but not reveal information about them.  The goal is to alert the user of posts and encourage them to walk within range.
 
 \subsection{Map}
-In the end, the team wants to be able to view posts near users from the map. Currently, the Map is not interactive besides being able to drag and zoom the map. The team also wants to be able to add popups that show the posts. In order to implement this we would need to be able to create the popups and connect it with the data from the database. In regards to the style, if the team decides to change the style, the team can implement this through using MapBox API's present styles. In addition, a new style can be created through MapBox Web Studio and integrated into the application. The final aspect we would need to add to our application is requesting user location for the map.
+In the end, the team wants to be able to view posts near users from the map. Currently, the map is not interactive besides being able to drag and zoom the map. The team also wants to be able to add popups that show the posts. In order to implement this we would need to be able to create the popups and connect them with the data from the database. In regards to the style, if the team decides to change the style, the team can implement this through using MapBox API's present styles. In addition, a new style can be created through MapBox Web Studio and integrated into the application. The final aspect we would need to add to our application is requesting user location for the map.
 
 \subsection{Authentication}
-There isn't currently any button for logging in, since it's still up in the air exactly how to go about asking the user to login (a small popup, a unique window, should the user be asked to login when they start the app/page, etc.) In addition, although a user can technically login and receive a JWT, the application doesn't use the JWT for anything at the moment, so anyone can still access anything and being "logged in" doesn't actually mean anything. The UI doesn't update itself to reflect that a user is logged in either (i.e. when logged in, there should be a logout button). 
+There isn't currently any button for logging in, since it's still up in the air exactly how to go about asking the user to login (a small popup, a unique window, should the user be asked to login when they start the app/page, etc.) The UI doesn't update itself to reflect that a user is logged in either (i.e. when logged in, there should be a logout button). 
 
 \subsection{Other}
 In addition to the work listed above, there are various elements that still need to be implemented. A page or popup for creating posts still needs to be made, and it will have to be linked to the back-end and send things such as post content and location data to the database. Interacting with posts themselves (not on the map) still needs to be worked on too i.e. comments and likes. 
 
 \section{Problems and Solutions}
 
-\subsection{The Big Data Problem}
+\subsection{Big Data and Great Circle Navigation}
 An ongoing point of discussion for the group has been how to store and parse information. Since posts are based on locations, they're spattered around in an unstructured way. Organizing these is important, because, as the size of our database approaches infinity, it becomes gradually more time consuming to search the database for posts that are nearby the user. 
 
-A simple way that lends itself to MongoDB's structure would be to nest posts within the user that posted them, and then nest comments for each post within the post. This means, if you want all the posts associated with a particular user, you just ask the database for the user; no searching is required. However, given that getting posts that are nearby the current user is top priority, having them organized this way would be very inefficient. The entire database would need to be searched to get posts nearby the user, since they're not sorted by location. 
+An issue that arises from this is managing how to calculate the distance between two lat/long points, since latitude and longitude cannot be directly converted to meters. Both of these problems have been solved before, but determining the best way to balance and solve them for Droplet was a challenge. 
 
-Our first idea for solving this issue was to split the world into sectors. Posts would be organized into their respective sectors. Then, when a user asks for posts nearby, their current sector and all adjacent sectors would be checked for posts. However, the question then become as follows: How small do we need to make the sectors to avoid the infinity problem? Would we have an efficient way to subdivide sectors if a given sector gets too full?  Because of these issues, we brainstormed more.
-
-Our second idea was to sort posts in the database based on their latitude. Then, when a user asks for posts, we "create" a sector for the part of the earth they're in on the fly and only return posts in that sector. However, math for that is complex and time consuming (see next section). An alternate version of this, suggested by our TA Chris, would be to store each post with a "real" lat/long pair and a "search" lat/long pair. The "real" pair would be as specific as possible, while the "search" pair would only be accurate down to the half latitude/longitude degree. Then, when we ask the database for posts, we base the search on the "search" pair, so that specificity doesn't slow down the search. Then, any desired geographical maths could be performed on this subset of data to reduce time required. 
-
-We're focusing on that final solution for now. At the end of the day, if that doesn't work out and we can go with something simpler but slower, we will. In the current phase of development we just need something that works. 
-
-\subsection{Great Circle Navigation}
-
-An issue in our effort to make database parsing efficient is that calculating the distance between two points on a sphere is difficult. This arises from how \href{https://en.wikipedia.org/wiki/Geographic_coordinate_system}{geographic coordinate systems} work. The idea of latitude and longitude is common knowledge, but some of the fine details are not-so-common, so here's a breakdown. 
-
-\begin{itemize}
-    \item Great circle navigation is the study of travelling across a spherical object, which has many implications in long-distance nautical and air travel.
-    \item Geographic coordinate systems are methods for quantifying where a given location on a sphere is, typically a doublet (horizontal, vertical) or a triplet (horizontal, vertical, elevation).
-    \item Latitude, longitude, and elevation is a popular geographic coordinate system choice. We care about latitude and longitude. 
-    \begin{itemize}
-        \item Latitude is a measure of horizontal position. Each degree of latitude at a given longitude is the same size as any other degree of latitude at that same longitude. 
-        \item Longitude is a measure of vertical position. Each degree of longitude becomes progressively smaller than the last as distance from the equator increases. 
-    \end{itemize}
-\end{itemize}
-
-Some of the complexities may come through based on those descriptions. Let's highlight a few. 
-
-First, the size of a given latitude degree is a function of the longitude it is at. Think of it this way: take a cross section at the Earth's equator and measure its circumference, and then take a cross section (in the same direction as the last) near one of the poles and measure its circumference. A full circle of latitude goes around both of these cross sections, but each circumference is a different size, so the meters-distance represented by each circle is different. 
-
-\begin{figure}[H]
-    \centerfloat
-    \includegraphics[scale=.5]{images/latitude.png}
-    \caption{Points of latitude radiate circularly from the center axis. The distance represented by each degree is equal.}
-\end{figure}
-
-Second, each degree of longitude represents a gradually smaller meters-distance as distance from the equator increases. This is because of how the two are measured. 
-
-\begin{figure}[H]
-    \centerfloat
-    \includegraphics[scale=.5]{images/longitude.png}
-    \caption{Points of longitude extend parallel to each other. The distance represented by each degree varies based on distance from the equator.}
-\end{figure}
-
-As such, formulas for calculating distance between two geographical coordinates are rather dense. The \href{https://en.wikipedia.org/wiki/Haversine_formula}{Haversine formula}, which first arose in 1801, is fairly complicated. If we want to know what posts are within a certain meters-distance from the user, it's not as simple as it may sound.  This is all just to say that our difficulties with Big Data described in the previous section become considerably more difficult when these issues are also considered. 
-%The team has encountered a problem when deciding how to parse information on a global scale. The problem is that, because of Earth's curvature, longitude is not a consistent unit of measurement. To handle this, the team has been researching the haversine formula to convert longitude and latitude to meters. This is needed since user's should be able to set the "splash radius" of their posts, and asking them to do so using latitude and longitude would be impractical. 
-
-
-%There's also a problem with the storage of posts. The team originally planned to have posts be a part of a user, but given that Droplet is meant to focus more on locations, this changed to having all posts stored in one giant list. However upon further thought, it was concluded that doing so could cause long delays when searching for "nearby" posts. One potential solution involved splitting the world into zones, where only the current and adjacent zones (to account for cases where the user or a post was near the edge of a zone) would be searched. Another alternative was to simply keep the list sorted at all times based on latitude and longitude, thereby allowing the use of more efficient input and search algorithms such as binary search. 
+Our ultimate solution was to take advantage of MongoDB's lat/long data type and its geo-near function. These allow us to store information based on its lat/long location, as well as find points that are within a certain meters distance of a given location. This is exactly what we need, and not needing to implement our own solution likely saved a great deal of time. Section 2.1 can be referred to for greater detail on this topic. 
 
 
 \end{document}
