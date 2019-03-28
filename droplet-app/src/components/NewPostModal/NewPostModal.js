@@ -39,21 +39,27 @@ const TextArea = () => (
 const SplashSlider = (props) => (
     <div className='splash-slider'>
         <p>Splash Range</p>
-        <span className='arrow left' onClick={() => {console.log("left!")}} />
-        <ol>
-            <li>3 feet</li>
-            <li>10 feet</li>
-            <li>100 feet</li>
-            <li>300 feet</li>
-            <li>1 blah</li>
-            <li>2 blah</li>
-            <li>3 blah</li>
-            <li>4 blah</li>
-            <li>5 blah</li>
-            <li>6 blah</li>
-            <li>7 blah</li>
-        </ol>
-        <span className='arrow right'  onClick={() => {console.log("right!")}}/>
+        <span className='arrow left' onClick={() => {console.log("left!")}}>
+            <span />
+        </span>
+        <div className='slide-outer'>
+            <ol>
+                <li>3 feet</li>
+                <li>10 feet</li>
+                <li>100 feet</li>
+                <li>300 feet</li>
+                <li>1 blah</li>
+                <li>2 blah</li>
+                <li>3 blah</li>
+                <li>4 blah</li>
+                <li>5 blah</li>
+                <li>6 blah</li>
+                <li>7 blah</li>
+            </ol>
+        </div>
+        <span className='arrow right' onClick={() => {console.log("right!")}}>
+            <span />
+        </span>
         <input name='splashSelection' type='hidden' value='10' />
     </div>
 )
