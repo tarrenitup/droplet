@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import './PostList.css'
 import Card from '../Card/Card'
 
-const PostList = ({posts}) => {  
+const PostList = (props) => {  
 
     return (
         <ul className="post-list">
-            
-            {posts.map(post => (
+            {props.homePosts.map(post => (
                 <Card 
                     key={post._id} 
                     name={post.username} 
@@ -23,7 +22,7 @@ const PostList = ({posts}) => {
 }
 
 PostList.propTypes = {
-  posts: PropTypes.array.isRequired
+  homePosts: PropTypes.array.isRequired
 }
 
 export default PostList;

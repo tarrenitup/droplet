@@ -6,16 +6,16 @@ import PostList from './PostList'
 
 const PostsScreen = (props) => (
     <main className='posts-screen screen'>
-       <PostList posts={props.posts} />
+       <PostList homePosts={props.homePosts} />
     </main>
 )
 
 PostsScreen.propTypes = {
-    posts: PropTypes.array.isRequired
+    homePosts: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
-    return { posts: state.droplet.pages[0].posts }
+    return { homePosts: state.homePosts }
 } 
 
 export default connect(mapStateToProps)(PostsScreen); 

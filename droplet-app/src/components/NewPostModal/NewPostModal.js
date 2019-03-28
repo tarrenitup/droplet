@@ -1,5 +1,7 @@
-import React from 'react'
-import './NewPost.css'
+import React, { Component } from 'react'
+import './NewPostModal.css'
+import { connect } from 'react-redux'
+import { toggleNewPostModal } from '../../actions/postActions.js'
 
 import submitIcon from './submit-icon.svg'
 
@@ -56,9 +58,11 @@ const SplashSlider = (props) => (
     </div>
 )
 
-const Buttons = (props) => (
+const Buttons = ({ dispatch }) => {
+    
+    return (
     <div className='new-post-buttons'>
-        <div onClick={/*props.cancelNewPost*/ () => {console.log("cancel!")}} className='cancel button'>
+        <div onClick={() => {return dispatch(toggleNewPostModal())} } className='cancel button'>
             <span className='cancel new post'/>
             <p>Nvm</p>
         </div>
@@ -67,22 +71,39 @@ const Buttons = (props) => (
             <p>Drop</p> */}
         </input>
     </div>
-)
+)}
 
-const NewPost = (props) => (
-    <div className='new-post'>
-        <form className='new-post-form' name='newPostForm' method='post' action="http://localhost:5000/posts">
-            <div className='top'>
-                <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
-                <PostTypeSelector />
-                <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
-                <FileUpload />
-                <TextArea />
+class NewPostModal extends Component {
+
+    constructor(props) {
+        super(props)
+    }
+
+    getModalStyleClasses = () => this.props.visiblity ? 'new-post-modal' : 'new-post-modal off'
+
+    render() {
+        return (
+            <div className={ this.getModalStyleClasses() }>
+                <form className='new-post-form' name='newPostForm' method='post' action="http://localhost:5000/posts">
+                    <div className='top'>
+                        <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
+                        <PostTypeSelector />
+                        <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
+                        <FileUpload />
+                        <TextArea />
+                    </div>
+                    <SplashSlider />
+                    <Buttons dispatch={this.props.dispatch} />
+                </form>
             </div>
-            <SplashSlider />
-            <Buttons />
-        </form>
-    </div>
-)
+        )
+    }
+}
 
-export default NewPost;
+const mapStateToProps = (state) => {
+    return {
+        visiblity: state.newPostModal.visible
+    }
+}
+
+export default connect(mapStateToProps)(NewPostModal);

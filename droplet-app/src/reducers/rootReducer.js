@@ -1,8 +1,13 @@
 import { combineReducers } from 'redux'  
-import droplet from './postsReducer'
+import homePostsReducer from './homePostsReducer'
+import newPostModalReducer from './newPostModalReducer'
+import overlayReducer from './overlayReducer'
 
-const rootReducer = combineReducers({  
-  droplet: droplet
+
+const rootReducer = combineReducers({
+  overlay: overlayReducer,
+  homePosts: homePostsReducer,
+  newPostModal: newPostModalReducer,
 })
 
 export default rootReducer;  
