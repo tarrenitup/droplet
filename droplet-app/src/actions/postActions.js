@@ -1,7 +1,7 @@
 import PostsApi from '../api/PostsApi'
 import * as types from './actionTypes'
 
-/* GET */
+/* Home posts */
 export function loadHomePosts() { 
     return function(dispatch) {
         return PostsApi.getSamplePosts().then(homePosts => { // switch back to getPosts (sample for testing only.)
@@ -18,21 +18,14 @@ export function loadHomePostsSuccess(homePosts) {
 
 
 
-/* POST */
-// export function addPost() {
-//     return function(dispatch) {
-//         return PostsApi.addNewPost().then(success => {
-//             dispatch(addPostSuccess(success))
-//         }).catch(error => {
-//             throw(error)
-//         })
-//     }
-// }
-
-// export function addPostSuccess(success) {
-//     return {type: types.ADD_POST_SUCCESS, success}
-// }
-
+/* New post actions */
 export function toggleNewPostModal() {
     return { type: types.TOGGLE_NEW_POST_MODAL }
+}
+
+export function changeSplashRange(splashRangeIndex) {
+    return {
+        type: types.CHANGE_SPLASH_RANGE,
+        splashRangeIndex, 
+    }
 }

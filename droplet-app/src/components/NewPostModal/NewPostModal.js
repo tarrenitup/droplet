@@ -3,6 +3,7 @@ import './NewPostModal.css'
 import { connect } from 'react-redux'
 import { toggleNewPostModal } from '../../actions/postActions.js'
 
+import SplashSlider from './SplashSlider.js'
 import submitIcon from './submit-icon.svg'
 
 const PostTypeSelector = () => (
@@ -36,39 +37,11 @@ const TextArea = () => (
     </div>
 )
 
-const SplashSlider = (props) => (
-    <div className='splash-slider'>
-        <p>Splash Range</p>
-        <span className='arrow left' onClick={() => {console.log("left!")}}>
-            <span />
-        </span>
-        <div className='slide-outer'>
-            <ol>
-                <li>3 feet</li>
-                <li>10 feet</li>
-                <li>100 feet</li>
-                <li>300 feet</li>
-                <li>1 blah</li>
-                <li>2 blah</li>
-                <li>3 blah</li>
-                <li>4 blah</li>
-                <li>5 blah</li>
-                <li>6 blah</li>
-                <li>7 blah</li>
-            </ol>
-        </div>
-        <span className='arrow right' onClick={() => {console.log("right!")}}>
-            <span />
-        </span>
-        <input name='splashSelection' type='hidden' value='10' />
-    </div>
-)
-
 const Buttons = ({ dispatch }) => {
     
     return (
     <div className='new-post-buttons'>
-        <div onClick={() => {return dispatch(toggleNewPostModal())} } className='cancel button'>
+        <div onClick={() => dispatch(toggleNewPostModal())} className='cancel button'>
             <span className='cancel new post'/>
             <p>Nvm</p>
         </div>
@@ -98,7 +71,7 @@ class NewPostModal extends Component {
                         <FileUpload />
                         <TextArea />
                     </div>
-                    <SplashSlider />
+                    <SplashSlider splashRangeIndex={this.props.splashRangeIndex} dispatch={this.props.dispatch} />
                     <Buttons dispatch={this.props.dispatch} />
                 </form>
             </div>
@@ -108,7 +81,8 @@ class NewPostModal extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        visiblity: state.newPostModal.visible
+        visiblity: state.newPostModal.visible,
+        splashRangeIndex: state.newPostModal.splashRangeIndex,
     }
 }
 

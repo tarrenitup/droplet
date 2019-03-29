@@ -1,0 +1,120 @@
+/* SplashSlider */
+div.splash-slider {
+    display: flex;
+    position: relative;
+    flex: 0 1 100%;
+    box-sizing: border-box;
+    flex-direction: column;
+    background-color: #F9F9F9;
+}
+
+div.splash-slider p {
+    font-size: 9px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #818181;
+    text-align: center;
+    padding: 7px;
+}
+
+span.arrow {
+    position: absolute;
+    top: 0px;
+    width: 75px;
+    height: 100%;
+}
+
+span.arrow.left {
+    z-index: 1;
+    background-image: linear-gradient(to right, #F9F9F9 , rgba(255,255,255,0.001));
+}
+span.arrow.left span {
+    position: absolute;
+    display: block;
+    top: calc(50% - 2px);
+    left: 15px;
+    width: 2px;
+    height: 10px;
+    border-radius: 2px;
+    background-color: #818181;
+    transform: rotate(-45deg);
+}
+span.arrow.left span::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 3.5px;
+    display: block;
+    width: 2px;
+    height: 10px;
+    border-radius: 2px;
+    background-color: #818181;
+    transform: rotate(90deg);
+}
+
+span.arrow.right {
+    right: 0px;
+    background-image: linear-gradient(to right, rgba(255,255,255,0.001) , #F9F9F9);
+}
+span.arrow.right span {
+    position: absolute;
+    display: block;
+    top: calc(50% - 8px);
+    right: 15px;
+    width: 2px;
+    height: 10px;
+    border-radius: 2px;
+    background-color: #818181;
+    transform: rotate(135deg);
+}
+span.arrow.right span::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 3.5px;
+    display: block;
+    width: 2px;
+    height: 10px;
+    border-radius: 2px;
+    background-color: #818181;
+    transform: rotate(90deg);
+}
+
+div.splash-slider div.slide-outer {
+    display: block;
+    position: relative;
+    overflow-x: hidden;
+}
+
+div.splash-slider ol {
+    display: flex;
+    padding: 0;
+    padding-bottom: 15px;
+    margin: 0;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    list-style-type: none;
+    transition: margin-left 0.3s;
+    /* padding-left: 150px; */
+}
+
+div.splash-slider ol li {
+    position: relative;
+    font-size: 13px;
+    white-space: nowrap;
+    margin-right: 18px;
+    color: #818181;
+}
+
+/* Use this pseudo el to put 'padding' at the end of the horizontal scroll */
+/*
+div.splash-slider ol li:last-child:after {
+    content: '';
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    top: 0px;
+    left: 150px;
+}
+*/

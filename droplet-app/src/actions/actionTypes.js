@@ -1,3 +1,7 @@
+/* Home screen posts */
 export const LOAD_HOME_POSTS_SUCCESS = 'LOAD_HOME_POSTS_SUCCESS';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
+
+/* New post */
 export const TOGGLE_NEW_POST_MODAL = 'TOGGLE_NEW_POST_MODAL';
+export const CHANGE_SPLASH_RANGE = 'CHANGE_SPLASH_RANGE';

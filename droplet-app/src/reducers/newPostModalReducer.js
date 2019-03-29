@@ -8,6 +8,11 @@ export default function newPostModalReducer(state = initialState.newPostModal, a
           ...state,
           visible: !state.visible, 
         }
+    case types.CHANGE_SPLASH_RANGE:
+        return {
+          ...state,
+          splashRangeIndex: action.splashRangeIndex, 
+        }
     default: 
       return state
   }
