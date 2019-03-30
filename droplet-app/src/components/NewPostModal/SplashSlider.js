@@ -12,27 +12,22 @@ const decremementSplash = ({dispatch, currentSplash}) => {
     dispatch(changeSplashRange(newSplash))
 }
 
-const getMarginLeftPixelsFromSplashIndex = ({ splashIndex, outerEl, listEl, itemEls }) => {
+const getLeftPixelsFromSplashIndex = ({ splashIndex, outerEl, listEl, itemEls }) => {
 
     const itemArray = [].slice.call(itemEls)
-
     const outerWidth = outerEl.offsetWidth
-    const listWidth = listEl.offsetWidth
     const itemWidth = itemArray[splashIndex].offsetWidth
     const itemRightMargin = parseFloat(window.getComputedStyle(itemArray[splashIndex])["margin-right"])
 
-    const pixelsToMyLeft = ({ itemArray, splashIndex }) => {
-        return itemArray.reduce((acc, cur, idx) => idx < splashIndex ? cur.offsetWidth + acc : acc, 0)
+    const pixelsToMyLeft = ({ itemArray, splashIndex, itemRightMargin }) => {
+        return itemArray.reduce((acc, cur, idx) => idx < splashIndex ? cur.offsetWidth + itemRightMargin + acc : acc, 0)
     }
-    
+
     const numberToPixelStyle = number => number+"px"
-
-    const pixelsToLeft = pixelsToMyLeft({ itemArray: itemArray, splashIndex: splashIndex })
-
-    const marginLeftPixels = (pixelsToLeft - (outerWidth / 2.0)) - (itemWidth / 2)
+    const pixelsToLeft = pixelsToMyLeft({ itemArray: itemArray, splashIndex: splashIndex, itemRightMargin: itemRightMargin, })
+    const marginLeftPixels = (outerWidth / 2.0) - (itemWidth / 2.0) - pixelsToLeft
 
     return numberToPixelStyle(marginLeftPixels)
-
 }
 
 const setSplashMarginLeft = ({ listEl, pixelsOnLeft }) => {
@@ -44,7 +39,7 @@ const SplashSlider = (props) => {
     useEffect(
         () => setSplashMarginLeft({
             listEl: document.querySelector('div.splash-slider div.slide-outer ol'),
-            pixelsOnLeft: getMarginLeftPixelsFromSplashIndex({
+            pixelsOnLeft: getLeftPixelsFromSplashIndex({
                 splashIndex: props.splashRangeIndex,
                 outerEl: document.querySelector('div.splash-slider div.slide-outer'),
                 listEl: document.querySelector('div.splash-slider div.slide-outer ol'),
