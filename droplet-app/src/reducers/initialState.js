@@ -3,7 +3,7 @@ export default {
     overlay: false,
     newPostModal: { 
         visible: false,
-        postTypeId: 0,
+        postTypeIndex: 0,
         profilePictureUrl: '',
         username: '@username',
         postContent: '',

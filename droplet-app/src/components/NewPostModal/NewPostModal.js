@@ -1,21 +1,11 @@
 import React, { Component } from 'react'
 import './NewPostModal.css'
 import { connect } from 'react-redux'
-import { toggleNewPostModal } from '../../actions/postActions.js'
+import { toggleNewPostModal } from '../../actions/postActions'
 
-import SplashSlider from './SplashSlider.js'
+import PostTypeSelector from './PostTypeSelector'
+import SplashSlider from './SplashSlider'
 import submitIcon from './submit-icon.svg'
-
-const PostTypeSelector = () => (
-    <div className='post-type-selector'>
-        <ul onClick={() => {console.log("hi!")}}>
-            <li><span className='text-icon' /></li>
-            <li><span className='photo-icon' /></li>
-            <li><span className='video-icon' /></li>
-        </ul>
-        <input type='hidden' name='postTypeSelector' value='' />
-    </div>
-)
 
 const UserInfo = (props) => (
     <div className='user-info'>
@@ -66,7 +56,7 @@ class NewPostModal extends Component {
                 <form className='new-post-form' name='newPostForm' method='post' action="http://localhost:5000/posts">
                     <div className='top'>
                         <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
-                        <PostTypeSelector />
+                        <PostTypeSelector dispatch={this.props.dispatch} postTypeIndex={this.props.postTypeIndex} />
                         <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
                         <FileUpload />
                         <TextArea />
@@ -83,6 +73,7 @@ const mapStateToProps = (state) => {
     return {
         visiblity: state.newPostModal.visible,
         splashRangeIndex: state.newPostModal.splashRangeIndex,
+        postTypeIndex: state.newPostModal.postTypeIndex
     }
 }
 

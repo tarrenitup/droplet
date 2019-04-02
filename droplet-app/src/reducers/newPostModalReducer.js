@@ -13,6 +13,11 @@ export default function newPostModalReducer(state = initialState.newPostModal, a
           ...state,
           splashRangeIndex: action.splashRangeIndex, 
         }
+    case types.CHANGE_NEW_POST_TYPE:
+        return {
+          ...state,
+          postTypeIndex: action.postTypeIndex,
+        }
     default: 
       return state
   }

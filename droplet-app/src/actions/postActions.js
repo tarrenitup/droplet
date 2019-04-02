@@ -29,3 +29,10 @@ export function changeSplashRange(splashRangeIndex) {
         splashRangeIndex, 
     }
 }
+
+export function changeNewPostType(postTypeIndex) {
+    return {
+        type: types.CHANGE_NEW_POST_TYPE,
+        postTypeIndex,
+    }
+}
