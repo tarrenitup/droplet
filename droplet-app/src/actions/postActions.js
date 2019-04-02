@@ -4,7 +4,7 @@ import * as types from './actionTypes'
 /* Home posts */
 export function loadHomePosts() { 
     return function(dispatch) {
-        return PostsApi.getSamplePosts().then(homePosts => { // switch back to getPosts (sample for testing only.)
+        return PostsApi.getPosts().then(homePosts => {
             dispatch(loadHomePostsSuccess(homePosts))
         }).catch(error => {
             throw(error)
