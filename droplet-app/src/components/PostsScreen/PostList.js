@@ -14,7 +14,7 @@ const PostList = (props) => {
                     text={post.content} 
                     date={post.created} 
                     picture={post.postImage} 
-                    likes={post.likes}
+                    likes={post.likes.length}
                 />)
             )}
         </ul>
