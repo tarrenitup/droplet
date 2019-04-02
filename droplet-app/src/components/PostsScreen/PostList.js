@@ -7,7 +7,7 @@ const PostList = (props) => {
 
     return (
         <ul className="post-list">
-            {props.homePosts.map(post => (
+            {props.homePosts.map((post, index) => (
                 <Card 
                     key={post._id} 
                     name={post.username} 
