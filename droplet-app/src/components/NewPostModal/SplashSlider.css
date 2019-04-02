@@ -105,6 +105,12 @@ div.splash-slider ol li {
     white-space: nowrap;
     margin-right: 18px;
     color: #818181;
+    font-weight: 400;
+    transition: font-weight 0.3s ease-in-out;
+}
+
+div.splash-slider ol li.selected {
+    font-weight: 700;
 }
 
 /* Use this pseudo el to put 'padding' at the end of the horizontal scroll */

@@ -3,13 +3,10 @@ import { useEffect } from 'react'
 import './PostTypeSelector.css'
 import { changeNewPostType } from '../../actions/postActions'
 
-
 const selectPostType = (dispatch, els, event) => {
-
     const clickedLi = event.target.closest('li')
     const itemsArray = [].slice.call(els)
     const clickedLiIndex = itemsArray.indexOf(clickedLi)
-
     dispatch(changeNewPostType(clickedLiIndex))
 }
 

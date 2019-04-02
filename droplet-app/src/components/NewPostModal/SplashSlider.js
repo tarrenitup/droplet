@@ -30,15 +30,24 @@ const getLeftPixelsFromSplashIndex = ({ splashIndex, outerEl, listEl, itemEls })
     return numberToPixelStyle(marginLeftPixels)
 }
 
-const setSplashMarginLeft = ({ listEl, pixelsOnLeft }) => {
+const updateSplashDOM = ({ listEl, inputEl, splashIndex, itemEls, pixelsOnLeft }) => {
+    const itemArray = [].slice.call(itemEls)
+
     listEl.style.marginLeft = pixelsOnLeft
+    itemArray.map((item) => item.classList.remove('selected'))
+    itemArray[splashIndex].classList.add('selected')
+    inputEl.value = splashIndex
+
 }
 
 const SplashSlider = (props) => { 
     
     useEffect(
-        () => setSplashMarginLeft({
+        () => updateSplashDOM({
             listEl: document.querySelector('div.splash-slider div.slide-outer ol'),
+            inputEl: document.querySelector('div.splash-slider input.splashSelection'),
+            splashIndex: props.splashRangeIndex,
+            itemEls: document.querySelectorAll('div.splash-slider div.slide-outer ol li'),
             pixelsOnLeft: getLeftPixelsFromSplashIndex({
                 splashIndex: props.splashRangeIndex,
                 outerEl: document.querySelector('div.splash-slider div.slide-outer'),
@@ -73,7 +82,7 @@ const SplashSlider = (props) => {
             <span className='arrow right' onClick={() => incrementSplash({dispatch: props.dispatch, currentSplash: props.splashRangeIndex})}>
                 <span />
             </span>
-            <input name='splashSelection' type='hidden' value='10' />
+            <input name='splashSelection' className='splashSelection' type='hidden' value='10' />
         </div>
     )
 }
