@@ -32,9 +32,7 @@ router.get('/', (req, res, next) => {
             return res.status(500).send(err);
         }
         else {
-            res.status(200).send({
-                message: post
-            });
+            res.status(200).send(post);
         }
     });
 });
@@ -117,6 +115,7 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
     }
 });
 
+//Return one specific post
 router.get('/:postId', (req, res, next) => {
 
     //Get ID of post to return
