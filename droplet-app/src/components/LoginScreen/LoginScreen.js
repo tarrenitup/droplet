@@ -82,12 +82,17 @@ class LoginScreen extends Component{
                             onChange={this.onChange}
                         />
                         <input
-                            className="submit"
+                            className="submitLogin"
                             value="Login"
                             type="submit"
                             onClick={this.onSubmit}
                         />
                     </form>
+                    <div className = "link">
+                        New user?&nbsp;
+                        <a href="http://localhost:3000/signup">Click here</a>
+                        &nbsp;to sign up.
+                    </div>
                 </div>
           </main>
 
