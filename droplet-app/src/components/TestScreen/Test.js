@@ -9,6 +9,8 @@ class Test extends Component{
             messages: [],
         }
         this.onGetUserPosts = this.onGetUserPosts.bind(this);
+        this.onGetUserPostsContent = this.onGetUserPostsContent.bind(this);
+
     }
 
     onGetLocation(event){
@@ -43,6 +45,22 @@ class Test extends Component{
             })
         console.log(this.state.messages);
     }
+
+    onGetUserPostsContent(event){
+        event.preventDefault();
+        const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
+        console.log(fetchURL);
+        fetch(fetchURL)
+            .then(results => {
+                return results.json()
+            }).then(data =>{
+                this.setState({
+                    messages: data.messages,
+                })
+            })
+        console.log(this.state.messages);
+    }
+
     render(){
         return(
             <main className="test-screen">
@@ -64,6 +82,12 @@ class Test extends Component{
                     value="Get User Posts"
                     type="submit"
                     onClick={this.onGetUserPosts}
+                />
+                <input
+                    className="getUserPostContent"
+                    value="Get User Posts Content"
+                    type="submit"
+                    onClick={this.onGetUserPostsContent}
                 />
                 </form>
             </main>
