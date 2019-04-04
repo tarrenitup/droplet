@@ -22,6 +22,7 @@ div.post-type-selector ul li {
     height: 40px;
     justify-content: center;
     align-items: center;
+    transition: border-color 0.3s, background-image 0.3s;
 }
 div.post-type-selector ul li.selected {
     border: 1px solid #00A9FF;
