@@ -32,9 +32,9 @@ const postSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-    likesupdated: {
+    interactedTime: {
         type: Date,
-        default: undefined
+        default: Date.now
     },
     location: {
         type: {
