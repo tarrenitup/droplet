@@ -342,6 +342,7 @@ router.patch('/:commentId',(req, res, next) => {
 });
 
 //DELETE THIS LATER. FOR TESTING PURPOSES ONLY
+/*
 router.get('/testAuth',(req,res,next) => {
     res.status(200).send({
         pass: "Passed"
@@ -350,7 +351,7 @@ router.get('/testAuth',(req,res,next) => {
         pass: "Passed"
     });
 });
-
+*/
 
 
 module.exports = router;
