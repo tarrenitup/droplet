@@ -37,6 +37,22 @@ router.get('/', (req, res, next) => {
     });
 });
 
+//Get all a user's posts
+router.get('/:userID', (req, res, next) => {
+    const Uid = req.params.userId;
+
+    Post.find({userid: Uid},(err, posts) => {
+      if(err) {
+            return res.status(500).send(err);
+        }
+        else {
+            res.status(200).send({
+                messages: posts
+            });
+        }
+    });
+});
+
 //Get all posts within 10 meters
 router.get('/nearby', (req, res, next) => {
     //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32
@@ -103,8 +119,10 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         post.content = req.body.content;
         post.postImage = undefined;
         post.location = req.body.location;
+
         //Save it
-        await post.save()
+        //Unhandled promise rejection?
+        await post.save();
 
         //Associates the comment with a Post
         user.posts.push(post._id);
@@ -226,10 +244,10 @@ router.post('/:userId/:postId/like', (req, res, next) => {
                     return res.status(500).send(err);
                 }
                 else {
-                    Post.likesupdated = new Date();
+                    Post.interactedTime = new Date();
                     return res.status(200).json({
                         success: 'You have liked this post!',
-                        likesupdated: likesupdated
+                        interactedTime: likesupdated
                     });
                 }
             });
@@ -258,6 +276,9 @@ router.post('/:userId/:postId/comment', async (req, res) => {
 
     //Associates the comment with a Post
     post.comments.push(comment._id);
+
+    //Update interacted time on Post
+    post.interactedTime = new Date();
 
     //Save the post (so comment is now in comments array)
     await post.save();
@@ -335,5 +356,17 @@ router.patch('/:commentId',(req, res, next) => {
         });
     });
 });
+
+//DELETE THIS LATER. FOR TESTING PURPOSES ONLY
+router.get('/testAuth',(req,res,next) => {
+    res.status(200).send({
+        pass: "Passed"
+    });
+    res.status(200).json({
+        pass: "Passed"
+    });
+});
+
+
 
 module.exports = router;
