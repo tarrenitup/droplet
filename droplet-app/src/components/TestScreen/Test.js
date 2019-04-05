@@ -6,7 +6,11 @@ class Test extends Component{
     constructor(){
         super();
         this.state = {
+<<<<<<< HEAD
             messageIDs: [],
+=======
+            messages: [],
+>>>>>>> 5d153475785f7c3e424859912e18e1f6f4c46cfd
             posttext: '',
             location: []
         }
@@ -33,8 +37,13 @@ class Test extends Component{
                 console.log(position.coords.latitude);
                 console.log(position.coords.longitude);
                 this.setState({
+<<<<<<< HEAD
                     location: [position.coords.longitude,
                         position.coords.latitude]
+=======
+                    location: [position.coords.latitude,
+                        position.coords.longitude]
+>>>>>>> 5d153475785f7c3e424859912e18e1f6f4c46cfd
                 })
             })
         }
@@ -77,8 +86,12 @@ class Test extends Component{
             body:JSON.stringify({
                 content: this.state.posttext,
                 location: {
+<<<<<<< HEAD
                     type: "Point",
                     coordinates: this.state.location
+=======
+                    coordiantes: this.state.location
+>>>>>>> 5d153475785f7c3e424859912e18e1f6f4c46cfd
                 }
             })
         })
@@ -104,25 +117,46 @@ class Test extends Component{
             .then(results => {
                 return results.json();
             }).then(data =>{
+<<<<<<< HEAD
                 this.setState({
                     messageIDs: data.message[0].posts,
                 })
                 console.log(this.state.messageIDs);
             })
+=======
+                //console.log(data);
+                this.setState({
+                    messages: data.message,
+                })
+            })
+        console.log(this.state.messages);
+>>>>>>> 5d153475785f7c3e424859912e18e1f6f4c46cfd
     }
 
     //Currently using wrong endpoint. needs postIDs.
     //Need to get onGetUserPosts working first, store in state, use here
     onGetUserPostsContent(event){
         event.preventDefault();
+<<<<<<< HEAD
         const fetchURL = 'http://localhost:5000/posts/' + this.state.messageIDs[0];
+=======
+        const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
+>>>>>>> 5d153475785f7c3e424859912e18e1f6f4c46cfd
         console.log(fetchURL);
         fetch(fetchURL)
             .then(results => {
                 return results.json()
             }).then(data =>{
+<<<<<<< HEAD
                 console.log(data);
             })
+=======
+                this.setState({
+                    messages: data.messages,
+                })
+            })
+        console.log(this.state.messages);
+>>>>>>> 5d153475785f7c3e424859912e18e1f6f4c46cfd
     }
 
     render(){

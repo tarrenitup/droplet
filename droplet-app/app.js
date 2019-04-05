@@ -34,7 +34,11 @@ app.use((req, res, next) => {
 
 //Routes to handle requests
 app.use('/users', userRoutes);
+<<<<<<< HEAD
 app.use('/posts', postRoutes);
+=======
+app.use('/posts', postRoutes)
+>>>>>>> 5d153475785f7c3e424859912e18e1f6f4c46cfd
 
 //404 error handling
 app.use((req, res, next) => {
