@@ -34,15 +34,7 @@ app.use((req, res, next) => {
 
 //Routes to handle requests
 app.use('/users', userRoutes);
-<<<<<<< HEAD
-<<<<<<< HEAD
 app.use('/posts', postRoutes);
-=======
-app.use('/posts', postRoutes)
->>>>>>> Fixed routes, likescreen testing
-=======
-app.use('/posts', postRoutes);
->>>>>>> ???
 
 //404 error handling
 app.use((req, res, next) => {

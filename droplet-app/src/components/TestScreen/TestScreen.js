@@ -5,7 +5,7 @@ class Test extends Component {
     constructor(){
         super();
         this.state = {
-            messageIDs: [],
+            messages: [],
             posttext: '',
             location: []
         }
@@ -17,9 +17,6 @@ class Test extends Component {
 
     }
 
-<<<<<<< HEAD:droplet-app/src/components/TestScreen/TestScreen.js
-    onGetLocation(event) {
-=======
     onChange(event){
         //event.target.name returns name from <input>
         this.setState({
@@ -28,7 +25,6 @@ class Test extends Component {
     }
 
     onGetLocation(event){
->>>>>>> Added test screen changes:droplet-app/src/components/TestScreen/Test.js
         event.preventDefault();
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition((position)=>{
@@ -36,8 +32,8 @@ class Test extends Component {
                 console.log(position.coords.latitude);
                 console.log(position.coords.longitude);
                 this.setState({
-                    location: [position.coords.longitude,
-                        position.coords.latitude]
+                    location: [position.coords.latitude,
+                        position.coords.longitude]
                 })
             })
         }
@@ -80,8 +76,7 @@ class Test extends Component {
             body:JSON.stringify({
                 content: this.state.posttext,
                 location: {
-                    type: "Point",
-                    coordinates: this.state.location
+                    coordiantes: this.state.location
                 }
             })
         })
@@ -107,25 +102,29 @@ class Test extends Component {
             .then(results => {
                 return results.json();
             }).then(data =>{
+                //console.log(data);
                 this.setState({
-                    messageIDs: data.message[0].posts,
+                    messages: data.message,
                 })
-                console.log(this.state.messageIDs);
             })
+        console.log(this.state.messages);
     }
 
     //Currently using wrong endpoint. needs postIDs.
     //Need to get onGetUserPosts working first, store in state, use here
     onGetUserPostsContent(event){
         event.preventDefault();
-        const fetchURL = 'http://localhost:5000/posts/' + this.state.messageIDs[0];
+        const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
         console.log(fetchURL);
         fetch(fetchURL)
             .then(results => {
                 return results.json()
             }).then(data =>{
-                console.log(data);
+                this.setState({
+                    messages: data.messages,
+                })
             })
+        console.log(this.state.messages);
     }
 
     render(){
