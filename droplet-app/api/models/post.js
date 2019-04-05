@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
@@ -69,6 +70,8 @@ postSchema.index({location: '2dsphere'});
 
 module.exports = mongoose.model('Post', postSchema);
 =======
+=======
+>>>>>>> idk
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
@@ -138,4 +141,7 @@ postSchema.post('remove', function(next){
 postSchema.index({location: '2dsphere'});
 
 module.exports = mongoose.model('Post', postSchema);
+<<<<<<< HEAD
 >>>>>>> Random cmmets. delete later
+=======
+>>>>>>> idk
