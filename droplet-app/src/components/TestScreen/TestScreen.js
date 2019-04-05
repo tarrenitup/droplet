@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import './Test.css'
 import Auth from '../Auth/Auth.js'
 
-class Test extends Component {
+class Test extends Component{
     constructor(){
         super();
         this.state = {
@@ -15,7 +16,7 @@ class Test extends Component {
         this.onGetUserPosts = this.onGetUserPosts.bind(this);
         this.onGetUserPostsContent = this.onGetUserPostsContent.bind(this);
 
-    }
+    } 
 
     onChange(event){
         //event.target.name returns name from <input>
@@ -24,7 +25,7 @@ class Test extends Component {
         })
     }
 
-    onGetLocation(event) {
+    onGetLocation(event){
         event.preventDefault();
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition((position)=>{
