@@ -6,7 +6,7 @@ class Test extends Component{
     constructor(){
         super();
         this.state = {
-            messages: [],
+            messageIDs: [],
             posttext: '',
             location: []
         }
@@ -33,8 +33,8 @@ class Test extends Component{
                 console.log(position.coords.latitude);
                 console.log(position.coords.longitude);
                 this.setState({
-                    location: [position.coords.latitude,
-                        position.coords.longitude]
+                    location: [position.coords.longitude,
+                        position.coords.latitude]
                 })
             })
         }
@@ -77,7 +77,8 @@ class Test extends Component{
             body:JSON.stringify({
                 content: this.state.posttext,
                 location: {
-                    coordiantes: this.state.location
+                    type: "Point",
+                    coordinates: this.state.location
                 }
             })
         })
@@ -103,29 +104,25 @@ class Test extends Component{
             .then(results => {
                 return results.json();
             }).then(data =>{
-                //console.log(data);
                 this.setState({
-                    messages: data.message,
+                    messageIDs: data.message[0].posts,
                 })
+                console.log(this.state.messageIDs);
             })
-        console.log(this.state.messages);
     }
 
     //Currently using wrong endpoint. needs postIDs.
     //Need to get onGetUserPosts working first, store in state, use here
     onGetUserPostsContent(event){
         event.preventDefault();
-        const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
+        const fetchURL = 'http://localhost:5000/posts/' + this.state.messageIDs[0];
         console.log(fetchURL);
         fetch(fetchURL)
             .then(results => {
                 return results.json()
             }).then(data =>{
-                this.setState({
-                    messages: data.messages,
-                })
+                console.log(data);
             })
-        console.log(this.state.messages);
     }
 
     render(){
