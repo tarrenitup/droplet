@@ -54,10 +54,10 @@ class LoginScreen extends Component{
         .then(function(json){
             console.log(JSON.stringify(json.token));
             Auth.setCookie('token', json.token, 1);
-            window.location.assign('/');
+            //window.location.assign('/');
         }).catch((error)=>{
             console.log(error);
-            window.location.reload();
+            //window.location.reload();
         });
     }
 
