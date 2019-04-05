@@ -7,10 +7,22 @@ class Test extends Component{
         super();
         this.state = {
             messages: [],
+            posttext: '',
+            location: []
         }
+        this.onGetLocation = this.onGetLocation.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onPost = this.onPost.bind(this);
         this.onGetUserPosts = this.onGetUserPosts.bind(this);
         this.onGetUserPostsContent = this.onGetUserPostsContent.bind(this);
 
+    }
+
+    onChange(event){
+        //event.target.name returns name from <input>
+        this.setState({
+            [event.target.name]: event.target.value
+        })
     }
 
     onGetLocation(event){
@@ -20,6 +32,10 @@ class Test extends Component{
                 console.log(position);
                 console.log(position.coords.latitude);
                 console.log(position.coords.longitude);
+                this.setState({
+                    location: [position.coords.latitude,
+                        position.coords.longitude]
+                })
             })
         }
     }
@@ -31,14 +47,63 @@ class Test extends Component{
         console.log(Auth.parseJwt(Auth.getCookie('token')).sub);
     }
 
+    onTestAuth(event){
+        event.preventDefault();
+        fetch("http://localhost:5000/posts/testAuth",{
+            method:'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json'
+            }
+        }).then(results => {
+            return results.json();
+        }).then(data => {
+            console.log(data);
+        })
+    }
+
+    onPost(event){
+        event.preventDefault();
+        const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
+        console.log(fetchURL);
+        console.log(this.state.posttext);
+        console.log(this.state.location);
+        fetch(fetchURL,{
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json'
+            },
+            body:JSON.stringify({
+                content: this.state.posttext,
+                location: {
+                    coordiantes: this.state.location
+                }
+            })
+        })
+            .then(results => {
+                return results.json()
+            })
+    }
+
+
+
     onGetUserPosts(event){
         event.preventDefault();
         const fetchURL = 'http://localhost:5000/users/' + Auth.parseJwt(Auth.getCookie('token')).sub;
         console.log(fetchURL);
-        fetch(fetchURL)
+        console.log("Change 1");
+        fetch(fetchURL,{
+            method:'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json'
+            }
+        })
             .then(results => {
-                return results.json()
+                return results.json();
             }).then(data =>{
+                //console.log(data);
                 this.setState({
                     messages: data.message,
                 })
@@ -46,6 +111,8 @@ class Test extends Component{
         console.log(this.state.messages);
     }
 
+    //Currently using wrong endpoint. needs postIDs.
+    //Need to get onGetUserPosts working first, store in state, use here
     onGetUserPostsContent(event){
         event.preventDefault();
         const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
@@ -89,6 +156,26 @@ class Test extends Component{
                     type="submit"
                     onClick={this.onGetUserPostsContent}
                 />
+                <input
+                    classame="testRequireAuth"
+                    value="Test RequireAuth"
+                    type="submit"
+                    onClick={this.onTestAuth}
+                />
+                <input
+                    className="form-text"
+                    placeholder="Post text"
+                    name="posttext"
+                    type="text"
+                    onChange={this.onChange}
+                />
+                <input
+                    className="submitPost"
+                    value="Post"
+                    type="submit"
+                    onClick={this.onPost}
+                />
+
                 </form>
             </main>
         )
