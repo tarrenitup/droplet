@@ -37,22 +37,6 @@ router.get('/', (req, res, next) => {
     });
 });
 
-//Get all a user's posts
-router.get('/:userID', (req, res, next) => {
-    const Uid = req.params.userId;
-
-    Post.find({userid: Uid},(err, posts) => {
-      if(err) {
-            return res.status(500).send(err);
-        }
-        else {
-            res.status(200).send({
-                messages: posts
-            });
-        }
-    });
-});
-
 //Get all posts within 10 meters
 router.get('/nearby', (req, res, next) => {
     //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32

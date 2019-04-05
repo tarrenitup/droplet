@@ -7,6 +7,7 @@ class Test extends Component{
         super();
         this.state = {
             messageIDs: [],
+            postList: [],
             posttext: '',
             location: []
         }
@@ -16,7 +17,7 @@ class Test extends Component{
         this.onGetUserPosts = this.onGetUserPosts.bind(this);
         this.onGetUserPostsContent = this.onGetUserPostsContent.bind(this);
 
-    } 
+    }
 
     onChange(event){
         //event.target.name returns name from <input>
@@ -111,18 +112,23 @@ class Test extends Component{
             })
     }
 
-    //Currently using wrong endpoint. needs postIDs.
-    //Need to get onGetUserPosts working first, store in state, use here
     onGetUserPostsContent(event){
         event.preventDefault();
-        const fetchURL = 'http://localhost:5000/posts/' + this.state.messageIDs[0];
-        console.log(fetchURL);
-        fetch(fetchURL)
-            .then(results => {
-                return results.json()
-            }).then(data =>{
-                console.log(data);
-            })
+        var i;
+        for(i = 0; i < this.state.messageIDs.length;i++){
+            let fetchURL = 'http://localhost:5000/posts/' + this.state.messageIDs[i];
+            console.log(fetchURL);
+            fetch(fetchURL)
+                .then(results => {
+                    return results.json()
+                }).then(data =>{
+                    let myPosts = this.state.postList;
+                    myPosts.push(data.message[0]);
+                    this.setState({
+                        postList: myPosts,
+                    })
+                })
+        }
     }
 
     render(){
