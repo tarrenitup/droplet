@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import './PostList.css'
 import Card from '../Card/Card'
 
-const PostList = ({posts}) => {  
-  return (
+const PostList = (props) => {  
+
+    return (
         <ul className="post-list">
-            {posts.map(post => (
+            {props.homePosts.map((post, index) => (
                 <Card 
                     key={post._id} 
                     name={post.username} 
                     text={post.content} 
                     date={post.created} 
                     picture={post.postImage} 
-                    likes={post.likes} 
-                    // edited={post.edited} 
+                    likes={post.likes.length}
                 />)
             )}
         </ul>
@@ -22,7 +22,7 @@ const PostList = ({posts}) => {
 }
 
 PostList.propTypes = {
-  posts: PropTypes.array.isRequired
+  homePosts: PropTypes.array.isRequired
 }
 
 export default PostList;

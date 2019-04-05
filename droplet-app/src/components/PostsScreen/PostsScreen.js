@@ -2,25 +2,20 @@ import React from 'react'
 import { connect } from 'react-redux'
 import './PostsScreen.css'
 import PropTypes from 'prop-types'
-import PostList from './PostList';
-
-import * as postsActions from '../../actions/postActions';
+import PostList from './PostList'
 
 const PostsScreen = (props) => (
     <main className='posts-screen screen'>
-       <PostList posts={props.posts} />
+       <PostList homePosts={props.homePosts} />
     </main>
 )
 
 PostsScreen.propTypes = {
-    posts: PropTypes.array.isRequired
+    homePosts: PropTypes.array.isRequired
 };
 
-function mapStateToProps(state, ownProps) {
-    return {
-        // props for PostsScreen: state from store (updates on each state change)
-        posts: state.posts
-    };
+function mapStateToProps(state) {
+    return { homePosts: state.homePosts }
 } 
 
 export default connect(mapStateToProps)(PostsScreen); 
