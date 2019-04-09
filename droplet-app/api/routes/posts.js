@@ -127,9 +127,7 @@ router.get('/:postId', (req, res, next) => {
             return res.status(500).send(err);
         }
         else {
-            res.status(200).send({
-                message: post
-            });
+            res.status(200).send(post);
         }
     });
 });
