@@ -93,18 +93,21 @@ class Test extends Component{
             })
     }
 
-
-
     onGetUserPosts(event){
         event.preventDefault();
-        const fetchURL = 'http://localhost:5000/users/' + Auth.parseJwt(Auth.getCookie('token')).sub;
+        const userID = Auth.parseJwt(Auth.getCookie('token')).sub
+        const fetchURL = 'http://localhost:5000/users/' + userID;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        console.log(header);
         console.log(fetchURL);
         console.log("Change 1");
         fetch(fetchURL,{
             method:'GET',
             headers:{
                 'Accept': 'application/json',
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': header
             }
         })
             .then(results => {
@@ -119,6 +122,9 @@ class Test extends Component{
 
     onGetUserPostsContent(event){
         event.preventDefault();
+        this.setState({
+            postList: []
+        })
         var i;
         for(i = 0; i < this.state.messageIDs.length;i++){
             let fetchURL = 'http://localhost:5000/posts/' + this.state.messageIDs[i];
@@ -134,6 +140,7 @@ class Test extends Component{
                     })
                 })
         }
+        console.log(this.state.postList);
     }
 
     render(){

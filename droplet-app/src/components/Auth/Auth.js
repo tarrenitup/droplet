@@ -19,11 +19,15 @@ function requireAuthentication(req, res, next){
     const header = req.get('Authorization') || '';
     const headerContent = header.split(' ');
     const token = headerContent[0] === 'Bearer' ? headerContent[1] : null;
+    console.log(header);
+    console.log(headerContent);
+    console.log(token);
     jwt.verify(token, secret, function(err, payload){
         if(!err){
             req.user = payload.sub;
             next();
         }else{
+            console.log("ERRORRRRRRR");
             res.status(401).json({
                 error: "Authentication token is invalid"
             });

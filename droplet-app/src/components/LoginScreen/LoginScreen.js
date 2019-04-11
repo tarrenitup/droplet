@@ -52,13 +52,13 @@ class LoginScreen extends Component{
             }
         })
         .then(function(json){
-            console.log(JSON.stringify(json.token));
+            //console.log(JSON.stringify(json.token));
             Auth.setCookie('token', json.token, 1);
-            console.log(Auth.parseJwt(Auth.getCookie('token')).sub);
-            //window.location.assign('/');
-            console.log(Auth.isAuthenticated());
+            //console.log(Auth.parseJwt(Auth.getCookie('token')).sub);
+            window.location.assign('/');
+            //console.log(Auth.isAuthenticated());
         }).catch((error)=>{
-            console.log(error);
+            //console.log(error);
             window.location.reload();
         });
     }
