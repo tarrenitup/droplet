@@ -63,6 +63,11 @@ class Test extends Component{
         })
     }
 
+    onTestIsAuth(event){
+        event.preventDefault();
+        console.log(Auth.isAuthenticated());
+    }
+
     onPost(event){
         event.preventDefault();
         const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
@@ -164,6 +169,12 @@ class Test extends Component{
                     value="Test RequireAuth"
                     type="submit"
                     onClick={this.onTestAuth}
+                />
+                <input
+                    classame="testIsAuth"
+                    value="Test IsAuth"
+                    type="submit"
+                    onClick={this.onTestIsAuth}
                 />
                 <input
                     className="form-text"

@@ -31,6 +31,19 @@ function requireAuthentication(req, res, next){
     });
 }
 
+function isAuthenticated(){
+    if(getCookie('token') != null){
+        try{
+            jwt.verify(getCookie('token'), secret);
+        }
+        catch(error){
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
 function setCookie(name,value,days) {
     let expires = "";
     if (days) {
@@ -72,3 +85,4 @@ exports.setCookie = setCookie;
 exports.getCookie = getCookie;
 exports.eraseCookie = eraseCookie;
 exports.parseJwt = parseJwt;
+exports.isAuthenticated = isAuthenticated;

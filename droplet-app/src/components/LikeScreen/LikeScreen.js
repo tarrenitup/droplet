@@ -8,19 +8,23 @@ class LikeScreen extends Component{
         this.state = {
             messages: [],
         }
+        this.createPosts = this.createPosts.bind(this);
         this.createPosts();
     }
 
     //DEFINE NUMPOSTS
     createPosts(){
         console.log("Testing Post list");
-        fetch('http://localhost:5000/posts/')
+        fetch('http://localhost:5000/posts')
             .then(results => {
                 return results.json()
             }).then(data =>{
                 this.setState({
-                    messages: data.message,
+                    messages: data,
                 })
+            })
+            .catch((error) => {
+                return error
             })
     }
 
@@ -35,7 +39,6 @@ class LikeScreen extends Component{
                 likes={message.likes.length}
             />
         );
-
         //Example...
         //let PostItems = Posts.map((p) => <Card key = p.name>{p.name}</Card>);
         return(
