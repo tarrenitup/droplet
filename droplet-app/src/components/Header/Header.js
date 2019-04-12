@@ -13,17 +13,19 @@ function logout(){
     //return <Redirect to='/login' />
 }
 
-function displayLogout(){
-    return (<div>heyho</div>)
+const DisplayLogout = () =>{
     if(Auth.isAuthenticated() === true){
-        return <button onClick={logout}>Logout</button>
+        return (<button onClick={logout}>Logout</button>)
+    }
+    else{
+        return <div/>
     }
 }
 
 const Header = () => (
     <header className="app-header">
         <img className='logo' src={Logo} alt='Droplet logo' />
-        <displayLogout/>
+        <DisplayLogout/>
         <div className='theme-dot' alt='Theme switcher'></div>
     </header>
 )
