@@ -1,32 +1,26 @@
-// import React from 'react'
-// import MapBackground from '../MapBackground/MapBackground.js'
-// import './MapScreen.css'
-//
-// const MapScreen = () => (
-//     <main className='map-screen screen'>
-//         map screen here.
-//     </main>
-// )
-//
-// export default MapScreen;
-
 import React from 'react'
+import { connect } from 'react-redux'
 import ReactDOM from 'react-dom'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './MapScreen.css'
 import Logo from './logo.png'
+import { loadHomePosts } from '../../actions/postActions'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGlkZW5uIiwiYSI6ImNqcmg2NDU5czA4b3A0M25udmUxcWpjcmEifQ.J9ThJ9sMDK7ANhYkSpVnyg';
 
 class Map extends React.Component {
 
-  constructor(props: Props) {
+  constructor(props) {
+    props.dispatch(loadHomePosts())
+
     super(props);
+    console.log(props.homePosts)
+
     this.state = {
       lng: -122,
-      lat: 37,
-      zoom: 1.5
+      lat: 45,
+      zoom: 5
     };
   }
 
@@ -35,7 +29,7 @@ class Map extends React.Component {
     m.className = "marker";
 
     const p = document.createElement('div');
-    p.className = "popup";
+    p.className = "popup"
 
     //Create Popup
     var popup = new mapboxgl.Popup({ offset: 25 })
@@ -46,14 +40,9 @@ class Map extends React.Component {
       .setLngLat([lng, lat])
       .addTo(map)
       .setPopup(popup);
-
   }
 
-
-
-
   componentDidMount() {
-
     const { lng, lat, zoom } = this.state;
     const map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -74,10 +63,8 @@ class Map extends React.Component {
     map.on('move', () => {
       const { lng, lat } = map.getCenter();
       const bounds = map.getBounds();
-      console.log("Center LNG LAT: " + lng + " " + lat);
-      console.log("NW boundary: " + bounds.getNorthWest());
-      console.log("SW boundary: " + bounds.getNorthWest());
-
+      const dist = distance(lat,lng,bounds.getNorthWest().lat,bounds.getNorthWest().lng, "K");
+      const meterRadius = dist *1000
 
       this.setState({
         lng: lng.toFixed(4),
@@ -86,15 +73,15 @@ class Map extends React.Component {
       });
     });
 
-    this.createMarker(-122.414, 37.776, map, "Name", "Data");
-    this.createMarker(-122.6587, 45.5122, map, "Name", "Data");
-    this.createMarker(-122.698059, 45.526893, map, "Name", "Data");
-    this.createMarker(-122.823782, 45.554519, map, "Name", "Data");
-    this.createMarker(-123.279047,44.567077,map, "Name", "Data");
-    this.createMarker(-123.270893,44.569584,map, "Name", "Data");
+    for(var i = 0; i < this.props.homePosts.length; i++){
+      const longitude = this.props.homePosts[i].location.coordinates[0]
+      const latitude = this.props.homePosts[i].location.coordinates[1]
+      const username = this.props.homePosts[i].username
+      const data = this.props.homePosts[i].content
+      this.createMarker(longitude, latitude, map, username, data);
+    }
 
   }
-
 
   render() {
     const { lng, lat, zoom } = this.state;
@@ -103,4 +90,34 @@ class Map extends React.Component {
     );
   }
 }
-export default Map;
+
+//GeoDataSource.com
+function distance(lat1, lon1, lat2, lon2, unit) {
+	if ((lat1 == lat2) && (lon1 == lon2)) {
+		return 0;
+	}
+	else {
+		var radlat1 = Math.PI * lat1/180;
+		var radlat2 = Math.PI * lat2/180;
+		var theta = lon1-lon2;
+		var radtheta = Math.PI * theta/180;
+		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+		if (dist > 1) {
+			dist = 1;
+		}
+		dist = Math.acos(dist);
+		dist = dist * 180/Math.PI;
+		dist = dist * 60 * 1.1515;
+		if (unit=="K") { dist = dist * 1.609344 }
+		if (unit=="N") { dist = dist * 0.8684 }
+		return dist;
+	}
+}
+
+function mapStateToProps(state) {
+    return {
+      homePosts: state.homePosts
+    }
+}
+
+export default connect(mapStateToProps)(Map);
