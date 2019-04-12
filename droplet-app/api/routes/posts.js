@@ -117,6 +117,30 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
     }
 });
 
+//TEST get all a user's posts
+//TEST - extra comments to make it easier to see later
+//TEST
+//TEST
+//TEST
+//TEST
+//TEST
+//TEST
+//TEST
+//TEST
+router.get('/getUserPosts/:userId', (req,res,next)=>{
+    const Uid = req.params.userId;
+    Post.find({userid: Uid}, (err, posts) =>{
+        if(err){
+            return res.status(500).send(err);
+        }
+        else{
+            res.status(200).send({
+                messages: posts
+            });
+        }
+    });
+})
+
 //Return one specific post
 router.get('/:postId', (req, res, next) => {
 
@@ -341,17 +365,6 @@ router.patch('/:commentId',(req, res, next) => {
     });
 });
 
-//DELETE THIS LATER. FOR TESTING PURPOSES ONLY
-/*
-router.get('/testAuth',(req,res,next) => {
-    res.status(200).send({
-        pass: "Passed"
-    });
-    res.status(200).json({
-        pass: "Passed"
-    });
-});
-*/
 
 
 module.exports = router;

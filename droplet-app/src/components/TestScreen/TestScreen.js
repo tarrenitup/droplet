@@ -102,6 +102,7 @@ class Test extends Component{
         console.log(header);
         console.log(fetchURL);
         console.log("Change 1");
+        let testMessages = [];
         fetch(fetchURL,{
             method:'GET',
             headers:{
@@ -116,7 +117,10 @@ class Test extends Component{
                 this.setState({
                     messageIDs: data.message[0].posts,
                 })
+                testMessages = data.message[0].posts;
                 console.log(this.state.messageIDs);
+                console.log("Marker for test array");
+                console.log(testMessages);
             })
     }
 
@@ -126,6 +130,7 @@ class Test extends Component{
             postList: []
         })
         var i;
+        /*
         for(i = 0; i < this.state.messageIDs.length;i++){
             let fetchURL = 'http://localhost:5000/posts/' + this.state.messageIDs[i];
             console.log(fetchURL);
@@ -141,6 +146,15 @@ class Test extends Component{
                 })
         }
         console.log(this.state.postList);
+        */
+        const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
+        const fetchURL = 'http://localhost:5000/posts/getUserPosts/' + userID;
+        fetch(fetchURL)
+        .then(results=> {
+            return results.json()
+        }).then(data =>{
+            console.log(data.messages);
+        })
     }
 
     render(){
