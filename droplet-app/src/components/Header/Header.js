@@ -14,16 +14,16 @@ function logout(){
 }
 
 function displayLogout(){
-    //if(Auth.isAuthenticated() === true){
-    //    return <button onClick={logout}>Logout</button>
-    //}
+    return (<div>heyho</div>)
+    if(Auth.isAuthenticated() === true){
+        return <button onClick={logout}>Logout</button>
+    }
 }
 
 const Header = () => (
     <header className="app-header">
         <img className='logo' src={Logo} alt='Droplet logo' />
-        //<displayLogout/>
-        <button className='logout' onClick={logout}>Logout</button>
+        <displayLogout/>
         <div className='theme-dot' alt='Theme switcher'></div>
     </header>
 )

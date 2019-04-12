@@ -46,8 +46,11 @@ class LikeScreen extends Component{
         const items = this.state.messages.map((message, key)=>
             <Card
                 key={message._id}
+                postID={message._id}
                 name={message.username}
                 text={message.content}
+                date={message.created}
+                picture={message.postImage}
                 likes={message.likes.length}
             />
         );

@@ -157,6 +157,8 @@ class Test extends Component{
             return results.json()
         }).then(data =>{
             console.log(data.messages);
+            console.log(data.messages[4]._id);
+            console.log(data.messages[4].likesupdated);
         })
     }
 
