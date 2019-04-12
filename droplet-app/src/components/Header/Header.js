@@ -15,7 +15,7 @@ function logout(){
 
 const DisplayLogout = () =>{
     if(Auth.isAuthenticated() === true){
-        return (<button onClick={logout}>Logout</button>)
+        return (<button className='logout' onClick={logout}>Logout</button>)
     }
     else{
         return <div/>
