@@ -39,10 +39,11 @@ router.get('/', (req, res, next) => {
 
 //Get all posts within 10 meters
 router.get('/nearby', (req, res, next) => {
-    //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32
+    //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32&meters=100000
     //maxDistance is in meters
     var lng = parseFloat(req.query.lng);
     var lat = parseFloat(req.query.lat);
+    var meters = parseFloat(req.query.meters);
 //    console.log(lng);
 //    console.log(lat);
     //Find posts
@@ -54,7 +55,7 @@ router.get('/nearby', (req, res, next) => {
                 distanceField: "dist.calculated",
                 key: "location",
                 includeLocs: "dist.location",
-                maxDistance: 10,
+                maxDistance: meters,
                 spherical: true
             }
         }
