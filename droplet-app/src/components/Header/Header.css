@@ -37,3 +37,12 @@ header.app-header div.theme-dot {
 header.app-header div.theme-dot.dark-mode {
     background-color: #FFFFFF;
 }
+
+.logout{
+    height: 60%;
+    background-color: #42c5f4;
+    border: none;
+    cursor: pointer;
+
+    margin-right: 35px;
+}

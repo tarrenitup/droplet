@@ -9,6 +9,7 @@ class Test extends Component{
             messageIDs: [],
             postList: [],
             posttext: '',
+            postid: '',
             location: []
         }
         this.onGetLocation = this.onGetLocation.bind(this);
@@ -16,7 +17,7 @@ class Test extends Component{
         this.onPost = this.onPost.bind(this);
         this.onGetUserPosts = this.onGetUserPosts.bind(this);
         this.onGetUserPostsContent = this.onGetUserPostsContent.bind(this);
-
+        this.onPostUpdate = this.onPostUpdate.bind(this);
     }
 
     onChange(event){
@@ -130,6 +131,7 @@ class Test extends Component{
             postList: []
         })
         var i;
+        //Get each post individually w/ array of postIDs.
         /*
         for(i = 0; i < this.state.messageIDs.length;i++){
             let fetchURL = 'http://localhost:5000/posts/' + this.state.messageIDs[i];
@@ -147,14 +149,35 @@ class Test extends Component{
         }
         console.log(this.state.postList);
         */
+        //Get all posts attached to a user.
         const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
-        const fetchURL = 'http://localhost:5000/posts/getUserPosts/' + userID;
+        const fetchURL = 'http://localhost:5000/posts/getUserPostsLikesInt/' + userID;
         fetch(fetchURL)
         .then(results=> {
             return results.json()
         }).then(data =>{
             console.log(data.messages);
         })
+    }
+
+    onPostUpdate(event){
+        event.preventDefault();
+        const fetchURL = 'http://localhost:5000/posts/' + this.state.postid;
+        fetch(fetchURL,{
+            method:'PATCH',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json'
+            },
+            body:{
+                content: this.state.posttext
+            }
+        }).then(results=>{
+            return results.json()
+        }).then(data =>{
+            console.log(data);
+        })
+
     }
 
     render(){
@@ -209,6 +232,19 @@ class Test extends Component{
                     value="Post"
                     type="submit"
                     onClick={this.onPost}
+                />
+                <input
+                    className="form-text"
+                    placeholder="Postid"
+                    name="postid"
+                    type="text"
+                    onChange={this.onChange}
+                />
+                <input
+                    className="updatePost"
+                    value="Update Post"
+                    type="submit"
+                    onClick={this.onPostUpdate}
                 />
 
                 </form>

@@ -127,6 +127,8 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
 //TEST
 //TEST
 //TEST
+//Get all a user's posts (NOT POSTIDS, this is actual posts)
+
 router.get('/getUserPosts/:userId', (req,res,next)=>{
     const Uid = req.params.userId;
     Post.find({userid: Uid}, (err, posts) =>{
@@ -139,7 +141,34 @@ router.get('/getUserPosts/:userId', (req,res,next)=>{
             });
         }
     });
-})
+});
+
+//Get all a user's posts, sorted by "likesupdated" field
+router.get('/getUserPostsLikesInt/:userId', (req,res,next)=>{
+    console.log("in likes int");
+    const Uid = req.params.userId;
+    Post.find({userid: Uid}, (err, posts) =>{
+        if(err){
+            return res.status(500).send(err);
+        }
+        else{
+            //comparefunction(a,b) < 0 means a comes before b
+            //comparefunction(a,b) > 0 means b comes before a
+            //more recent date is greater i.e. recent-old > 0
+            posts.sort(function(a,b){
+                //Change this to likesupdated once liking is enabled
+                return b.created - a.created;
+            });
+            res.status(200).send({
+                messages: posts
+            });
+        }
+    });
+});
+
+//TEST
+//TEST
+//TEST END
 
 //Return one specific post
 router.get('/:postId', (req, res, next) => {
@@ -162,7 +191,7 @@ router.get('/:postId', (req, res, next) => {
 
 //Update a user's post
 router.patch('/:postId',(req, res, next) => {
-
+    console.log("made it into patch");
     //Get id of post to update
     const Pid = req.params.postId;
 

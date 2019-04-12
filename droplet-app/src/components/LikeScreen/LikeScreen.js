@@ -17,7 +17,7 @@ class LikeScreen extends Component{
     //DEFINE NUMPOSTS
     createPosts(){
         const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
-        const fetchURL = 'http://localhost:5000/posts/getUserPosts/' + userID;
+        const fetchURL = 'http://localhost:5000/posts/getUserPostsLikesInt/' + userID;
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token
         fetch(fetchURL,{
