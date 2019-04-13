@@ -9,7 +9,7 @@ import HomeScreen from '../HomeScreen/HomeScreen.js'
 import MapScreen from '../MapScreen/MapScreen.js'
 import NewScreen from '../NewScreen/NewScreen.js'
 //CHANGED
-import LikeScreen from '../TempLikeScreen/LikeScreen.js'
+import LikeScreen from '../LikeScreen/LikeScreen.js'
 import ProfileScreen from '../ProfileScreen/ProfileScreen.js'
 
 const ScreenOuter = ({ location }) => (

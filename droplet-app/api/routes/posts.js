@@ -33,9 +33,7 @@ router.use(function (req, res, next){
 });
 
 //Get all posts
-router.get('/',
-            requireAuthentication,
-            (req, res, next) => {
+router.get('/',(req, res, next) => {
     Post.find({},(err, post) => {
       if(err) {
             return res.status(500).send(err);
@@ -115,7 +113,6 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         post.location = req.body.location;
 
         //Save it
-        //Unhandled promise rejection?
         await post.save();
 
         //Associates the comment with a Post
@@ -183,9 +180,7 @@ router.get('/:postId', (req, res, next) => {
 });
 
 //Update a user's post
-router.patch('/:postId',
-            requireAuthentication,
-            (req, res, next) => {
+router.patch('/:postId',(req, res, next) => {
     console.log("made it into patch");
     //Get id of post to update
     const Pid = req.params.postId;
@@ -280,7 +275,6 @@ router.post('/like/:userId/:postId', (req, res, next) => {
                 }
                 else {
                     Post.likesupdated = new Date();
-                    console.log(Post.likesupdated);
                     return res.status(200).json({
                         success: 'You have liked this post!',
                         likesupdated: Post.likesupdated
