@@ -72,6 +72,8 @@ class Test extends Component{
     onPost(event){
         event.preventDefault();
         const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
         console.log(fetchURL);
         console.log(this.state.posttext);
         console.log(this.state.location);
@@ -79,7 +81,8 @@ class Test extends Component{
             method:'POST',
             headers:{
                 'Accept': 'application/json',
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': header
             },
             body:JSON.stringify({
                 content: this.state.posttext,
@@ -152,7 +155,16 @@ class Test extends Component{
         //Get all posts attached to a user.
         const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
         const fetchURL = 'http://localhost:5000/posts/getUserPostsLikesInt/' + userID;
-        fetch(fetchURL)
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        fetch(fetchURL,{
+            method: 'GET',
+            header:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        })
         .then(results=> {
             return results.json()
         }).then(data =>{
@@ -165,11 +177,14 @@ class Test extends Component{
     onPostUpdate(event){
         event.preventDefault();
         const fetchURL = 'http://localhost:5000/posts/' + this.state.postid;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
         fetch(fetchURL,{
             method:'PATCH',
             headers:{
                 'Accept': 'application/json',
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': header
             },
             body:{
                 content: this.state.posttext

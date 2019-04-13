@@ -111,7 +111,9 @@ router.post('/signin', function(req, res){
 });
 
 //Update a user's name
-router.patch('/:userId',(req, res, next) => {
+router.patch('/:userId',
+            requireAuthentication,
+            (req, res, next) => {
 
     //Get id of user to update
     const Uid = req.params.userId;
@@ -188,7 +190,9 @@ router.get('/:userId', (req, res, next) => {
 });
 
 //Delete a user
-router.delete('/:userId', (req, res) => {
+router.delete('/:userId',
+            requireAuthentication,
+            (req, res) => {
 
     //Get id of user to delete
     const Uid = req.params.userId;

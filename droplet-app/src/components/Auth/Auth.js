@@ -21,7 +21,7 @@ function requireAuthentication(req, res, next){
     const token = headerContent[0] === 'Bearer' ? headerContent[1] : null;
     jwt.verify(token, secret, function(err, payload){
         if(!err){
-            //req.user = payload.sub;
+            req.user = payload.sub;
             next();
         }else{
             res.status(401).json({

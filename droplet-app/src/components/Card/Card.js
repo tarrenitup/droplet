@@ -6,18 +6,17 @@ import Auth from '../Auth/Auth.js'
 function addLike(postID){
     const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
     const fetchURL = 'http://localhost:5000/posts/like/' + userID + '/' + postID;
+    const token = Auth.getCookie('token');
+    const header = 'Bearer ' + token
     console.log(fetchURL);
     fetch(fetchURL,{
         method: 'POST',
         headers:{
             'Accept': 'application/json',
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            'Authorization': header
         }
-    }).then(result =>{
-        console.log(result);
     })
-    console.log("CHECKING");
-    console.log(postID);
 }
 
 const PostMedia = (props) => {

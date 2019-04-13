@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 mongoose.set('useFindAndModify', false);
 const multer = require('multer');
+const {requireAuthentication} = require('../../src/components/Auth/Auth');
 
 //Create local directory to save pictures in
 const storage = multer.diskStorage({
@@ -25,8 +26,16 @@ const User = require('../models/user');
 const Post = require('../models/post');
 const Comment = require('../models/comment');
 
+//Require authentication for all post endpoints
+//next() call is in requireAuthentication function.
+router.use(function (req, res, next){
+    requireAuthentication(req,res,next);
+});
+
 //Get all posts
-router.get('/', (req, res, next) => {
+router.get('/',
+            requireAuthentication,
+            (req, res, next) => {
     Post.find({},(err, post) => {
       if(err) {
             return res.status(500).send(err);
@@ -38,7 +47,7 @@ router.get('/', (req, res, next) => {
 });
 
 //Get all posts within 10 meters
-router.get('/nearby', (req, res, next) => {
+router.get('/nearby',(req, res, next) => {
     //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32
     //maxDistance is in meters
     var lng = parseFloat(req.query.lng);
@@ -117,19 +126,9 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
     }
 });
 
-//TEST get all a user's posts
-//TEST - extra comments to make it easier to see later
-//TEST
-//TEST
-//TEST
-//TEST
-//TEST
-//TEST
-//TEST
-//TEST
-//Get all a user's posts (NOT POSTIDS, this is actual posts)
 
-router.get('/getUserPosts/:userId', (req,res,next)=>{
+//Get all a user's posts (NOT POSTIDS, this is actual posts)
+router.get('/getUserPosts/:userId',(req,res,next)=>{
     const Uid = req.params.userId;
     Post.find({userid: Uid}, (err, posts) =>{
         if(err){
@@ -144,10 +143,10 @@ router.get('/getUserPosts/:userId', (req,res,next)=>{
 });
 
 //Get all a user's posts, sorted by "likesupdated" field
-router.get('/getUserPostsLikesInt/:userId', (req,res,next)=>{
-    console.log("in likes int");
+router.get('/getUserPostsLikesInt/:userId',(req,res,next)=>{
     const Uid = req.params.userId;
-    Post.find({userid: Uid}, (err, posts) =>{
+    Post.find({userid: Uid,
+               likesupdated: {$ne: null}}, (err, posts) =>{
         if(err){
             return res.status(500).send(err);
         }
@@ -156,8 +155,7 @@ router.get('/getUserPostsLikesInt/:userId', (req,res,next)=>{
             //comparefunction(a,b) > 0 means b comes before a
             //more recent date is greater i.e. recent-old > 0
             posts.sort(function(a,b){
-                //Change this to likesupdated once liking is enabled
-                return b.created - a.created;
+                return b.likesupdated - a.likesupdated;
             });
             res.status(200).send({
                 messages: posts
@@ -165,10 +163,6 @@ router.get('/getUserPostsLikesInt/:userId', (req,res,next)=>{
         }
     });
 });
-
-//TEST
-//TEST
-//TEST END
 
 //Return one specific post
 router.get('/:postId', (req, res, next) => {
@@ -190,7 +184,9 @@ router.get('/:postId', (req, res, next) => {
 });
 
 //Update a user's post
-router.patch('/:postId',(req, res, next) => {
+router.patch('/:postId',
+            requireAuthentication,
+            (req, res, next) => {
     console.log("made it into patch");
     //Get id of post to update
     const Pid = req.params.postId;
@@ -258,7 +254,8 @@ router.delete('/:postId', (req, res, next) => {
 });
 
 //Like a post
-router.post('/:userId/:postId/like', (req, res, next) => {
+//Note - can currently like own post
+router.post('/like/:userId/:postId', (req, res, next) => {
     //Find post to like
     const Pid = req.params.postId;
     const Uid = req.params.userId;
@@ -276,15 +273,18 @@ router.post('/:userId/:postId/like', (req, res, next) => {
          }
         else {
             //Like the post
-            Post.updateOne({ "_id" : Pid}, {$push: { likes: Uid}}, (err, post) => {
+            Post.updateOne({ "_id" : Pid}, {$push: { likes: Uid},
+                                            $set: {likesupdated: new Date()}},
+                                            (err, post) => {
                 if(err) {
                     return res.status(500).send(err);
                 }
                 else {
-                    Post.interactedTime = new Date();
+                    Post.likesupdated = new Date();
+                    console.log(Post.likesupdated);
                     return res.status(200).json({
                         success: 'You have liked this post!',
-                        interactedTime: likesupdated
+                        likesupdated: Post.likesupdated
                     });
                 }
             });
