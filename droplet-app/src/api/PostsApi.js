@@ -9,6 +9,21 @@ class PostsApi {
         });
     }
 
+    // TODO: Change the fetch call to nearby
+    //static getMapPosts(lng, lat, meters){
+    static getMapPosts(lng, lat, meters){
+      console.log(lng)
+      console.log(lat)
+      console.log(meters)
+      const url = 'http://localhost:5000/posts/nearby?lng=' + lng + '&lat=' + lat + '&meters=' + meters
+      console.log(url)
+      return fetch(url).then(response => {
+          return response.json()
+      }).catch(error => {
+          return error
+      });
+    }
+
     static getSamplePosts() { // for development testing only.
 
         const post1 = {
@@ -56,4 +71,4 @@ class PostsApi {
     }
 }
 
-export default PostsApi; 
+export default PostsApi;
