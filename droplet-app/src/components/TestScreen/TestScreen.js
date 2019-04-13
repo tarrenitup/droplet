@@ -97,6 +97,28 @@ class Test extends Component{
             })
     }
 
+    onOldPost(event){
+        event.preventDefault();
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        fetch('http://localhost:5000/posts',{
+            method: 'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        })
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            console.log(data);
+        }).catch(error => {
+            return error
+        });
+    }
+
     onGetUserPosts(event){
         event.preventDefault();
         const userID = Auth.parseJwt(Auth.getCookie('token')).sub
@@ -262,6 +284,12 @@ class Test extends Component{
                     value="Update Post"
                     type="submit"
                     onClick={this.onPostUpdate}
+                />
+                <input
+                    className="PostsEndpoint"
+                    value="All Post old endpoint"
+                    type="submit"
+                    onClick={this.onOldPost}
                 />
 
                 </form>
