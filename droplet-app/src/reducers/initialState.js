@@ -1,5 +1,5 @@
 export default {
-    loadingSpinner: 0,
+    loadingSpinner: false,
     overlay: false,
     newPostModal: { 
         visible: false,
