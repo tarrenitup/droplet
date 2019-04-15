@@ -189,6 +189,24 @@ router.get('/:userId', (req, res, next) => {
     });
 });
 
+//get a user's name by id
+router.get('/getName/:userId', (req, res, next) => {
+    //Get id of user
+    const Uid = req.params.userId;
+    User.find({ _id: Uid }, function(err, user) {
+        if(err) {
+            return res.status(500).json({
+                error: err
+            });
+        }
+        else {
+            res.status(200).send({
+                message: user[0].username
+            });
+        }
+    });
+});
+
 //Delete a user
 router.delete('/:userId',
             requireAuthentication,

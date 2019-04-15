@@ -8,7 +8,6 @@ function addLike(postID){
     const fetchURL = 'http://localhost:5000/posts/like/' + userID + '/' + postID;
     const token = Auth.getCookie('token');
     const header = 'Bearer ' + token
-    console.log(fetchURL);
     fetch(fetchURL,{
         method: 'POST',
         headers:{
@@ -34,7 +33,7 @@ const PostMedia = (props) => {
 const Card = (props) => (
     <div className='card'>
         <div className='card-top'>
-            <img className='profile-pic' src={props.picture} alt='profile' />
+            <img className='profile-pic' src={props.picture} alt='' />
             <p className='username'>{props.name}</p>
         </div>
 
@@ -44,7 +43,7 @@ const Card = (props) => (
 
         <div className='card-bottom'>
             <div className='likes'>
-                <img src={likesIcon} alt='The likes icon' onClick={() => addLike(props.postID)}/>
+                <img src={likesIcon} alt='like' onClick={() => addLike(props.postID)}/>
                 <p>{props.likes}</p>
             </div>
         </div>
