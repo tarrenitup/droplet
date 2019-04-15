@@ -52,3 +52,23 @@ export function changeNewPostType(postTypeIndex) {
         postTypeIndex,
     }
 }
+
+export function newPostAddInitiate() {
+    return { type: types.NEW_POST_ADD_INITIATE} 
+}
+
+export function sendNewPost(postData) {
+    return function(dispatch) {
+        return PostsApi.addNewPost(postData).then(() => {
+            dispatch(newPostAddSuccess())
+        }).catch(error => {
+            throw(error)
+        })
+    }
+}
+
+export function newPostAddSuccess() {
+    return { 
+        type: types.NEW_POST_ADD_SUCCESS,
+    }
+}

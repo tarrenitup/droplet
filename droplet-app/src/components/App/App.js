@@ -45,8 +45,6 @@ const App = (props) => (
   </div>
 )
 
-
-
 // App.propTypes = {
 //   children: PropTypes.object.isRequired
 // };
