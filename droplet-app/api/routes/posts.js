@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 mongoose.set('useFindAndModify', false);
 const multer = require('multer');
+const {requireAuthentication} = require('../../src/components/Auth/Auth');
 
 //Create local directory to save pictures in
 const storage = multer.diskStorage({
@@ -25,8 +26,14 @@ const User = require('../models/user');
 const Post = require('../models/post');
 const Comment = require('../models/comment');
 
+//Require authentication for all post endpoints
+//next() call is in requireAuthentication function.
+router.use(function (req, res, next){
+    requireAuthentication(req,res,next);
+});
+
 //Get all posts
-router.get('/', (req, res, next) => {
+router.get('/',(req, res, next) => {
     Post.find({},(err, post) => {
       if(err) {
             return res.status(500).send(err);
@@ -39,10 +46,11 @@ router.get('/', (req, res, next) => {
 
 //Get all posts within 10 meters
 router.get('/nearby', (req, res, next) => {
-    //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32
+    //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32&meters=100000
     //maxDistance is in meters
     var lng = parseFloat(req.query.lng);
     var lat = parseFloat(req.query.lat);
+    var meters = parseFloat(req.query.meters);
 //    console.log(lng);
 //    console.log(lat);
     //Find posts
@@ -54,7 +62,7 @@ router.get('/nearby', (req, res, next) => {
                 distanceField: "dist.calculated",
                 key: "location",
                 includeLocs: "dist.location",
-                maxDistance: 10,
+                maxDistance: meters,
                 spherical: true
             }
         }
@@ -103,8 +111,9 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         post.content = req.body.content;
         post.postImage = undefined;
         post.location = req.body.location;
+
         //Save it
-        await post.save()
+        await post.save();
 
         //Associates the comment with a Post
         user.posts.push(post._id);
@@ -113,6 +122,44 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         await user.save();
         res.send(post);
     }
+});
+
+
+//Get all a user's posts (NOT POSTIDS, this is actual posts)
+router.get('/getUserPosts/:userId',(req,res,next)=>{
+    const Uid = req.params.userId;
+    Post.find({userid: Uid}, (err, posts) =>{
+        if(err){
+            return res.status(500).send(err);
+        }
+        else{
+            res.status(200).send({
+                messages: posts
+            });
+        }
+    });
+});
+
+//Get all a user's posts, sorted by "likesupdated" field
+router.get('/getUserPostsLikesInt/:userId',(req,res,next)=>{
+    const Uid = req.params.userId;
+    Post.find({userid: Uid,
+               likesupdated: {$ne: null}}, (err, posts) =>{
+        if(err){
+            return res.status(500).send(err);
+        }
+        else{
+            //comparefunction(a,b) < 0 means a comes before b
+            //comparefunction(a,b) > 0 means b comes before a
+            //more recent date is greater i.e. recent-old > 0
+            posts.sort(function(a,b){
+                return b.likesupdated - a.likesupdated;
+            });
+            res.status(200).send({
+                messages: posts
+            });
+        }
+    });
 });
 
 //Return one specific post
@@ -127,16 +174,14 @@ router.get('/:postId', (req, res, next) => {
             return res.status(500).send(err);
         }
         else {
-            res.status(200).send({
-                message: post
-            });
+            res.status(200).send(post);
         }
     });
 });
 
 //Update a user's post
 router.patch('/:postId',(req, res, next) => {
-
+    console.log("made it into patch");
     //Get id of post to update
     const Pid = req.params.postId;
 
@@ -203,7 +248,8 @@ router.delete('/:postId', (req, res, next) => {
 });
 
 //Like a post
-router.post('/:userId/:postId/like', (req, res, next) => {
+//Note - can currently like own post
+router.post('/like/:userId/:postId', (req, res, next) => {
     //Find post to like
     const Pid = req.params.postId;
     const Uid = req.params.userId;
@@ -221,7 +267,9 @@ router.post('/:userId/:postId/like', (req, res, next) => {
          }
         else {
             //Like the post
-            Post.updateOne({ "_id" : Pid}, {$push: { likes: Uid}}, (err, post) => {
+            Post.updateOne({ "_id" : Pid}, {$push: { likes: Uid},
+                                            $set: {likesupdated: new Date()}},
+                                            (err, post) => {
                 if(err) {
                     return res.status(500).send(err);
                 }
@@ -229,7 +277,7 @@ router.post('/:userId/:postId/like', (req, res, next) => {
                     Post.likesupdated = new Date();
                     return res.status(200).json({
                         success: 'You have liked this post!',
-                        likesupdated: likesupdated
+                        likesupdated: Post.likesupdated
                     });
                 }
             });
@@ -258,6 +306,9 @@ router.post('/:userId/:postId/comment', async (req, res) => {
 
     //Associates the comment with a Post
     post.comments.push(comment._id);
+
+    //Update interacted time on Post
+    post.interactedTime = new Date();
 
     //Save the post (so comment is now in comments array)
     await post.save();

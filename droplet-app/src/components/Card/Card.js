@@ -1,6 +1,23 @@
 import React from 'react'
 import './Card.css'
 import likesIcon from './likes.svg'
+import Auth from '../Auth/Auth.js'
+
+function addLike(postID){
+    const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
+    const fetchURL = 'http://localhost:5000/posts/like/' + userID + '/' + postID;
+    const token = Auth.getCookie('token');
+    const header = 'Bearer ' + token
+    console.log(fetchURL);
+    fetch(fetchURL,{
+        method: 'POST',
+        headers:{
+            'Accept': 'application/json',
+            'content-type': 'application/json',
+            'Authorization': header
+        }
+    })
+}
 
 const PostMedia = (props) => {
 
@@ -27,7 +44,7 @@ const Card = (props) => (
 
         <div className='card-bottom'>
             <div className='likes'>
-                <img src={likesIcon} alt='The likes icon'/>
+                <img src={likesIcon} alt='The likes icon' onClick={() => addLike(props.postID)}/>
                 <p>{props.likes}</p>
             </div>
         </div>

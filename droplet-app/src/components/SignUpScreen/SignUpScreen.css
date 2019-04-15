@@ -31,12 +31,18 @@ main.signup-screen {
     border: 1px solid grey;
 }
 
-.submit{
+.submitRegister{
     height: 35px;
     color: #fff;
     background-color: #42c5f4;
     border: none;
+    margin-bottom: 15px;
     letter-spacing: 2px;
     transition: .3s opacity ease;
     cursor: pointer;
+}
+
+
+.link{
+    text-align: center;
 }

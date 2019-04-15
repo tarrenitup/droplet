@@ -1,12 +1,38 @@
+import Auth from '../components/Auth/Auth.js'
+
 class PostsApi {
 
     /* GET */
     static getPosts() {
-        return fetch('http://localhost:5000/posts').then(response => {
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch('http://localhost:5000/posts',{
+            method: 'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        }).then(response => {
             return response.json()
         }).catch(error => {
             return error
         });
+    }
+
+    // TODO: Change the fetch call to nearby
+    //static getMapPosts(lng, lat, meters){
+    static getMapPosts(lng, lat, meters){
+      console.log(lng)
+      console.log(lat)
+      console.log(meters)
+      const url = 'http://localhost:5000/posts/nearby?lng=' + lng + '&lat=' + lat + '&meters=' + meters
+      console.log(url)
+      return fetch(url).then(response => {
+          return response.json()
+      }).catch(error => {
+          return error
+      });
     }
 
     static getSamplePosts() { // for development testing only.
@@ -56,4 +82,4 @@ class PostsApi {
     }
 }
 
-export default PostsApi; 
+export default PostsApi;
