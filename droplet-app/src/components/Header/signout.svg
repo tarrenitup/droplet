@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="11px" viewBox="0 0 11 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>sign out icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="home" transform="translate(-17.000000, -14.000000)" fill="#373F43">
+            <g id="sign-out-icon" transform="translate(22.500000, 19.181981) scale(-1, 1) translate(-22.500000, -19.181981) translate(17.000000, 14.181981)">
+                <rect id="Rectangle" x="0" y="0.818019485" width="1.5" height="9" rx="0.75"></rect>
+                <rect id="Rectangle" transform="translate(5.250000, 5.318019) rotate(90.000000) translate(-5.250000, -5.318019) " x="4.5" y="0.318019485" width="1.5" height="10" rx="0.75"></rect>
+                <rect id="Rectangle" transform="translate(7.494796, 3.323223) rotate(135.000000) translate(-7.494796, -3.323223) " x="6.74479618" y="-0.176776695" width="1.5" height="7" rx="0.75"></rect>
+                <rect id="Rectangle" transform="translate(7.494796, 7.323223) scale(1, -1) rotate(135.000000) translate(-7.494796, -7.323223) " x="6.74479618" y="3.8232233" width="1.5" height="7" rx="0.75"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
