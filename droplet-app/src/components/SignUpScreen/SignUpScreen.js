@@ -9,7 +9,8 @@ class SignUpScreen extends Component{
         this.state = {
             username:'',
             password:'',
-            cpassword:''
+            cpassword:'',
+            bio:''
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -25,11 +26,11 @@ class SignUpScreen extends Component{
 
     onSubmit(event){
         event.preventDefault();
-        this.signup(this.state.username, this.state.password, this.state.cpassword);
+        this.signup(this.state.username, this.state.password, this.state.cpassword, this.state.bio);
     }
 
 
-    signup(username,password,cpass){
+    signup(username,password,cpass, bio){
         if(password==cpass){
             fetch('http://localhost:5000/users/',{
                 method:'POST',
@@ -39,7 +40,8 @@ class SignUpScreen extends Component{
                 },
                 body: JSON.stringify({
                     username: username,
-                    password: password
+                    password: password,
+                    bio: bio
                 })
             })
             .then(function(res){
@@ -81,6 +83,13 @@ class SignUpScreen extends Component{
                             placeholder="Confirm Password"
                             name="cpassword"
                             type="password"
+                            onChange={this.onChange}
+                        />
+                        <input
+                            className="form-text"
+                            placeholder="Your Bio"
+                            name="bio"
+                            type="text"
                             onChange={this.onChange}
                         />
                         <input

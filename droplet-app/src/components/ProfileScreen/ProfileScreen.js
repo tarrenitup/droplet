@@ -11,6 +11,7 @@ class ProfileScreen extends Component{
             userid: null,
             username: null,
             messages: [],
+            bio: null
         }
         this.getUserID = this.getUserID.bind(this);
         this.getUserName = this.getUserName.bind(this);
@@ -28,7 +29,7 @@ class ProfileScreen extends Component{
         
     getUserName(){
         const userID = this.state.userid;
-        const fetchURL = 'http://localhost:5000/users/getName/' + userID;
+        const fetchURL = 'http://localhost:5000/users/getUserByID/' + userID;
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token;
         
@@ -44,7 +45,8 @@ class ProfileScreen extends Component{
                 return results.json()
             }).then(data =>{
                 this.setState({
-                    username: data.message
+                    username: data.username,
+                    bio: data.bio
                 })
             })
     }
@@ -90,6 +92,7 @@ class ProfileScreen extends Component{
         const head = (
             <ProfileCard
                 username={this.state.username}
+                bio={this.state.bio}
             />
         )
 

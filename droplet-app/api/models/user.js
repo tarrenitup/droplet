@@ -15,7 +15,11 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post',
         required: 'Post is required'
-    }]
+    }],
+    bio: {
+        type: String,
+        required: true
+    }
 });
 
 userSchema.pre('remove', function(next) {

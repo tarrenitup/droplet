@@ -32,7 +32,8 @@
     "rstart": "react-scripts start",
     "rbuild": "react-scripts build",
     "rtest": "react-scripts test",
-    "reject": "react-scripts eject"
+    "reject": "react-scripts eject",
+    "grading": "npm install && npm audit fix && start npm start & npm run rstart"
   },
   "proxy": "http://localhost:3000",
   "eslintConfig": {

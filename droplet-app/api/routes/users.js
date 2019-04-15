@@ -46,7 +46,8 @@ router.post('/',(req, res, next) => {
             const user = new User({
                 _id: new mongoose.Types.ObjectId(),
                 username: req.body.username,
-                password: hash
+                password: hash,
+                bio: req.body.bio
             });
             user
             .save()
@@ -190,7 +191,7 @@ router.get('/:userId', (req, res, next) => {
 });
 
 //get a user's name by id
-router.get('/getName/:userId', (req, res, next) => {
+router.get('/getUserByID/:userId', (req, res, next) => {
     //Get id of user
     const Uid = req.params.userId;
     User.find({ _id: Uid }, function(err, user) {
@@ -201,7 +202,8 @@ router.get('/getName/:userId', (req, res, next) => {
         }
         else {
             res.status(200).send({
-                message: user[0].username
+                username: user[0].username,
+                bio: user[0].bio
             });
         }
     });
