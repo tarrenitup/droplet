@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+//import {withRouter} from 'react-router'
 import './LoginScreen.css'
 import Auth from '../Auth/Auth.js'
 
@@ -11,7 +12,7 @@ class LoginScreen extends Component{
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-//        this.login = this.login.bind(this);
+        //this.login = this.login.bind(this);
     }
 
     onChange(event){
@@ -43,11 +44,22 @@ class LoginScreen extends Component{
             })
         })
         .then(function(res){
-            return res.json();
+            if(res.status == 200){
+                return res.json();
+            }
+            else{
+                return Promise.reject(res.status);
+            }
         })
         .then(function(json){
-            console.log(JSON.stringify(json.token));
+            //console.log(JSON.stringify(json.token));
             Auth.setCookie('token', json.token, 1);
+            //console.log(Auth.parseJwt(Auth.getCookie('token')).sub);
+            window.location.assign('/');
+            //console.log(Auth.isAuthenticated());
+        }).catch((error)=>{
+            //console.log(error);
+            window.location.reload();
         });
     }
 
@@ -72,12 +84,17 @@ class LoginScreen extends Component{
                             onChange={this.onChange}
                         />
                         <input
-                            className="submit"
+                            className="submitLogin"
                             value="Login"
                             type="submit"
                             onClick={this.onSubmit}
                         />
                     </form>
+                    <div className = "link">
+                        New user?&nbsp;
+                        <a href="http://localhost:3000/signup">Click here</a>
+                        &nbsp;to sign up.
+                    </div>
                 </div>
           </main>
 

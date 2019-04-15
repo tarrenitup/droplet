@@ -10,7 +10,6 @@ const rootReducer = combineReducers({
   homePosts: homePostsReducer,
   newPostModal: newPostModalReducer,
   mapPosts: mapPostsReducer
-
 })
 
 export default rootReducer;

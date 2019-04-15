@@ -1,8 +1,19 @@
+import Auth from '../components/Auth/Auth.js'
+
 class PostsApi {
 
     /* GET */
     static getPosts() {
-        return fetch('http://localhost:5000/posts').then(response => {
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch('http://localhost:5000/posts',{
+            method: 'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        }).then(response => {
             return response.json()
         }).catch(error => {
             return error

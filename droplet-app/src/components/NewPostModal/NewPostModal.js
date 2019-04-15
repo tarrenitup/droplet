@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './NewPostModal.css'
 import { connect } from 'react-redux'
-import { toggleNewPostModal } from '../../actions/postActions'
+import { toggleNewPostModal, newPostAddInitiate, sendNewPost } from '../../actions/postActions'
 
 import PostTypeSelector from './PostTypeSelector'
 import SplashSlider from './SplashSlider'
@@ -21,12 +21,6 @@ const FileUpload = () => (
     </div>
 )
 
-const TextArea = () => (
-    <div className='textarea-outer'>
-        <textarea required className='post-text' placeholder='write a post ...'/>
-    </div>
-)
-
 const Buttons = ({ dispatch }) => {
     
     return (
@@ -35,7 +29,7 @@ const Buttons = ({ dispatch }) => {
             <span className='cancel new post'/>
             <p>Nvm</p>
         </div>
-        <input name='submit' type='submit' onClick={/*props.submitNewPost*/ () => {console.log("submit!")}} className='submit button'>
+        <input name='submit' type='submit'  className='submit button'>
             {/* <img src={submitIcon} alt='submit new post'/>
             <p>Drop</p> */}
         </input>
@@ -50,16 +44,39 @@ class NewPostModal extends Component {
 
     getModalStyleClasses = () => this.props.visiblity ? 'new-post-modal' : 'new-post-modal off'
 
+    handleSubmit = (e, dispatch) => {
+        e.preventDefault()
+       
+        const postContent = this.getPostContent.value
+        const currentLocation = [123,321] // later to get from ui..
+        const splashRangeId = 5 // later to get from ui..
+        const postTypeId = 3 // later to get from ui..
+
+        const newPost = {
+            postContent,
+            splashRangeId,
+            postTypeId,
+            currentLocation,
+            newPostTime: new Date()
+        }
+
+        console.log(newPost)
+        // dispatch(newPostAddInitiate()) 
+        // dispatch(sendNewPost(newPost))
+    }
+
     render() {
         return (
             <div className={ this.getModalStyleClasses() }>
-                <form className='new-post-form' name='newPostForm' method='post' action="http://localhost:5000/posts">
+                <form className='new-post-form' name='newPostForm' onSubmit={(e) => this.handleSubmit(e, this.props.dispatch)}>
                     <div className='top'>
-                        <input type='hidden' name='location' value={/*props.getLocation*/ [123.312, 534.213]} />
+                        <input type='hidden' name='location' ref={(input) => this.getCurrentLocation = input} />
                         <PostTypeSelector dispatch={this.props.dispatch} postTypeIndex={this.props.postTypeIndex} />
                         <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
                         <FileUpload />
-                        <TextArea />
+                        <div className='textarea-outer'>
+                            <textarea required className='post-text' placeholder='write a post ...' ref={(input) => this.getPostContent = input} />
+                        </div>
                     </div>
                     <SplashSlider splashRangeIndex={this.props.splashRangeIndex} dispatch={this.props.dispatch} />
                     <Buttons dispatch={this.props.dispatch} />

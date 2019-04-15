@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import './SplashSlider.css'
 import { changeSplashRange } from '../../actions/postActions.js'
+import Hammer from 'hammerjs'
 
 const incrementSplash = ({dispatch, currentSplash}) => {
     const newSplash = currentSplash + 1
@@ -8,8 +9,10 @@ const incrementSplash = ({dispatch, currentSplash}) => {
 }
 
 const decremementSplash = ({dispatch, currentSplash}) => {
-    const newSplash = currentSplash - 1
-    dispatch(changeSplashRange(newSplash))
+    if(currentSplash > 1) {
+        const newSplash = currentSplash - 1
+        dispatch(changeSplashRange(newSplash))
+    }
 }
 
 const getLeftPixelsFromSplashIndex = ({ splashIndex, outerEl, listEl, itemEls }) => {
@@ -37,29 +40,34 @@ const updateSplashDOM = ({ listEl, inputEl, splashIndex, itemEls, pixelsOnLeft }
     itemArray.map((item) => item.classList.remove('selected'))
     itemArray[splashIndex].classList.add('selected')
     inputEl.value = splashIndex
-
 }
 
-const SplashSlider = (props) => { 
+const SplashSlider = (props) => {
     
     useEffect(
-        () => updateSplashDOM({
-            listEl: document.querySelector('div.splash-slider div.slide-outer ol'),
-            inputEl: document.querySelector('div.splash-slider input.splashSelection'),
-            splashIndex: props.splashRangeIndex,
-            itemEls: document.querySelectorAll('div.splash-slider div.slide-outer ol li'),
-            pixelsOnLeft: getLeftPixelsFromSplashIndex({
-                splashIndex: props.splashRangeIndex,
-                outerEl: document.querySelector('div.splash-slider div.slide-outer'),
+        () => {
+            updateSplashDOM({
                 listEl: document.querySelector('div.splash-slider div.slide-outer ol'),
+                inputEl: document.querySelector('div.splash-slider input.splashSelection'),
+                splashIndex: props.splashRangeIndex,
                 itemEls: document.querySelectorAll('div.splash-slider div.slide-outer ol li'),
+                pixelsOnLeft: getLeftPixelsFromSplashIndex({
+                    splashIndex: props.splashRangeIndex,
+                    outerEl: document.querySelector('div.splash-slider div.slide-outer'),
+                    listEl: document.querySelector('div.splash-slider div.slide-outer ol'),
+                    itemEls: document.querySelectorAll('div.splash-slider div.slide-outer ol li'),
+                })
             })
-        })
+
+            // const swipeEl = document.querySelector('div.splash-slider div.slide-outer')
+            // const swiper = new Hammer(swipeEl)
+            // swiper.on('swipeleft', () => incrementSplash({dispatch: props.dispatch, currentSplash: props.splashRangeIndex}))
+            // swiper.on('swiperight', () => decremementSplash({dispatch: props.dispatch, currentSplash: props.splashRangeIndex}))
+        }
     )
 
     return (
         <div className='splash-slider'>
-            {/* {console.log(props.splashRangeIndex)} */}
             <p>Splash Range</p>
             <span className='arrow left' onClick={() => decremementSplash({dispatch: props.dispatch, currentSplash: props.splashRangeIndex})}>
                 <span />

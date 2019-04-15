@@ -9,6 +9,7 @@
     "body-parser": "^1.18.3",
     "docker": "^1.0.0",
     "express": "^4.16.4",
+    "hammerjs": "^2.0.8",
     "jsonwebtoken": "^8.4.0",
     "mapbox-gl": "^0.53.0-beta.1",
     "mongo": "^0.1.0",
@@ -32,7 +33,8 @@
     "rstart": "react-scripts start",
     "rbuild": "react-scripts build",
     "rtest": "react-scripts test",
-    "reject": "react-scripts eject"
+    "reject": "react-scripts eject",
+    "grading": "npm install && npm audit fix && start npm start & npm run rstart"
   },
   "proxy": "http://localhost:3000",
   "eslintConfig": {
