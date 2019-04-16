@@ -43,7 +43,7 @@ You can now make an account and login. Note that this fetches from a real persis
 # What's in the app?
 
 You can start by signing up and then logging in. You'll be taken to the main page, which shows nearby posts in a list format. The house icon at the bottom of the page brings you back here. 
-Press the callout tag (to the right of the house) to open the map view. 
-Press the droplet icon to make a new post. Test it out! It works. 
-Press the heart to see what posts of yours have been liked by othes. A new user won't see anything here. 
+Press the callout tag (to the right of the house) to open the map view. <br/>
+Press the droplet icon to make a new post. Test it out! It works. <br/>
+Press the heart to see what posts of yours have been liked by othes. A new user won't see anything here. <br/>
 Press the little person to see your profile. This displays your icon, name, bio, and all the posts you've made. 
