@@ -52,6 +52,16 @@ class LikeScreen extends Component{
             else if(timeSince < (60*60)){
                 timeSinceString = Math.round(timeSince/60) + " minutes ago"
             }
+            else if (timeSince < (60*60*24)){
+                timeSinceString = Math.round(timeSince/(60*60)) + " hours ago"
+            }
+            else if (timeSince < (60*60*24*7)){
+                timeSinceString = Math.round(timeSince/(60*60*24)) + " days ago"
+            }
+            else{
+                timeSinceString = Math.round(timeSince/(60*60*24*7)) + " weeks ago"
+            }
+
             return <Card
                 key={message._id}
                 postID={message._id}
