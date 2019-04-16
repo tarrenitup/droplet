@@ -23,7 +23,15 @@ It will spawn a second terminal window. One will contain the server's logging wh
 
 If you're on Unix you need to do a tiny bit more. Run `npm run grading-u` to install npm dependencies. You'll need to manually spin up the server and app. 
 Run `npm start &` to initiate the server in the background. Then, run `npm run rstart`. 
-Alternatively, open two terminals; run `npm start` in one and `npm run rstart` in the other. This is recommended but requires slightly more work. 
+Alternatively, open two terminals; run `npm start` in one and `npm run rstart` in the other. This is recommended but requires slightly more work.<br/><br/>
+If all this fails, run the commands manually.
+```
+npm install
+npm audit fix
+npm start
+npm run rstart
+```
+`npm start` and `npm run rstart` need to run in separate terminals. 
 
 # Getting to the app
 
@@ -31,3 +39,11 @@ At this point, the app should automatically open in your browser. If not, open a
 `localhost:3000`
 
 You can now make an account and login. Note that this fetches from a real persistent database, despite you running the server and app locally; an internet connection is required. 
+
+# What's in the app?
+
+You can start by signing up and then logging in. You'll be taken to the main page, which shows nearby posts in a list format. The house icon at the bottom of the page brings you back here. 
+Press the callout tag (to the right of the house) to open the map view. <br/>
+Press the droplet icon to make a new post. Test it out! It works. <br/>
+Press the heart to see what posts of yours have been liked by othes. A new user won't see anything here. <br/>
+Press the little person to see your profile. This displays your icon, name, bio, and all the posts you've made. 
