@@ -29,6 +29,7 @@ class Test extends Component{
 
     onGetLocation(event){
         event.preventDefault();
+        /*
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition((position)=>{
                 console.log(position);
@@ -40,7 +41,7 @@ class Test extends Component{
                 })
             })
         }
-        /*
+        */
         if(navigator.geolocation){
             navigator.geolocation.watchPosition((watch)=>{
                 //console.log(watch);
@@ -52,7 +53,7 @@ class Test extends Component{
                 })
             })
         }
-        */
+    
     }
 
     onGetID(event){

@@ -21,7 +21,6 @@ class Map extends React.Component {
     };
   }
 
-
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
 

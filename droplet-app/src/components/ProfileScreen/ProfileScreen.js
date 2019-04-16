@@ -29,7 +29,6 @@ class ProfileScreen extends Component{
     }
 
     getUserName(){
-        /*
         const userID = this.state.userid;
         const fetchURL = 'http://localhost:5000/users/getUserByID/' + userID;
         const token = Auth.getCookie('token');
@@ -46,12 +45,11 @@ class ProfileScreen extends Component{
             .then(results => {
                 return results.json()
             }).then(data =>{
+                console.log(data);
                 this.setState({
-                    username: data.username,
                     bio: data.bio
                 })
             })
-            */
     }
 
     getUserPostsContent(){
