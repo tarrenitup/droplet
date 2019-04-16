@@ -22,7 +22,7 @@ const FileUpload = () => (
 )
 
 const Buttons = ({ dispatch }) => {
-    
+
     return (
     <div className='new-post-buttons'>
         <div onClick={() => dispatch(toggleNewPostModal())} className='cancel button'>
@@ -36,6 +36,7 @@ const Buttons = ({ dispatch }) => {
     </div>
 )}
 
+
 class NewPostModal extends Component {
 
     constructor(props) {
@@ -46,23 +47,32 @@ class NewPostModal extends Component {
 
     handleSubmit = (e, dispatch) => {
         e.preventDefault()
-       
-        const postContent = this.getPostContent.value
-        const currentLocation = [123,321] // later to get from ui..
-        const splashRangeId = 5 // later to get from ui..
-        const postTypeId = 3 // later to get from ui..
 
-        const newPost = {
-            postContent,
-            splashRangeId,
-            postTypeId,
-            currentLocation,
-            newPostTime: new Date()
+        if(navigator.geolocation){
+            let lat = undefined;
+            let long = undefined;
+            navigator.geolocation.getCurrentPosition((position)=>{
+                lat = position.coords.latitude;
+                long = position.coords.longitude;
+
+                const postContent = this.getPostContent.value
+                const currentLocation = [long,lat] // later to get from ui..
+                const splashRangeId = 5 // later to get from ui..
+                const postTypeId = 3 // later to get from ui..
+                console.log(currentLocation);
+                const newPost = {
+                    postContent,
+                    splashRangeId,
+                    postTypeId,
+                    currentLocation,
+                    newPostTime: new Date()
+                }
+
+                console.log(newPost)
+                dispatch(newPostAddInitiate())
+                dispatch(sendNewPost(newPost))
+            })
         }
-
-        console.log(newPost)
-        // dispatch(newPostAddInitiate()) 
-        // dispatch(sendNewPost(newPost))
     }
 
     render() {
