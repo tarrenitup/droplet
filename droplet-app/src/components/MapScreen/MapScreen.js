@@ -36,8 +36,6 @@ class Map extends React.Component {
     }
   }
 
-
->>>>>>> master
   componentDidMount() {
     console.log("MOUNTED")
     const { lng, lat, zoom } = this.state;
