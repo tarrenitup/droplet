@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 //import {withRouter} from 'react-router'
 import './LoginScreen.css'
 import Auth from '../Auth/Auth.js'
+import {attemptLogin} from '../../actions/loginActions'
 
 class LoginScreen extends Component{
     constructor(props){
@@ -24,14 +25,15 @@ class LoginScreen extends Component{
 
     onSubmit(event){
         event.preventDefault();
+        //dispatch(attemptLogin(this.state.username,this.state.password))
         this.login(this.state.username, this.state.password);
     }
 
 
     login(username,password){
-        console.log("Login");
-        console.log("User:", username);
-        console.log("Pass:", password);
+        //console.log("Login");
+        //console.log("User:", username);
+        //console.log("Pass:", password);
         fetch('http://localhost:5000/users/signin',{
             method:'POST',
             headers: {

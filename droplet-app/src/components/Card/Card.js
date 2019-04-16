@@ -3,9 +3,9 @@ import './Card.css'
 import likesIcon from './likes.svg'
 import Auth from '../Auth/Auth.js'
 
-function addLike(postID){
+function addLike(props){
     const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
-    const fetchURL = 'http://localhost:5000/posts/like/' + userID + '/' + postID;
+    const fetchURL = 'http://localhost:5000/posts/like/' + userID + '/' + props.postID;
     const token = Auth.getCookie('token');
     const header = 'Bearer ' + token
     fetch(fetchURL,{
@@ -43,8 +43,9 @@ const Card = (props) => (
 
         <div className='card-bottom'>
             <div className='likes'>
-                <img src={likesIcon} alt='like' onClick={() => addLike(props.postID)}/>
+                <img src={likesIcon} alt='like' onClick={() => addLike(props)}/>
                 <p>{props.likes}</p>
+                <p> &nbsp; Liked {props.timeSinceLike}</p>
             </div>
         </div>
     </div>

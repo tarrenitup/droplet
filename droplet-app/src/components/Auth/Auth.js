@@ -2,9 +2,12 @@ const jwt = require('jsonwebtoken')
 
 const secret = 'evMv2bY5PmPb1XnRuERkOI0wbVxNXKpo8RU1dBIO7xFhfb6Ui78ZSEN9ye5L8YRk1n32S11vkhvzyNkeowXImgAXFpdg0wphoI3cqZ763o69uaF33hvYdEP2qPzGRB'
 
-function generateJWT(userID){
+function generateJWT(userID,username){
     return new Promise((resolve, reject) => {
-        const payload = {sub: userID};
+        const payload = {
+            sub: userID,
+            name: username
+        };
         jwt.sign(payload, secret, {expiresIn: '24h'}, function(err, token){
             if(err){
                 reject(err);

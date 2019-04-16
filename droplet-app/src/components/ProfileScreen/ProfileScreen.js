@@ -7,16 +7,17 @@ import Auth from '../Auth/Auth.js'
 class ProfileScreen extends Component{
     constructor(){
         super();
+        let userName = Auth.parseJwt(Auth.getCookie('token')).name
         this.state = {
             userid: null,
-            username: null,
+            username: userName,
             messages: [],
             bio: null
         }
         this.getUserID = this.getUserID.bind(this);
         this.getUserName = this.getUserName.bind(this);
         this.getUserPostsContent = this.getUserPostsContent.bind(this);
-        
+
         this.getUserID();
         this.getUserName();
         this.getUserPostsContent();
@@ -26,13 +27,14 @@ class ProfileScreen extends Component{
         const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
         this.state.userid = userID;
     }
-        
+
     getUserName(){
+        
         const userID = this.state.userid;
         const fetchURL = 'http://localhost:5000/users/getUserByID/' + userID;
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token;
-        
+
         fetch(fetchURL,{
             method:'GET',
             headers:{
@@ -44,21 +46,22 @@ class ProfileScreen extends Component{
             .then(results => {
                 return results.json()
             }).then(data =>{
+                console.log(data);
                 this.setState({
-                    username: data.username,
                     bio: data.bio
                 })
             })
+            
     }
-    
+
     getUserPostsContent(){
         const userID = this.state.userid;
         const fetchURL = 'http://localhost:5000/posts/getUserPosts/' + userID;
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token;
-        
+
         //Get each post individually w/ array of postIDs.
-        
+
         fetch(fetchURL,{
             method:'GET',
             headers:{
@@ -88,7 +91,7 @@ class ProfileScreen extends Component{
                 likes={message.likes.length}
             />
         );
-        
+
         const head = (
             <ProfileCard
                 username={this.state.username}

@@ -7,9 +7,12 @@ import PostTypeSelector from './PostTypeSelector'
 import SplashSlider from './SplashSlider'
 import submitIcon from './submit-icon.svg'
 
+//temporary fix
+import Auth from '../Auth/Auth.js'
+
 const UserInfo = (props) => (
     <div className='user-info'>
-        <img className='profile-picture' src={props.picture} alt='profile' />
+        <img className='profile-picture' src={props.picture} alt='' />
         <p className='username'>{props.name}</p>
     </div>
 )
@@ -27,14 +30,15 @@ const Buttons = ({ dispatch }) => {
     <div className='new-post-buttons'>
         <div onClick={() => dispatch(toggleNewPostModal())} className='cancel button'>
             <span className='cancel new post'/>
-            <p>Nvm</p>
+            <p>cancel</p>
         </div>
-        <input name='submit' type='submit'  className='submit button'>
+        <input name='submit' type='submit'  className='submit button' value="Drop" >
             {/* <img src={submitIcon} alt='submit new post'/>
             <p>Drop</p> */}
         </input>
     </div>
 )}
+
 
 class NewPostModal extends Component {
 
@@ -47,22 +51,31 @@ class NewPostModal extends Component {
     handleSubmit = (e, dispatch) => {
         e.preventDefault()
 
-        const postContent = this.getPostContent.value
-        const currentLocation = [123,321] // later to get from ui..
-        const splashRangeId = 5 // later to get from ui..
-        const postTypeId = 3 // later to get from ui..
+        if(navigator.geolocation){
+            let lat = undefined;
+            let long = undefined;
+            navigator.geolocation.getCurrentPosition((position)=>{
+                lat = position.coords.latitude;
+                long = position.coords.longitude;
 
-        const newPost = {
-            postContent,
-            splashRangeId,
-            postTypeId,
-            currentLocation,
-            newPostTime: new Date()
+                const postContent = this.getPostContent.value
+                const currentLocation = [long,lat] // later to get from ui..
+                const splashRangeId = 5 // later to get from ui..
+                const postTypeId = 3 // later to get from ui..
+                console.log(currentLocation);
+                const newPost = {
+                    postContent,
+                    splashRangeId,
+                    postTypeId,
+                    currentLocation,
+                    newPostTime: new Date()
+                }
+
+                console.log(newPost)
+                dispatch(newPostAddInitiate())
+                dispatch(sendNewPost(newPost))
+            })
         }
-
-        console.log(newPost)
-        // dispatch(newPostAddInitiate())
-        // dispatch(sendNewPost(newPost))
     }
 
     render() {
@@ -72,7 +85,7 @@ class NewPostModal extends Component {
                     <div className='top'>
                         <input type='hidden' name='location' ref={(input) => this.getCurrentLocation = input} />
                         <PostTypeSelector dispatch={this.props.dispatch} postTypeIndex={this.props.postTypeIndex} />
-                        <UserInfo name={'Bill'} picture={'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'} />
+                        <UserInfo name={Auth.parseJwt(Auth.getCookie('token')).name} picture={''} />
                         <FileUpload />
                         <div className='textarea-outer'>
                             <textarea required className='post-text' placeholder='write a post ...' ref={(input) => this.getPostContent = input} />

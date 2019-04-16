@@ -9,6 +9,7 @@ class LikeScreen extends Component{
         super();
         this.state = {
             messages: [],
+            now: new Date()
         }
         this.createPosts = this.createPosts.bind(this);
         this.createPosts();
@@ -41,10 +42,27 @@ class LikeScreen extends Component{
 
     }
 
-
     render(){
-        const items = this.state.messages.map((message, key)=>
-            <Card
+        const items = this.state.messages.map((message, key)=>{
+            let timeSince = Math.round(this.state.now-(new Date(message.likesupdated))/1000);
+            let timeSinceString = "";
+            if (timeSince < 60){
+                timeSinceString = timeSince + " seconds ago"
+            }
+            else if(timeSince < (60*60)){
+                timeSinceString = Math.round(timeSince/60) + " minutes ago"
+            }
+            else if (timeSince < (60*60*24)){
+                timeSinceString = Math.round(timeSince/(60*60)) + " hours ago"
+            }
+            else if (timeSince < (60*60*24*7)){
+                timeSinceString = Math.round(timeSince/(60*60*24)) + " days ago"
+            }
+            else{
+                timeSinceString = Math.round(timeSince/(60*60*24*7)) + " weeks ago"
+            }
+
+            return <Card
                 key={message._id}
                 postID={message._id}
                 name={message.username}
@@ -52,8 +70,9 @@ class LikeScreen extends Component{
                 date={message.created}
                 picture={message.postImage}
                 likes={message.likes.length}
+                timeSinceLike={timeSinceString}
             />
-        );
+        });
         //Example...
         //let PostItems = Posts.map((p) => <Card key = p.name>{p.name}</Card>);
         return(
