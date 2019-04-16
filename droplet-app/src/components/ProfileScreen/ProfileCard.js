@@ -16,9 +16,9 @@ const ProfileCard = (props) => (
     <div className='profilecard'>
         <div className='profilecard-top'>
             <img className='profilecard-pic' src={props.picture} alt='' />
-            <p className='username'>Welcome to your profile, <h1>{props.username}</h1></p>
+            <p className='username'>@{props.username}</p>
         </div>
-        <p>You can check out all the posts you've ever made here.</p>
+        <p className='profilecard-text'>{props.bio}</p>
     </div>
 )
 
