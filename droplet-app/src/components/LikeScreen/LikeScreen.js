@@ -48,19 +48,19 @@ class LikeScreen extends Component{
             let timeSinceString = "";
             console.log(timeSince);
             if (timeSince > (60*60*24*7)){
-                timeSinceString = Math.round(timeSince/(60*60*24*7)) + " weeks ago"
+                timeSinceString = "Liked " + Math.round(timeSince/(60*60*24*7)) + " weeks ago"
             }
             else if(timeSince > (60*60*24)){
-                timeSinceString = Math.round(timeSince/(60*60*24)) + " days ago"
+                timeSinceString = "Liked " +Math.round(timeSince/(60*60*24)) + " days ago"
             }
             else if (timeSince > (60*60)){
-                timeSinceString = Math.round(timeSince/(60*60)) + " hours ago"
+                timeSinceString = "Liked " +Math.round(timeSince/(60*60)) + " hours ago"
             }
             else if (timeSince > 60){
-                timeSinceString = Math.round(timeSince/60) + " minutes ago"
+                timeSinceString = "Liked " +Math.round(timeSince/60) + " minutes ago"
             }
             else if (timeSince < 60){
-                timeSinceString = timeSince + " seconds ago"
+                timeSinceString = "Liked " + timeSince + " seconds ago"
             }
 
             return <Card

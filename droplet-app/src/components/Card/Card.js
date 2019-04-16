@@ -16,6 +16,17 @@ function addLike(props){
             'Authorization': header
         }
     })
+    /*
+    .then((res)=> {
+        return res.json();
+    }).then(data =>{
+        if(data.success == true){
+            return (<p>{props.likes + 1} </p>)
+        }else{
+            return <p>{props.likes}</p>
+        }
+    })
+    */
 }
 
 const PostMedia = (props) => {
@@ -29,6 +40,16 @@ const PostMedia = (props) => {
             return (<div></div>)
     }
 }
+/*
+const DisplayLikes = (props) => {
+    if(liked === true){
+        return (<p>{props.numlikes + 1} </p>)
+    }
+    else {
+        return <p>{props.numlikes}</p>
+    }
+}
+*/
 
 const Card = (props) => (
     <div className='card'>
@@ -45,7 +66,7 @@ const Card = (props) => (
             <div className='likes'>
                 <img src={likesIcon} alt='like' onClick={() => addLike(props)}/>
                 <p>{props.likes}</p>
-                <p> &nbsp; Liked {props.timeSinceLike}</p>
+                <p> &nbsp;&nbsp; {props.timeSinceLike}</p>
             </div>
         </div>
     </div>
