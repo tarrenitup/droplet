@@ -15,13 +15,34 @@ class Map extends React.Component {
     super(props);
     console.log(props.mapPosts)
     this.state = {
-      lng: -122,
-      lat: 45,
-      zoom: 5
+      lng: -123.2620,
+      lat: 44.5646,
+      zoom: 10,
+      userLng: 0,
+      userLat: 0
     };
   }
 
+<<<<<<< HEAD
+=======
+  onFindLocation(map){
+    if(navigator.geolocation){
+        navigator.geolocation.watchPosition((position)=>{
+            console.log(position);
+            console.log(position.coords.latitude);
+            console.log(position.coords.longitude);
+            this.userLng = position.coords.longitude
+            this.userLat = position.coords.latitude
+            this.updatePosts(map)
+            console.log("Updatings");
+        })
+    }
+  }
+
+
+>>>>>>> master
   componentDidMount() {
+    console.log("MOUNTED")
     const { lng, lat, zoom } = this.state;
 
     const map = new mapboxgl.Map({
@@ -30,18 +51,8 @@ class Map extends React.Component {
       center: [lng, lat],
       zoom
     });
-    this.updatePosts(map)
-    console.log("mounted")
+    this.onFindLocation(map);
 
-
-
-    // Add geolocate control to the map.
-    map.addControl(new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true
-      },
-      trackUserLocation: true
-    }), 'top-left');
 
     map.on('touchend', () => {
       this.updatePosts(map)
@@ -56,7 +67,6 @@ class Map extends React.Component {
         zoom: map.getZoom().toFixed(2)
       });
     });
-
   }
 
 
@@ -79,20 +89,33 @@ class Map extends React.Component {
       const latitude = this.props.mapPosts[i].location.coordinates[1]
       const username = this.props.mapPosts[i].username
       const data = this.props.mapPosts[i].content
-      this.createMarker(longitude, latitude, map, username, data);
+      //meterRadius
+      console.log("UserPosition: " + this.userLng+ " "+  this.userLat)
+      const distFromUser = distance(this.userLng, this.userLat, longitude, latitude, "K") * 1000
+      console.log(distFromUser)
+      if(distFromUser < 10){
+        this.createMarker(longitude, latitude, map, true, username, data);
+      }else{
+        this.createMarker(longitude, latitude, map, false, username, data);
+      }
     }
   }
 
-  createMarker(lng, lat, map, popupName, popupData, popupImage){
-    const m = document.createElement('div');
-    m.className = "marker";
+  createMarker(lng, lat, map, inbound, popupName, popupData, popupImage){
+    var m = document.createElement('div');
+    //m.style.backgroundImage = "url('./assets/red_text.svg')";
+    if(inbound == true){
+      m.className = "marker-blue";
 
-    const p = document.createElement('div');
-    p.className = "popup"
-
-    //Create Popup
-    var popup = new mapboxgl.Popup({ offset: 25 })
-      .setHTML('<h3>' + popupName + '</h3><p>' + popupData + '</p>' )
+      const p = document.createElement('div');
+      p.className = "popup"
+      //Create Popup
+      var popup = new mapboxgl.Popup({ offset: 25 })
+        .setHTML('<h3>' + popupName + '</h3><p>' + popupData + '</p>' )
+    }
+    else{
+        m.className = "marker-red";
+    }
 
     //Add popup to marker
     let marker = new mapboxgl.Marker(m)
