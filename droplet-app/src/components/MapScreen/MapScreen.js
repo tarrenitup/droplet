@@ -21,11 +21,9 @@ class Map extends React.Component {
       userLng: 0,
       userLat: 0
     };
-    this.onFindLocation();
-
   }
 
-  onFindLocation(){
+  onFindLocation(map){
     if(navigator.geolocation){
         navigator.geolocation.watchPosition((position)=>{
             console.log(position);
@@ -33,13 +31,15 @@ class Map extends React.Component {
             console.log(position.coords.longitude);
             this.userLng = position.coords.longitude
             this.userLat = position.coords.latitude
-            console.log("214314");
+            this.updatePosts(map)
+            console.log("Updatings");
         })
     }
   }
 
 
   componentDidMount() {
+    console.log("MOUNTED")
     const { lng, lat, zoom } = this.state;
 
     const map = new mapboxgl.Map({
@@ -48,15 +48,8 @@ class Map extends React.Component {
       center: [lng, lat],
       zoom
     });
-    this.updatePosts(map)
+    this.onFindLocation(map);
 
-    // Add geolocate control to the map.
-    map.addControl(new mapboxgl.GeolocateControl({
-      positionOptions: {
-      enableHighAccuracy: true
-      },
-      trackUserLocation: true
-    }));
 
     map.on('touchend', () => {
       this.updatePosts(map)
