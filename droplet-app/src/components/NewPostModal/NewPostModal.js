@@ -22,7 +22,7 @@ const FileUpload = () => (
 )
 
 const Buttons = ({ dispatch }) => {
-    
+
     return (
     <div className='new-post-buttons'>
         <div onClick={() => dispatch(toggleNewPostModal())} className='cancel button'>
@@ -46,7 +46,7 @@ class NewPostModal extends Component {
 
     handleSubmit = (e, dispatch) => {
         e.preventDefault()
-       
+
         const postContent = this.getPostContent.value
         const currentLocation = [123,321] // later to get from ui..
         const splashRangeId = 5 // later to get from ui..
@@ -61,7 +61,7 @@ class NewPostModal extends Component {
         }
 
         console.log(newPost)
-        // dispatch(newPostAddInitiate()) 
+        // dispatch(newPostAddInitiate())
         // dispatch(sendNewPost(newPost))
     }
 
