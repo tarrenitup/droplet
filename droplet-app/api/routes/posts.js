@@ -262,7 +262,7 @@ router.post('/like/:userId/:postId', (req, res, next) => {
         //Already liked the post
         else if(post.length > 0 ) {
             return res.status(401).json({
-                success: "You have already liked this post!"
+                success: false
             });
          }
         else {
@@ -276,7 +276,7 @@ router.post('/like/:userId/:postId', (req, res, next) => {
                 else {
                     Post.likesupdated = new Date();
                     return res.status(200).json({
-                        success: 'You have liked this post!',
+                        success: true,
                         likesupdated: Post.likesupdated
                     });
                 }

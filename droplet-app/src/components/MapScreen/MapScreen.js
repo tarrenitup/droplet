@@ -23,6 +23,8 @@ class Map extends React.Component {
     };
   }
 
+<<<<<<< HEAD
+=======
   onFindLocation(map){
     if(navigator.geolocation){
         navigator.geolocation.watchPosition((position)=>{
@@ -38,6 +40,7 @@ class Map extends React.Component {
   }
 
 
+>>>>>>> master
   componentDidMount() {
     console.log("MOUNTED")
     const { lng, lat, zoom } = this.state;

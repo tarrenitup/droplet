@@ -44,22 +44,23 @@ class LikeScreen extends Component{
 
     render(){
         const items = this.state.messages.map((message, key)=>{
-            let timeSince = Math.round(this.state.now-(new Date(message.likesupdated))/1000);
+            let timeSince = Math.round((this.state.now-(new Date(message.likesupdated)))/1000);
             let timeSinceString = "";
-            if (timeSince < 60){
-                timeSinceString = timeSince + " seconds ago"
+            console.log(timeSince);
+            if (timeSince > (60*60*24*7)){
+                timeSinceString = "Liked " + Math.round(timeSince/(60*60*24*7)) + " weeks ago"
             }
-            else if(timeSince < (60*60)){
-                timeSinceString = Math.round(timeSince/60) + " minutes ago"
+            else if(timeSince > (60*60*24)){
+                timeSinceString = "Liked " +Math.round(timeSince/(60*60*24)) + " days ago"
             }
-            else if (timeSince < (60*60*24)){
-                timeSinceString = Math.round(timeSince/(60*60)) + " hours ago"
+            else if (timeSince > (60*60)){
+                timeSinceString = "Liked " +Math.round(timeSince/(60*60)) + " hours ago"
             }
-            else if (timeSince < (60*60*24*7)){
-                timeSinceString = Math.round(timeSince/(60*60*24)) + " days ago"
+            else if (timeSince > 60){
+                timeSinceString = "Liked " +Math.round(timeSince/60) + " minutes ago"
             }
-            else{
-                timeSinceString = Math.round(timeSince/(60*60*24*7)) + " weeks ago"
+            else if (timeSince < 60){
+                timeSinceString = "Liked " + timeSince + " seconds ago"
             }
 
             return <Card

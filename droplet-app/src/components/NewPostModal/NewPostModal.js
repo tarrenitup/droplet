@@ -74,6 +74,7 @@ class NewPostModal extends Component {
                 console.log(newPost)
                 dispatch(newPostAddInitiate())
                 dispatch(sendNewPost(newPost))
+                dispatch(toggleNewPostModal()) //close on successful post
             })
         }
     }
