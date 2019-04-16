@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './SplashSlider.css'
 import { changeSplashRange } from '../../actions/postActions.js'
-import Hammer from 'hammerjs'
+//import Hammer from 'hammerjs'
 
 const incrementSplash = ({dispatch, currentSplash}) => {
     const newSplash = currentSplash + 1
@@ -43,7 +43,7 @@ const updateSplashDOM = ({ listEl, inputEl, splashIndex, itemEls, pixelsOnLeft }
 }
 
 const SplashSlider = (props) => {
-    
+
     useEffect(
         () => {
             updateSplashDOM({

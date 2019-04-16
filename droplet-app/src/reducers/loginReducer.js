@@ -3,7 +3,9 @@ import initialState from './initialState';
 
 export default function loginReducer(state = initialState.profile, action) {
     switch(action.type){
-         case types.LOGIN_SUCCESS:
+        case types.ATTEMPT_LOGIN:
+
+        case types.LOGIN_SUCCESS:
             return {
                 ...state,
                 username: action.loginUsername,

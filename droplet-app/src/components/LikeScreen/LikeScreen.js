@@ -42,10 +42,9 @@ class LikeScreen extends Component{
 
     }
 
-
     render(){
         const items = this.state.messages.map((message, key)=>{
-            let timeSince = Math.round((new Date(message.likesupdated)-this.state.now)/1000);
+            let timeSince = Math.round(this.state.now-(new Date(message.likesupdated))/1000);
             let timeSinceString = "";
             if (timeSince < 60){
                 timeSinceString = timeSince + " seconds ago"

@@ -72,8 +72,26 @@ class PostsApi {
     }
 
     /* POST */
-    static addNewPost() {
-        return fetch('http://localhost:5000/posts/5c82e1020206a50d84d97e42').then(response => {
+    static addNewPost(postData) {
+        const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        console.log(fetchURL);
+        return fetch(fetchURL,{
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            },
+            body:JSON.stringify({
+                content: postData.postContent,
+                location: {
+                    type: "Point",
+                    coordinates: postData.currentLocation
+                }
+            })
+        }).then(response => {
             console.log(response.json())
             return response.json()
         }).catch(error => {

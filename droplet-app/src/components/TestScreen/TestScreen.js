@@ -40,6 +40,19 @@ class Test extends Component{
                 })
             })
         }
+        /*
+        if(navigator.geolocation){
+            navigator.geolocation.watchPosition((watch)=>{
+                //console.log(watch);
+                console.log(watch.coords.latitude);
+                console.log(watch.coords.longitude);
+                this.setState({
+                    location: [watch.coords.longitude,
+                        watch.coords.latitude]
+                })
+            })
+        }
+        */
     }
 
     onGetID(event){
@@ -179,7 +192,7 @@ class Test extends Component{
         */
         //Get all posts attached to a user.
         const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
-        const fetchURL = 'http://localhost:5000/posts/getUserPostsLikesInt/' + userID;
+        const fetchURL = 'http://localhost:5000/posts/getUserPosts/' + userID;
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token;
         console.log(header);

@@ -45,7 +45,7 @@ const Card = (props) => (
             <div className='likes'>
                 <img src={likesIcon} alt='like' onClick={() => addLike(props.postID)}/>
                 <p>{props.likes}</p>
-                <p> Liked {props.timeSinceLike}</p>
+                <p> &nbsp; Liked {props.timeSinceLike}</p>
             </div>
         </div>
     </div>
