@@ -40,6 +40,19 @@ class Test extends Component{
                 })
             })
         }
+        /*
+        if(navigator.geolocation){
+            navigator.geolocation.watchPosition((watch)=>{
+                //console.log(watch);
+                console.log(watch.coords.latitude);
+                console.log(watch.coords.longitude);
+                this.setState({
+                    location: [watch.coords.longitude,
+                        watch.coords.latitude]
+                })
+            })
+        }
+        */
     }
 
     onGetID(event){
@@ -47,15 +60,20 @@ class Test extends Component{
         console.log(Auth.getCookie('token'));
         //need to check if cookie is alive
         console.log(Auth.parseJwt(Auth.getCookie('token')).sub);
+        console.log(Auth.parseJwt(Auth.getCookie('token')).name);
     }
 
     onTestAuth(event){
         event.preventDefault();
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        console.log(header);
         fetch("http://localhost:5000/posts/testAuth",{
             method:'GET',
             headers:{
                 'Accept': 'application/json',
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': header
             }
         }).then(results => {
             return results.json();
@@ -74,9 +92,6 @@ class Test extends Component{
         const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token
-        console.log(fetchURL);
-        console.log(this.state.posttext);
-        console.log(this.state.location);
         fetch(fetchURL,{
             method:'POST',
             headers:{
@@ -144,6 +159,7 @@ class Test extends Component{
                     messageIDs: data.message[0].posts,
                 })
                 testMessages = data.message[0].posts;
+                console.log(data.message[0].username);
                 console.log(this.state.messageIDs);
                 console.log("Marker for test array");
                 console.log(testMessages);
@@ -176,12 +192,13 @@ class Test extends Component{
         */
         //Get all posts attached to a user.
         const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
-        const fetchURL = 'http://localhost:5000/posts/getUserPostsLikesInt/' + userID;
+        const fetchURL = 'http://localhost:5000/posts/getUserPosts/' + userID;
         const token = Auth.getCookie('token');
-        const header = 'Bearer ' + token
+        const header = 'Bearer ' + token;
+        console.log(header);
         fetch(fetchURL,{
             method: 'GET',
-            header:{
+            headers:{
                 'Accept': 'application/json',
                 'content-type': 'application/json',
                 'Authorization': header
@@ -190,9 +207,10 @@ class Test extends Component{
         .then(results=> {
             return results.json()
         }).then(data =>{
+            console.log(data);
             console.log(data.messages);
             console.log(data.messages[4]._id);
-            console.log(data.messages[4].likesupdated);
+            console.log(typeof(new Date(data.messages[4].likesupdated) - new Date()));
         })
     }
 

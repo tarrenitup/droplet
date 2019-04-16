@@ -1,7 +1,7 @@
 export default {
     loadingSpinner: false,
     overlay: false,
-    newPostModal: { 
+    newPostModal: {
         visible: false,
         postTypeIndex: 0,
         profilePictureUrl: '',

@@ -85,7 +85,7 @@ router.post('/signin', function(req, res){
                 return Promise.reject(401);
             }
         }).then(function(user){
-            return generateJWT(user._id);
+            return generateJWT(user._id,user.username);
         }).then(function(token){
             res.status(200).json({ //consider sending in additional information i.e. user id?
                 token : token
