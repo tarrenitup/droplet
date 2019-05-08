@@ -133,6 +133,9 @@ router.get('/getUserPosts/:userId',(req,res,next)=>{
             return res.status(500).send(err);
         }
         else{
+            posts.sort(function(a,b){
+                return b.updated - a.updated;
+            });
             res.status(200).send({
                 messages: posts
             });
