@@ -60,12 +60,9 @@ class LoginScreen extends Component{
             Auth.setCookie('token', json.token, 1);
             const name = Auth.parseJwt(Auth.getCookie('token')).name;
             dispatch(loginSuccess(name));
-            dispatch(loadHomePosts())
-            .then(function(){
-                this.setState({
-                    success:true
-                });
-            }.bind(this));
+            this.setState({
+                success:true
+            });
         }.bind(this))
         .catch((error)=>{
             return error;

@@ -23,3 +23,15 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 
 /* Time */
 export const UPDATE_TIME = 'UPDATE_TIME'
+
+/* Like */
+export const LIKE_SUCCESS_HOME = 'LIKE_SUCCESS_HOME'
+export const LIKE_SUCCESS_MAP = 'LIKE_SUCCESS_MAP'
+export const LIKE_SUCCESS_LIKE = 'LIKE_SUCCESS_LIKE'
+export const LIKE_SUCCESS_PROFILE = 'LIKE_SUCCESS_PROFILE'
+
+/* Page */
+export const HOME_PAGE = 'HOME_PAGE'
+export const MAP_PAGE = 'MAP_PAGE'
+export const LIKE_PAGE = 'LIKE_PAGE'
+export const PROFILE_PAGE = 'PROFILE_PAGE'

@@ -80,9 +80,10 @@ router.get('/nearby', (req, res, next) => {
 router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
     //Get photo to upload
     console.log(req.file);
-
+    console.log("Hello marker");
     //Find any one user to post on
     const user = await User.findOne({_id: req.params.userId});
+    console.log("Hello marker2");
 
     //If file found, upload post accordingly
     if(req.file != undefined) {
@@ -95,17 +96,22 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         post.postImage = req.file.path;
         post.location = req.body.location;
         //Save it
-        await post.save()
+        await post.save().catch(error=>{
+            return res.send(error);
+        });
 
         //Associates the comment with a Post
         user.posts.push(post._id);
 
         //Save the post (so post is now in posts array)
-        await user.save();
-        res.send(post);
+        await user.save().catch(error=>{
+            return res.status(500).send(error);
+        });
+        return res.send(post);
     }
     //If no file found, upload content only
     else {
+        console.log("Hello marker3");
         //Create new post without image
         const post = new Post();
         post._id = new mongoose.Types.ObjectId();
@@ -116,13 +122,15 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         post.location = req.body.location;
 
         //Save it
-        await post.save();
-
+        await post.save().catch(error=>{
+            return res.send(error);
+        });
         //Associates the comment with a Post
         user.posts.push(post._id);
-
         //Save the post (so post is now in posts array)
-        await user.save();
+        await user.save().catch(error=>{
+            return res.send(error);
+        });
         res.send(post);
     }
 });
@@ -270,6 +278,24 @@ router.post('/like/:userId/:postId', (req, res, next) => {
             return res.status(401).json({
                 success: false
             });
+            //unlike. incomplete. Also need to update likesscreen when unlike.
+            /*Post.updateOne({ "_id" : Pid}, {$pull: { likes: Uid},
+                                            $set: {likesupdated: new Date()}},
+                                            (err, post) => {
+                if(err) {
+                    return res.status(500).send(err);
+                }
+                else {
+                    Post.findOne({_id: Pid}, (err, likedpost) => {
+                        if(err) {
+                            return res.status(500).send(err);
+                        }
+                        else {
+                            res.status(200).send(likedpost);
+                        }
+                    });
+                }
+            });*/
          }
         else {
             //Like the post
@@ -280,10 +306,13 @@ router.post('/like/:userId/:postId', (req, res, next) => {
                     return res.status(500).send(err);
                 }
                 else {
-                    Post.likesupdated = new Date();
-                    return res.status(200).json({
-                        success: true,
-                        likesupdated: Post.likesupdated
+                    Post.findOne({_id: Pid}, (err, likedpost) => {
+                        if(err) {
+                            return res.status(500).send(err);
+                        }
+                        else {
+                            res.status(200).send(likedpost);
+                        }
                     });
                 }
             });
@@ -308,7 +337,9 @@ router.post('/:userId/:postId/comment', async (req, res) => {
     comment.uid = user._id;
 
     //save the comment
-    await comment.save();
+    await comment.save().catch(error=>{
+        return res.send(error);
+    });;
 
     //Associates the comment with a Post
     post.comments.push(comment._id);
@@ -317,7 +348,9 @@ router.post('/:userId/:postId/comment', async (req, res) => {
     post.interactedTime = new Date();
 
     //Save the post (so comment is now in comments array)
-    await post.save();
+    await post.save().catch(error=>{
+        return res.send(error);
+    });;
     res.send(comment);
 });
 

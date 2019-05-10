@@ -14,7 +14,7 @@ export default {
     homePosts: [],
     mapPosts: [],
     likedPosts: [],
-    time: new Date(),
+    time: 0,
     profile: {
         profilePictureUrl: '',  /* get default image url. */
         username: '@username',

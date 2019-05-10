@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './NewPostModal.css'
 import { connect } from 'react-redux'
-import { toggleNewPostModal, newPostAddInitiate, sendNewPost, loadProfilePosts, loadHomePosts, newPostAddSuccess } from '../../actions/postActions'
+import { toggleNewPostModal, newPostAddInitiate, sendNewPost, loadMapPosts, loadProfilePosts, loadHomePosts, newPostAddSuccess, reloadAllPosts } from '../../actions/postActions'
 import {updateTime} from '../../actions/miscActions'
 import PostTypeSelector from './PostTypeSelector'
 import SplashSlider from './SplashSlider'
@@ -48,7 +48,7 @@ class NewPostModal extends Component {
 
     getModalStyleClasses = () => this.props.visiblity ? 'new-post-modal' : 'new-post-modal off'
 
-    handleSubmit = (e, dispatch) => {
+    handleSubmit = (e, pageIndex, dispatch) => {
         e.preventDefault()
 
         if(navigator.geolocation){
@@ -71,21 +71,10 @@ class NewPostModal extends Component {
                     newPostTime: new Date()
                 }
 
-                //console.log(newPost)
+                //console.log(newPost);
                 dispatch(newPostAddInitiate())
-                dispatch(sendNewPost(newPost))
-                .then(function(){
-                    dispatch(loadProfilePosts())
-                    dispatch(loadHomePosts())
-                });
+                dispatch(sendNewPost(newPost,pageIndex))
                 dispatch(updateTime())
-
-                //suboptimal - Should call from sendNewPost, but that way
-                //waits for exactly 4 minutes for some reason
-                //dispatch(loadProfilePosts())
-                //dispatch(loadHomePosts())
-                dispatch(newPostAddSuccess())
-                //dispatch(toggleNewPostModal()) //close on successful post
             })
         }
     }
@@ -93,7 +82,7 @@ class NewPostModal extends Component {
     render() {
         return (
             <div className={ this.getModalStyleClasses() }>
-                <form className='new-post-form' name='newPostForm' onSubmit={(e) => this.handleSubmit(e, this.props.dispatch)}>
+                <form className='new-post-form' name='newPostForm' onSubmit={(e) => this.handleSubmit(e, this.props.selectedPageIndex, this.props.dispatch)}>
                     <div className='top'>
                         <input type='hidden' name='location' ref={(input) => this.getCurrentLocation = input} />
                         <PostTypeSelector dispatch={this.props.dispatch} postTypeIndex={this.props.postTypeIndex} />
@@ -116,7 +105,8 @@ const mapStateToProps = (state) => {
         visiblity: state.newPostModal.visible,
         splashRangeIndex: state.newPostModal.splashRangeIndex,
         postTypeIndex: state.newPostModal.postTypeIndex,
-        username: state.newPostModal.username
+        username: state.newPostModal.username,
+        selectedPageIndex: state.selectedPageIndex
     }
 }
 

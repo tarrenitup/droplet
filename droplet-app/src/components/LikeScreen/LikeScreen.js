@@ -6,13 +6,14 @@ import PostList from './PostList'
 
 import {connect} from 'react-redux'
 import {loadYourLikedPosts} from '../../actions/postActions'
-import {updateTime} from '../../actions/miscActions'
+import {updateTime, likePage} from '../../actions/miscActions'
 
 class LikeScreen extends Component{
     constructor(props){
         super(props);
 
         this.props.dispatch(loadYourLikedPosts());
+        this.props.dispatch(likePage());
         this.props.dispatch(updateTime());
     }
 

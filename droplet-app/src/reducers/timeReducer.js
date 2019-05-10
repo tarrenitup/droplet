@@ -6,6 +6,6 @@ export default function timeReducer(state = initialState.time, action) {
     case types.UPDATE_TIME:
         return new Date()
     default:
-        return new Date()
+        return state
     }
 }

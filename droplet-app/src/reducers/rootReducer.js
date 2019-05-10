@@ -5,6 +5,7 @@ import overlayReducer from './overlayReducer'
 import mapPostsReducer from './mapPostsReducer'
 import profileReducer from './profileReducer'
 import likesReducer from './likesReducer'
+import pageReducer from './pageReducer'
 import timeReducer from './timeReducer'
 
 const rootReducer = combineReducers({
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   mapPosts: mapPostsReducer,
   profile: profileReducer,
   likedPosts: likesReducer,
+  selectedPageIndex: pageReducer,
   time: timeReducer
 })
 

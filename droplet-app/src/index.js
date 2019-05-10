@@ -13,13 +13,11 @@ import Auth from './components/Auth/Auth.js'
 
 const store = configureStore()
 
-store.dispatch(loadHomePosts());
 if(Auth.isAuthenticated()){
     const name = Auth.parseJwt(Auth.getCookie('token')).name;
     store.dispatch(loginSuccess(name));
-    //Probbaly load everything else needed in case user refreshes
+    //Probabaly load everything else needed in case user refreshes
 }
-store.dispatch(updateTime());
 
 render(
     <Provider store={store}>

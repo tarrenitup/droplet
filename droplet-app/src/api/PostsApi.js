@@ -99,6 +99,15 @@ class PostsApi {
                 'Authorization': header
             }
         })
+        .then(result =>{
+            return result.json();
+        })
+        .then(data =>{
+            return data;
+        })
+        .catch(error=>{
+            return error
+        })
     }
 
     static getSamplePosts() { // for development testing only.
@@ -142,6 +151,7 @@ class PostsApi {
         const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token
+        console.log(fetchURL);
         return fetch(fetchURL,{
             method:'POST',
             headers:{
@@ -158,7 +168,10 @@ class PostsApi {
             })
         }).then(response => {
             return response.json()
-        }).catch(error => {
+        })/*.then(data =>{
+            console.log(data);
+            return data;
+        })*/.catch(error => {
             return error
         });
     }

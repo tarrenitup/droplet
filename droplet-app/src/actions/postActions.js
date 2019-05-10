@@ -57,13 +57,27 @@ export function newPostAddInitiate() {
     return { type: types.NEW_POST_ADD_INITIATE}
 }
 
-export function sendNewPost(postData) {
+export function sendNewPost(postData,pageIndex) {
+    console.log(pageIndex);
     return function(dispatch) {
         return PostsApi.addNewPost(postData)
-        //.then(() => {
-            //Waits 4 minutes for some reason?
-            //dispatch(loadProfilePosts())
-            //dispatch(newPostAddSuccess())
+        .then(() => {
+            switch(pageIndex){
+                case 0:
+                    dispatch(loadHomePosts());
+                    break;
+                case 1:
+                    dispatch(loadMapPosts());
+                    break;
+                case 3:
+                    dispatch(loadProfilePosts());
+                    break;
+                default:
+                    dispatch(reloadAllPosts());
+                    break;
+            }
+            dispatch(newPostAddSuccess());
+        })
         .catch(error => {
             throw(error)
         })
@@ -100,15 +114,32 @@ export function loadYourLikedPostsSuccess(likedPosts){
     return{ type: types.LOAD_YOUR_LIKED_POSTS, likedPosts};
 }
 
-export function likePost(postID){
+export function likePost(postID,pageIndex){
     return function(dispatch){
         return PostsApi.addLike(postID)
-        .then(()=>{
-            dispatch(reloadAllPosts());
+        .then(post=>{
+            dispatch(likeSuccess(post,pageIndex));
+            //dispatch(reloadAllPosts());
         }).catch(error =>{
             throw(error)
         })
     }
+}
+
+export function likeSuccess(post,pageIndex){
+    switch(pageIndex){
+        case 0:
+            return {type:types.LIKE_SUCCESS_HOME,post}
+        case 1:
+            return {type:types.LIKE_SUCCESS_MAP,post}
+        case 2:
+            return {type:types.LIKE_SUCCESS_LIKE,post}
+        case 3:
+            return {type:types.LIKE_SUCCESS_PROFILE,post}
+        default:
+            return
+    }
+    //return{type:types.LIKE_SUCCESS,post,pageIndex}
 }
 
 export function reloadAllPosts(){

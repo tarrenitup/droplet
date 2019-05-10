@@ -5,7 +5,7 @@ import Auth from '../Auth/Auth.js'
 import PostList from './PostList'
 import {loadProfilePosts} from '../../actions/postActions'
 import {loadBio} from '../../actions/profileActions'
-import {updateTime} from '../../actions/miscActions'
+import {updateTime,profilePage} from '../../actions/miscActions'
 
 import {connect} from 'react-redux'
 
@@ -15,6 +15,7 @@ class ProfileScreen extends Component{
         let userID = Auth.parseJwt(Auth.getCookie('token')).sub;
         this.props.dispatch(loadProfilePosts());
         this.props.dispatch(loadBio());
+        this.props.dispatch(profilePage());
         this.props.dispatch(updateTime());
     }
 

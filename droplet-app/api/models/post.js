@@ -15,10 +15,34 @@ const postSchema = new mongoose.Schema({
         default: undefined
     },
 //    splash_rad: Number,
+/*
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment',
         required: 'Comment is required'
+    }],*/
+    comments: [{
+        username: {
+            type: String,
+            ref: 'User',
+            required: 'Username is required'
+        },
+        content: {
+            type: String,
+            required: 'Content is required'
+        },
+        created: {
+            type: Date,
+            default: Date.now
+        },
+        likes: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }],
+        likesupdated: {
+            type: Date,
+            default: undefined
+        }
     }],
     created: {
         type: Date,

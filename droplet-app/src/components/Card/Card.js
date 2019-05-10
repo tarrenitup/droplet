@@ -27,6 +27,12 @@ const DisplayLikes = (props) => {
 }
 */
 
+function modifyLikes(props){
+    const uid = Auth.parseJwt(Auth.getCookie('token')).sub;
+
+    props.dispatch(likePost(props.postID,props.selectedPageIndex))
+}
+
 //Pass card dispatch somehow.
 const Card = (props) => (
     <div className='card'>
@@ -41,7 +47,7 @@ const Card = (props) => (
 
         <div className='card-bottom'>
             <div className='likes'>
-                <img src={likesIcon} alt='like' onClick={() => props.dispatch(likePost(props.postID))}/>
+                <img src={likesIcon} alt='like' onClick={() => modifyLikes(props)}/>
                 <p>{props.likes}</p>
                 <p> &nbsp;&nbsp; {props.timeSinceLike}</p>
             </div>
@@ -49,4 +55,25 @@ const Card = (props) => (
     </div>
 )
 
-export default connect()(Card);
+function mapStateToProps(state){
+    switch(state.seletedPageIndex){
+        case 0:
+            return{
+                selectedPageIndex: state.selectedPageIndex
+            }
+        case 1:
+            return{
+                selectedPageIndex: state.selectedPageIndex
+            }
+        case 3:
+            return{
+                selectedPageIndex: state.selectedPageIndex
+            }
+        default
+            return{
+                selectedPageIndex: state.selectedPageIndex
+            }
+    }
+}
+
+export default connect(mapStateToProps)(Card);

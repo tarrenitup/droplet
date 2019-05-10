@@ -8,11 +8,6 @@ export default function profileReducer(state = initialState.profile, action) {
             ...state,
             posts: action.userPosts,
         }
-        /*
-        return Object.assign({}, state, {
-            posts: action.userPosts
-        })
-        */
     case types.LOGIN_SUCCESS:
         return {
             ...state,
