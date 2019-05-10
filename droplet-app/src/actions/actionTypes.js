@@ -13,6 +13,13 @@ export const CHANGE_NEW_POST_TYPE = 'CHANGE_NEW_POST_TYPE'
 export const NEW_POST_ADD_INITIATE = 'NEW_POST_ADD_INITIATE'
 export const NEW_POST_ADD_SUCCESS = 'NEW_POST_ADD_SUCCESS'
 
+//Load profile stuff
+export const LOAD_PROFILE_POSTS = 'LOAD_PROFILE_POSTS'
+export const LOAD_BIO = 'LOAD_BIO'
+export const LOAD_YOUR_LIKED_POSTS = 'LOAD_YOUR_LIKED_POSTS'    //Your posts, that have been liked
+
 /* Login */
-export const ATTEMPT_LOGIN = 'ATTEMPT_LOGIN'
-export const LOGIN_SUCCESS = 'LOGIC_SUCCESS'
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+
+/* Time */
+export const UPDATE_TIME = 'UPDATE_TIME'

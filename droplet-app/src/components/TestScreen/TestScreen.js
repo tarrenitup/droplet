@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import './Test.css'
 import Auth from '../Auth/Auth.js'
 
@@ -53,7 +54,7 @@ class Test extends Component{
                 })
             })
         }
-    
+
     }
 
     onGetID(event){
@@ -172,7 +173,6 @@ class Test extends Component{
         this.setState({
             postList: []
         })
-        var i;
         //Get each post individually w/ array of postIDs.
         /*
         for(i = 0; i < this.state.messageIDs.length;i++){
@@ -236,6 +236,10 @@ class Test extends Component{
             console.log(data);
         })
 
+    }
+
+    redirect(){
+        this.props.history.push('/');
     }
 
     render(){
@@ -310,11 +314,16 @@ class Test extends Component{
                     type="submit"
                     onClick={this.onOldPost}
                 />
-
+                <input
+                    className="Redirect"
+                    value="Redirect"
+                    type="submit"
+                    onClick={this.Redirect}
+                />
                 </form>
             </main>
         )
     }
 }
 
-export default Test
+export default withRouter(Test)

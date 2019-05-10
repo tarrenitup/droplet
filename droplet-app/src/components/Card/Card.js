@@ -2,32 +2,8 @@ import React from 'react'
 import './Card.css'
 import likesIcon from './likes.svg'
 import Auth from '../Auth/Auth.js'
-
-function addLike(props){
-    const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
-    const fetchURL = 'http://localhost:5000/posts/like/' + userID + '/' + props.postID;
-    const token = Auth.getCookie('token');
-    const header = 'Bearer ' + token
-    fetch(fetchURL,{
-        method: 'POST',
-        headers:{
-            'Accept': 'application/json',
-            'content-type': 'application/json',
-            'Authorization': header
-        }
-    })
-    /*
-    .then((res)=> {
-        return res.json();
-    }).then(data =>{
-        if(data.success == true){
-            return (<p>{props.likes + 1} </p>)
-        }else{
-            return <p>{props.likes}</p>
-        }
-    })
-    */
-}
+import {connect} from 'react-redux'
+import {likePost} from '../../actions/postActions'
 
 const PostMedia = (props) => {
 
@@ -51,6 +27,7 @@ const DisplayLikes = (props) => {
 }
 */
 
+//Pass card dispatch somehow.
 const Card = (props) => (
     <div className='card'>
         <div className='card-top'>
@@ -64,7 +41,7 @@ const Card = (props) => (
 
         <div className='card-bottom'>
             <div className='likes'>
-                <img src={likesIcon} alt='like' onClick={() => addLike(props)}/>
+                <img src={likesIcon} alt='like' onClick={() => props.dispatch(likePost(props.postID))}/>
                 <p>{props.likes}</p>
                 <p> &nbsp;&nbsp; {props.timeSinceLike}</p>
             </div>
@@ -72,4 +49,4 @@ const Card = (props) => (
     </div>
 )
 
-export default Card;
+export default connect()(Card);

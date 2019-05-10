@@ -20,6 +20,27 @@ class PostsApi {
         });
     }
 
+    static getUserPosts() {
+        const fetchURL = 'http://localhost:5000/posts/getUserPosts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
+
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method: 'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        }).then(response => {
+            return response.json()
+        }).then(data =>{
+            return data.messages
+        }).catch(error => {
+            return error
+        });
+    }
+
     // TODO: Change the fetch call to nearby
     //static getMapPosts(lng, lat, meters){
     static getMapPosts(lng, lat, meters){
@@ -40,6 +61,44 @@ class PostsApi {
       }).catch(error => {
           return error
       });
+    }
+
+    static getYourLikedPosts(){
+        const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
+        const fetchURL = 'http://localhost:5000/posts/getUserPostsLikesInt/' + userID;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method:'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        })
+        .then(results => {
+            return results.json()
+        }).then(data =>{
+            return data.messages
+        })
+        .catch((error) => {
+            return error
+        })
+    }
+
+    static addLike(postID){
+        const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
+        const fetchURL = 'http://localhost:5000/posts/like/' + userID + '/' + postID;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method: 'POST',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        })
     }
 
     static getSamplePosts() { // for development testing only.
@@ -83,7 +142,6 @@ class PostsApi {
         const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token
-        console.log(fetchURL);
         return fetch(fetchURL,{
             method:'POST',
             headers:{
@@ -99,7 +157,6 @@ class PostsApi {
                 }
             })
         }).then(response => {
-            console.log(response.json())
             return response.json()
         }).catch(error => {
             return error

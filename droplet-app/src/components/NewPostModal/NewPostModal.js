@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import './NewPostModal.css'
 import { connect } from 'react-redux'
-import { toggleNewPostModal, newPostAddInitiate, sendNewPost } from '../../actions/postActions'
-
+import { toggleNewPostModal, newPostAddInitiate, sendNewPost, loadProfilePosts, loadHomePosts, newPostAddSuccess } from '../../actions/postActions'
+import {updateTime} from '../../actions/miscActions'
 import PostTypeSelector from './PostTypeSelector'
 import SplashSlider from './SplashSlider'
 import submitIcon from './submit-icon.svg'
@@ -62,7 +62,7 @@ class NewPostModal extends Component {
                 const currentLocation = [long,lat] // later to get from ui..
                 const splashRangeId = 5 // later to get from ui..
                 const postTypeId = 3 // later to get from ui..
-                console.log(currentLocation);
+                //console.log(currentLocation);
                 const newPost = {
                     postContent,
                     splashRangeId,
@@ -71,10 +71,21 @@ class NewPostModal extends Component {
                     newPostTime: new Date()
                 }
 
-                console.log(newPost)
+                //console.log(newPost)
                 dispatch(newPostAddInitiate())
                 dispatch(sendNewPost(newPost))
-                dispatch(toggleNewPostModal()) //close on successful post
+                .then(function(){
+                    dispatch(loadProfilePosts())
+                    dispatch(loadHomePosts())
+                });
+                dispatch(updateTime())
+
+                //suboptimal - Should call from sendNewPost, but that way
+                //waits for exactly 4 minutes for some reason
+                //dispatch(loadProfilePosts())
+                //dispatch(loadHomePosts())
+                dispatch(newPostAddSuccess())
+                //dispatch(toggleNewPostModal()) //close on successful post
             })
         }
     }
@@ -86,7 +97,7 @@ class NewPostModal extends Component {
                     <div className='top'>
                         <input type='hidden' name='location' ref={(input) => this.getCurrentLocation = input} />
                         <PostTypeSelector dispatch={this.props.dispatch} postTypeIndex={this.props.postTypeIndex} />
-                        <UserInfo name={Auth.parseJwt(Auth.getCookie('token')).name} picture={''} />
+                        <UserInfo name={this.props.username} picture={''} />
                         <FileUpload />
                         <div className='textarea-outer'>
                             <textarea required className='post-text' placeholder='write a post ...' ref={(input) => this.getPostContent = input} />
@@ -104,7 +115,8 @@ const mapStateToProps = (state) => {
     return {
         visiblity: state.newPostModal.visible,
         splashRangeIndex: state.newPostModal.splashRangeIndex,
-        postTypeIndex: state.newPostModal.postTypeIndex
+        postTypeIndex: state.newPostModal.postTypeIndex,
+        username: state.newPostModal.username
     }
 }
 

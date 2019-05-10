@@ -54,21 +54,76 @@ export function changeNewPostType(postTypeIndex) {
 }
 
 export function newPostAddInitiate() {
-    return { type: types.NEW_POST_ADD_INITIATE} 
+    return { type: types.NEW_POST_ADD_INITIATE}
 }
 
 export function sendNewPost(postData) {
     return function(dispatch) {
-        return PostsApi.addNewPost(postData).then(() => {
-            dispatch(newPostAddSuccess())
-        }).catch(error => {
+        return PostsApi.addNewPost(postData)
+        //.then(() => {
+            //Waits 4 minutes for some reason?
+            //dispatch(loadProfilePosts())
+            //dispatch(newPostAddSuccess())
+        .catch(error => {
             throw(error)
         })
     }
 }
 
+export function loadProfilePosts(){
+    return function(dispatch){
+        return PostsApi.getUserPosts()
+        .then(response =>{
+            dispatch(loadUserPostsSuccess(response))
+        }).catch(error =>{
+            throw(error)
+        })
+    }
+}
+
+export function loadUserPostsSuccess(userPosts) {
+    return {type: types.LOAD_PROFILE_POSTS, userPosts};
+}
+
+export function loadYourLikedPosts(){
+    return function(dispatch){
+        return PostsApi.getYourLikedPosts()
+        .then(posts =>{
+            dispatch(loadYourLikedPostsSuccess(posts))
+        }).catch(error =>{
+            throw(error)
+        })
+    }
+}
+
+export function loadYourLikedPostsSuccess(likedPosts){
+    return{ type: types.LOAD_YOUR_LIKED_POSTS, likedPosts};
+}
+
+export function likePost(postID){
+    return function(dispatch){
+        return PostsApi.addLike(postID)
+        .then(()=>{
+            dispatch(reloadAllPosts());
+        }).catch(error =>{
+            throw(error)
+        })
+    }
+}
+
+export function reloadAllPosts(){
+    return function(dispatch){
+        dispatch(loadHomePosts());
+        dispatch(loadMapPosts());
+        dispatch(loadProfilePosts());
+        dispatch(loadYourLikedPosts());
+    }
+}
+
+
+//Upon add new post, update respective post arrays
 export function newPostAddSuccess() {
-    return { 
+    return {
         type: types.NEW_POST_ADD_SUCCESS,
     }
 }

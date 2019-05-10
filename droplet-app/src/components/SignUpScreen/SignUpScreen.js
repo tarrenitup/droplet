@@ -1,7 +1,10 @@
 import React, {Component} from 'react'
-import {withRouter} from 'react-router'
+import {Redirect} from 'react-router'
 import './SignUpScreen.css'
-//import Auth from '../Auth/Auth.js'
+import Auth from '../Auth/Auth.js'
+import {connect} from 'react-redux'
+import {loginSuccess} from '../../actions/loginActions'
+import {loadHomePosts} from '../../actions/postActions'
 
 class SignUpScreen extends Component{
     constructor(props){
@@ -10,11 +13,12 @@ class SignUpScreen extends Component{
             username:'',
             password:'',
             cpassword:'',
-            bio:''
+            bio:'',
+            success:null
         }
         this.onChange = this.onChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-//        this.login = this.login.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.signup = this.signup.bind(this);
     }
 
     onChange(event){
@@ -24,14 +28,14 @@ class SignUpScreen extends Component{
         })
     }
 
-    onSubmit(event){
+    handleSubmit(event,dispatch){
         event.preventDefault();
-        this.signup(this.state.username, this.state.password, this.state.cpassword, this.state.bio);
+        this.signup(this.state.username, this.state.password, this.state.cpassword, this.state.bio,dispatch);
     }
 
 
-    signup(username,password,cpass, bio){
-        if(password==cpass){
+    signup(username,password,cpass, bio,dispatch){
+        if(password===cpass){
             fetch('http://localhost:5000/users/',{
                 method:'POST',
                 headers: {
@@ -45,59 +49,96 @@ class SignUpScreen extends Component{
                 })
             })
             .then(function(res){
-                return res.json();
-            })
+                if(res.status===200){
+                    return res.json();
+                }
+                else{
+                    this.setState({
+                        success:3
+                    })
+                }
+            }.bind(this))
             .then(function(json){
-                console.log(JSON.stringify(json));
+                Auth.setCookie('token', json.token, 1);
+                const name = Auth.parseJwt(Auth.getCookie('token')).name;
+                dispatch(loginSuccess(name));
+                dispatch(loadHomePosts())
+                .then(function(){
+                    this.setState({
+                        success:1
+                    });
+                }.bind(this));
+            }.bind(this))
+            .catch((error)=>{
+                return error;
             });
-            this.props.history.push('/');
-            //window.location.assign('/');
         }
         else{
-            window.location.reload();
+            //Password didn't match confirmed password
+            this.setState({
+                success:2
+            })
+        }
+    }
+
+    failedMessage = () => {
+        if(this.state.success === 2){
+            return <span className="signup_failed">Signup Failed! Passwords did not match.</span>
+        }
+        else if(this.state.success === 3){
+            return <span className="signup_failed">Signup Failed! Username taken.</span>
+        }
+    }
+
+    redirection = () => {
+        if(this.state.success === 1){
+            return <Redirect to='/' />
         }
     }
 
     render() {
       return (
           <main className="signup-screen screen" >
-                <div className="modal">
+                {this.redirection()}
+                <div className="signup-modal">
                     <h1>Sign Up</h1>
-                    <form>
+                    <form onSubmit={(e) => this.handleSubmit(e,this.props.dispatch)}>
                         <input
-                            className="form-text"
+                            className="signup-form-text"
                             placeholder="Username"
                             name="username"
                             type="text"
                             onChange={this.onChange}
+                            required
                         />
                         <input
-                            className="form-text"
+                            className="signup-form-text"
                             placeholder="Password"
                             name="password"
                             type="password"
                             onChange={this.onChange}
+                            required
                         />
                         <input
-                            className="form-text"
+                            className="signup-form-text"
                             placeholder="Confirm Password"
                             name="cpassword"
                             type="password"
                             onChange={this.onChange}
+                            required
                         />
-                        <input
-                            className="form-text"
+                        <textarea
+                            className="signup-form-textarea"
                             placeholder="Your Bio"
                             name="bio"
-                            type="text"
                             onChange={this.onChange}
                         />
                         <input
                             className="submitRegister"
                             value="Sign Up"
                             type="submit"
-                            onClick={this.onSubmit}
                         />
+                        {this.failedMessage()}
                         <div className = "link">
                             Already a user?&nbsp;
                             <a href="http://localhost:3000/login">Click here</a>
@@ -111,4 +152,4 @@ class SignUpScreen extends Component{
     }
 }
 
-export default SignUpScreen;
+export default connect()(SignUpScreen);

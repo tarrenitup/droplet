@@ -13,12 +13,13 @@ export default {
     themeId: 0,
     homePosts: [],
     mapPosts: [],
-    likesPosts: [],
+    likedPosts: [],
+    time: new Date(),
     profile: {
         profilePictureUrl: '',  /* get default image url. */
         username: '@username',
-        blurb: 'I like books and long walks on the beach.',
+        bio: '',
         posts: [],
-    }, 
+    },
     selectedPageIndex: 0,
 }
