@@ -22,7 +22,6 @@ class Map extends React.Component {
       userLat: 0
     };
   }
-
   onFindLocation(map){
     if(navigator.geolocation){
         navigator.geolocation.watchPosition((position)=>{
@@ -36,7 +35,6 @@ class Map extends React.Component {
         })
     }
   }
-
 
   componentDidMount() {
     console.log("MOUNTED")
