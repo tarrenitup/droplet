@@ -5,6 +5,7 @@ import commentIcon from './comment.svg'
 import Auth from '../Auth/Auth.js'
 import {connect} from 'react-redux'
 import {likePost} from '../../actions/postActions'
+import CommentList from './CommentList'
 
 const PostMedia = (props) => {
 
@@ -99,28 +100,6 @@ function modifyLikes(props){
         default:
             break;
     }
-    //props.dispatch(likePost(props.postID,props.selectedPageIndex))
-}
-
-function showComments(props){
-/*    const items = props.posts.map((post, index)=>{
-        return <CommentCard
-            key={post._id}
-            postID={post._id}
-            name={post.username}
-            text={post.content}
-            date={post.created}
-            picture={post.postImage}
-            likes={post.likes.length}
-        />
-    });
-    <ul className="comment-list">
-        {items}
-    </ul>
-    */
-    return(
-        <p></p>
-    )
 }
 
 const Note = (props) => {
@@ -130,73 +109,6 @@ const Note = (props) => {
     else{
         return <p></p>
     }
-}
-
-const CommentButton = () => {
-    return <p></p>
-}
-
-function showComment(props){
-    return(
-        <p></p>
-    )
-}
-
-function toggleComments(){
-    return false;
-}
-
-// Removed             <img className='profile-pic' src={props.picture} alt='' />
-// Used to be right under div card-top, was the profile image.
-// Need to find way to get profile image
-const CommentCard = (props) => (
-    <div className='card'>
-        <div className='card-top'>
-            <p className='username'>{props.name}</p>
-        </div>
-        <p className='card-text'>{props.text}{props.edited ? ' edited' : ''}</p>
-
-        <div className='card-bottom'>
-            <div className='likes'>
-                <img className='like' src={likesIcon} alt='like' onClick={() => modifyLikes(props)}/>
-                <p>{props.likes}</p>
-            </div>
-        </div>
-    </div>
-)
-
-const CommentList = (props) => {
-    const [content, input] = useState("");
-    return(
-        <div  style={{display: props.display ? 'inline' : 'none'}}>
-            <form onSubmit={(e) => handleComment(e,props.dispatch)}>
-                <textarea
-                    className="comment-textarea"
-                    placeholder="Write a comment..."
-                    name="commentText"
-                    value={content}
-                    onChange={(e) => input(e.target.value)}
-                />
-                <input
-                    className="submitComment"
-                    value="Comment"
-                    type="submit"
-                />
-            </form>
-            <ul className="comment-list">
-                {props.comments.map((comment,index) => (
-                    <CommentCard
-                        key={comment._id}
-                        commentID={comment._id}
-                        name={comment.username}
-                        text={comment.content}
-                        date={comment.created}
-                        likes={comment.likes.length}
-                    />)
-                )}
-            </ul>
-        </div>
-    )
 }
 
 //Pass card dispatch somehow.
@@ -218,8 +130,9 @@ const Card = (props) => {
                     <p>{props.likes}</p>
                     <Note added={props}/>
                     <img className='comment' src={commentIcon} alt ='Comment' onClick={() => toggleShow(!show)}/>
+                    <p>{props.comments.length}</p>
                 </div>
-                <CommentList comments={props.comments} dispatch={props.dispatch} display={show}/>
+                <CommentList comments={props.comments} username={props.username} userid={props.userid} postid={props.postID} dispatch={props.dispatch} selectedPageIndex={props.selectedPageIndex} display={show}/>
             </div>
         </div>
     )
@@ -232,6 +145,7 @@ function mapStateToProps(state){
         profilePosts: state.profile.posts,
         likedPosts: state.likedPosts,
         mapPosts: state.mapPosts,
+        username: state.profile.username,
         userid: state.profile.userid
     }
 }

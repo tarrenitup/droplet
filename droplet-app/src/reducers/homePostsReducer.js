@@ -12,6 +12,21 @@ export default function homePostsReducer(state = initialState.homePosts, action)
             }
             return post
         })
+    case types.ADD_CLIKE_HOME:
+        return state.map((post, index)=>{
+            if(post._id === action.postid){
+                let temp = post.comments.map((comment,index)=>{
+                    if(comment._id === action.comment._id){
+                        return action.comment
+                    }
+                    return comment
+                })
+                let newPost = Object.assign({},post)
+                newPost.comments = temp
+                return newPost
+            }
+            return post
+        })
         /*
     case types.LIKE_SUCCESS_HOME:
         return state

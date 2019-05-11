@@ -25,14 +25,20 @@ export const LOGIN_DATA = 'LOGIN_DATA'
 export const UPDATE_TIME = 'UPDATE_TIME'
 
 /* Like */
+/* Unused for now. Use if swap to reloading over manual updates
 export const LIKE_SUCCESS_HOME = 'LIKE_SUCCESS_HOME'
 export const LIKE_SUCCESS_MAP = 'LIKE_SUCCESS_MAP'
 export const LIKE_SUCCESS_LIKE = 'LIKE_SUCCESS_LIKE'
 export const LIKE_SUCCESS_PROFILE = 'LIKE_SUCCESS_PROFILE'
+*/
 export const ADD_LIKE_HOME = 'ADD_LIKE_HOME'
 export const ADD_LIKE_MAP = 'ADD_LIKE_MAP'
 export const ADD_LIKE_LIKE = 'ADD_LIKE_LIKE'
 export const ADD_LIKE_PROFILE = 'ADD_LIKE_PROFILE'
+export const ADD_CLIKE_HOME = 'ADD_CLIKE_HOME'
+export const ADD_CLIKE_MAP = 'ADD_CLIKE_MAP'
+export const ADD_CLIKE_LIKE = 'ADD_CLIKE_LIKE'
+export const ADD_CLIKE_PROFILE = 'ADD_CLIKE_PROFILE'
 
 /* Page */
 export const HOME_PAGE = 'HOME_PAGE'

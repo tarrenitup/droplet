@@ -136,6 +136,21 @@ export function likePost(post,pageIndex){
             return
     }
 }
+
+export function likeComment(comment,postid,pageIndex){
+    switch(pageIndex){
+        case 0:
+            return {type:types.ADD_CLIKE_HOME,comment,postid}
+        case 1:
+            return {type:types.ADD_CLIKE_MAP,comment,postid}
+        case 2:
+            return {type:types.ADD_CLIKE_LIKE,comment,postid}
+        case 3:
+            return {type:types.ADD_CLIKE_PROFILE,comment,postid}
+        default:
+            return
+    }
+}
 /*
 //Reloads a page's posts to update like.
 //Obsolete - swapped with above. Database update done thru card.

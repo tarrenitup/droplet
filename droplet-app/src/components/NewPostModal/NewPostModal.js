@@ -39,7 +39,6 @@ const Buttons = ({ dispatch }) => {
 
 
 class NewPostModal extends Component {
-
     constructor(props) {
         super(props)
     }

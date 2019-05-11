@@ -28,7 +28,7 @@ const postSchema = new mongoose.Schema({
             ref: 'User',
             required: 'Username is required'
         },
-        //userid: ,
+        userid: mongoose.Schema.Types.ObjectId,
         content: {
             type: String,
             required: 'Content is required'

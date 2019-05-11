@@ -327,7 +327,7 @@ router.post('/:postId/:userId/addComment', async(req, res) =>{
     const Pid = req.params.postId;
     const Uid = req.params.userId;
     Post.updateOne({ "_id" : Pid}, {$push: { comments: {
-
+                                                userid: Uid,
                                                 username: req.body.username,
                                                 content: req.body.content,
                                                 created: new Date()
