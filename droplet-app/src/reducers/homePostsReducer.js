@@ -12,6 +12,13 @@ export default function homePostsReducer(state = initialState.homePosts, action)
             }
             return post
         })
+    case types.ADD_COMMENT_HOME:
+        return state.map((post,index)=>{
+            if(post._id === action.post._id){
+                return action.post
+            }
+            return post
+        })
     case types.ADD_CLIKE_HOME:
         return state.map((post, index)=>{
             if(post._id === action.postid){

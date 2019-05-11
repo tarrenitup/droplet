@@ -40,6 +40,12 @@ export const ADD_CLIKE_MAP = 'ADD_CLIKE_MAP'
 export const ADD_CLIKE_LIKE = 'ADD_CLIKE_LIKE'
 export const ADD_CLIKE_PROFILE = 'ADD_CLIKE_PROFILE'
 
+/*Comment */
+export const ADD_COMMENT_HOME = 'ADD_COMMENT_HOME'
+export const ADD_COMMENT_MAP = 'ADD_COMMENT_MAP'
+export const ADD_COMMENT_LIKE = 'ADD_COMMENT_LIKE'
+export const ADD_COMMENT_PROFILE = 'ADD_COMMENT_PROFILE'
+
 /* Page */
 export const HOME_PAGE = 'HOME_PAGE'
 export const MAP_PAGE = 'MAP_PAGE'

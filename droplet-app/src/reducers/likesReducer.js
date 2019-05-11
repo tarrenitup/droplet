@@ -12,6 +12,13 @@ export default function profileReducer(state = initialState.likedPosts, action) 
             }
             return post
         })
+    case types.ADD_COMMENT_LIKE:
+        return state.map((post,index)=>{
+            if(post._id === action.post._id){
+                return action.post
+            }
+            return post
+        })
     case types.ADD_CLIKE_LIKE:
         return state.map((post, index)=>{
             if(post._id === action.postid){

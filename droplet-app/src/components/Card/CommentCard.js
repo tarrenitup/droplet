@@ -9,7 +9,6 @@ function updateCommentLike(userID, postID, commentID){
     const fetchURL = 'http://localhost:5000/posts/likeComment/' + userID + '/' + postID + '/' + commentID;
     const token = Auth.getCookie('token');
     const header = 'Bearer ' + token;
-    console.log(fetchURL);
     return fetch(fetchURL,{
         method: 'POST',
         headers:{
@@ -75,7 +74,7 @@ function modifyCommentLikes(props){
                 newLikedCommentLikes2.push(props.userid);
                 newLikedComment2.likes = newLikedCommentLikes2;
                 props.dispatch(likeComment(newLikedComment2,props.postID, 2));
-                //updateLike(props.userid,props.postID);
+                updateCommentLike(props.userid,props.postID,props.commentID);
             }
             break;
         case 3:
@@ -97,7 +96,7 @@ function modifyCommentLikes(props){
                 newLikedCommentLikes3.push(props.userid);
                 newLikedComment3.likes = newLikedCommentLikes3;
                 props.dispatch(likeComment(newLikedComment3,props.postID, 3));
-                //updateLike(props.userid,props.postID);
+                updateCommentLike(props.userid,props.postID,props.commentID);
             }
             break;
         default:

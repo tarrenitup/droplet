@@ -84,6 +84,32 @@ class PostsApi {
         })
     }
 
+    /* POST */
+    static addNewPost(postData,userID) {
+        const fetchURL = 'http://localhost:5000/posts/' + userID;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            },
+            body:JSON.stringify({
+                content: postData.postContent,
+                location: {
+                    type: "Point",
+                    coordinates: postData.currentLocation
+                }
+            })
+        }).then(response => {
+            return response.json()
+        }).catch(error => {
+            return error
+        });
+    }
+
 /* Moved to card
     static addLike(postID){
         const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
@@ -145,31 +171,6 @@ class PostsApi {
         )
     }
 
-    /* POST */
-    static addNewPost(postData,userID) {
-        const fetchURL = 'http://localhost:5000/posts/' + userID;
-        const token = Auth.getCookie('token');
-        const header = 'Bearer ' + token
-        return fetch(fetchURL,{
-            method:'POST',
-            headers:{
-                'Accept': 'application/json',
-                'content-type': 'application/json',
-                'Authorization': header
-            },
-            body:JSON.stringify({
-                content: postData.postContent,
-                location: {
-                    type: "Point",
-                    coordinates: postData.currentLocation
-                }
-            })
-        }).then(response => {
-            return response.json()
-        }).catch(error => {
-            return error
-        });
-    }
 }
 
 export default PostsApi;

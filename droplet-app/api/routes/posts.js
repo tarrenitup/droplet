@@ -47,6 +47,12 @@ router.get('/',(req, res, next) => {
     });
 });
 
+//return a new comment id
+router.get('/AComment',(req, res, next) => {
+    const newID = new mongoose.Types.ObjectId();
+    res.status(200).send(newID)
+});
+
 //Get all posts within 10 meters
 router.get('/nearby', (req, res, next) => {
     //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32&meters=100000
@@ -329,6 +335,7 @@ router.post('/:postId/:userId/addComment', async(req, res) =>{
     const Pid = req.params.postId;
     const Uid = req.params.userId;
     Post.updateOne({ "_id" : Pid}, {$push: { comments: {
+                                                _id: req.body.commentid,
                                                 userid: Uid,
                                                 username: req.body.username,
                                                 content: req.body.content,
@@ -343,7 +350,7 @@ router.post('/:postId/:userId/addComment', async(req, res) =>{
                     return res.status(500).send(err);
                 }
                 else {
-                    res.status(200).send(commentedpost);
+                    return res.status(200).send(commentedpost);
                 }
             });
         }
@@ -356,8 +363,6 @@ router.post('/likeComment/:userId/:postId/:commentId', (req, res, next) => {
     const Pid = req.params.postId;
     const Uid = req.params.userId;
     const Cid = req.params.commentId;
-    console.log("Mark1");
-    console.log(Cid);
     Post.findOne({_id: Pid}, (err, holdingPost) => {
         if(err) {
             return res.status(500).send(err);
