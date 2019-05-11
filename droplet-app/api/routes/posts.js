@@ -235,11 +235,12 @@ router.delete('/:postId', (req, res, next) => {
         }
         else {
             //Remove comments associated with the post
+            /*
             Comment.remove({ "post": Pid }, (err, comment) => {
                 if(err) {
                     return res.status(500).send(err);
                 }
-                else {
+                else {*/
                     //Remove post from user post array
                     User.update({}, {$pull: { posts: Pid }}, (err, user) => {
                         if(err) {
@@ -252,8 +253,8 @@ router.delete('/:postId', (req, res, next) => {
                             });
                         }
                     });
-                }
-            });
+//                }
+//            });
         }
     });
 });

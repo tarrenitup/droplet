@@ -24,7 +24,7 @@ class ProfileScreen extends Component{
         event.preventDefault();
         const commentContent = this.getComment.value;
         const userID = this.props.userid;
-        const fetchURL = 'http://localhost:5000/posts/' + "5cd63e41e355ce2a68d81efd/" + userID + "/addComment";
+        const fetchURL = 'http://localhost:5000/posts/' + "5cd63e1a034a1e3c3450b9b7/" + userID + "/addComment";
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token;
         console.log(fetchURL);
