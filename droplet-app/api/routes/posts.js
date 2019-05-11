@@ -305,6 +305,7 @@ router.post('/like/:userId/:postId', (req, res, next) => {
                     return res.status(500).send(err);
                 }
                 else {
+                    /*Do this is you need the updated post
                     Post.findOne({_id: Pid}, (err, likedpost) => {
                         if(err) {
                             return res.status(500).send(err);
@@ -312,7 +313,8 @@ router.post('/like/:userId/:postId', (req, res, next) => {
                         else {
                             res.status(200).send(likedpost);
                         }
-                    });
+                    });*/
+                    res.status(200).send();
                 }
             });
         }
@@ -348,7 +350,53 @@ router.post('/:postId/:userId/addComment', async(req, res) =>{
     });
 });
 
+//lIKE A Comment
+router.post('/likeComment/:userId/:postId/:commentId', (req, res, next) => {
+    //Find comment to like
+    const Pid = req.params.postId;
+    const Uid = req.params.userId;
+    const Cid = req.params.commentId;
+    console.log("Mark1");
+    console.log(Cid);
+    Post.findOne({_id: Pid}, (err, holdingPost) => {
+        if(err) {
+            return res.status(500).send(err);
+        }
+        else {
+            let liked = true;
+            holdingPost.comments.find((comment)=>{
+                if(comment._id == Cid){   //Liked comment
+                    comment.likes.find((likedID) =>{
+                        if(likedID == Uid)
+                            liked = false;  //User hasn't liked it yet
+                    })
+                    if(liked){
+                        comment.likes.push(Uid);
+                    }
+                    else{
+                        return res.status(401).json({
+                            success: false
+                        });
+                    }
+                }
+            })
+            if(liked){
+                Post.updateOne({ "_id" : Pid}, {$set: { comments: holdingPost.comments}},
+                                                (err, post) => {
+                    if(err) {
+                        return res.status(500).send(err);
+                    }
+                    else {
+                        res.status(200).send();
+                    }
+                });
+            }
+        }
+    });
+});
+
 //Create a comment on a post
+/*UNUSED VER
 router.post('/:userId/:postId/comment', async (req, res) => {
 
     //Find any one post to comment on
@@ -381,7 +429,7 @@ router.post('/:userId/:postId/comment', async (req, res) => {
     });;
     res.send(comment);
 });
-
+*/
 //Read all comments on a post
 router.get('/getcomments/:postId', async (req, res) => {
 

@@ -1,13 +1,15 @@
 import React, {useState} from 'react'
 import './Card.css'
+import Auth from '../Auth/Auth.js'
 import likesIcon from './likes.svg'
 import {connect} from 'react-redux'
 import {likeComment} from '../../actions/postActions'
-/*
-function updateCommentLike(userID, postID){
-    const fetchURL = 'http://localhost:5000/posts/like/' + userID + '/' + postID;
+
+function updateCommentLike(userID, postID, commentID){
+    const fetchURL = 'http://localhost:5000/posts/likeComment/' + userID + '/' + postID + '/' + commentID;
     const token = Auth.getCookie('token');
-    const header = 'Bearer ' + token
+    const header = 'Bearer ' + token;
+    console.log(fetchURL);
     return fetch(fetchURL,{
         method: 'POST',
         headers:{
@@ -23,7 +25,7 @@ function updateCommentLike(userID, postID){
         return error
     })
 }
-*/
+
 function modifyCommentLikes(props){
     switch(props.selectedPageIndex){
         case 0:
@@ -48,9 +50,8 @@ function modifyCommentLikes(props){
                 let newLikedCommentLikes0 = [...newLikedComment0.likes];
                 newLikedCommentLikes0.push(props.userid);
                 newLikedComment0.likes = newLikedCommentLikes0;
-                console.log(newLikedComment0);
                 props.dispatch(likeComment(newLikedComment0,props.postID, 0));
-                //updateLike(props.userid,props.postID);
+                updateCommentLike(props.userid,props.postID,props.commentID);
             }
             break;
         case 1:
@@ -73,7 +74,7 @@ function modifyCommentLikes(props){
                 let newLikedCommentLikes2 = [...newLikedComment2.likes];
                 newLikedCommentLikes2.push(props.userid);
                 newLikedComment2.likes = newLikedCommentLikes2;
-                //props.dispatch(likePost(newLikedComment2, 2));
+                props.dispatch(likeComment(newLikedComment2,props.postID, 2));
                 //updateLike(props.userid,props.postID);
             }
             break;
@@ -95,7 +96,7 @@ function modifyCommentLikes(props){
                 let newLikedCommentLikes3 = [...newLikedComment3.likes];
                 newLikedCommentLikes3.push(props.userid);
                 newLikedComment3.likes = newLikedCommentLikes3;
-                //props.dispatch(likePost(newLikedComment3, 3));
+                props.dispatch(likeComment(newLikedComment3,props.postID, 3));
                 //updateLike(props.userid,props.postID);
             }
             break;
