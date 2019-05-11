@@ -86,6 +86,7 @@ class PostsApi {
         })
     }
 
+/* Moved to card
     static addLike(postID){
         const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
         const fetchURL = 'http://localhost:5000/posts/like/' + userID + '/' + postID;
@@ -109,7 +110,7 @@ class PostsApi {
             return error
         })
     }
-
+*/
     static getSamplePosts() { // for development testing only.
 
         const post1 = {
@@ -168,10 +169,7 @@ class PostsApi {
             })
         }).then(response => {
             return response.json()
-        })/*.then(data =>{
-            console.log(data);
-            return data;
-        })*/.catch(error => {
+        }).catch(error => {
             return error
         });
     }

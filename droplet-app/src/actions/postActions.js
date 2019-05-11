@@ -114,7 +114,24 @@ export function loadYourLikedPostsSuccess(likedPosts){
     return{ type: types.LOAD_YOUR_LIKED_POSTS, likedPosts};
 }
 
-export function likePost(postID,pageIndex){
+export function likePost(post,pageIndex){
+    switch(pageIndex){
+        case 0:
+            return {type:types.ADD_LIKE_HOME,post}
+        case 1:
+            return {type:types.ADD_LIKE_MAP,post}
+        case 2:
+            return {type:types.ADD_LIKE_LIKE,post}
+        case 3:
+            return {type:types.ADD_LIKE_PROFILE,post}
+        default:
+            return
+    }
+}
+/*
+//Reloads a page's posts to update like.
+//Obsolete - swapped with above. Database update done thru card.
+export function likePostUpdate(postID,pageIndex){
     return function(dispatch){
         return PostsApi.addLike(postID)
         .then(post=>{
@@ -141,6 +158,7 @@ export function likeSuccess(post,pageIndex){
     }
     //return{type:types.LIKE_SUCCESS,post,pageIndex}
 }
+*/
 
 export function reloadAllPosts(){
     return function(dispatch){

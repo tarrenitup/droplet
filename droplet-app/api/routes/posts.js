@@ -279,6 +279,7 @@ router.post('/like/:userId/:postId', (req, res, next) => {
                 success: false
             });
             //unlike. incomplete. Also need to update likesscreen when unlike.
+            //Would need to update card as well (probably)
             /*Post.updateOne({ "_id" : Pid}, {$pull: { likes: Uid},
                                             $set: {likesupdated: new Date()}},
                                             (err, post) => {
