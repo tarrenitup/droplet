@@ -8,10 +8,11 @@ export default function profileReducer(state = initialState.profile, action) {
             ...state,
             posts: action.userPosts,
         }
-    case types.LOGIN_SUCCESS:
-        return {
+    case types.LOGIN_DATA:
+        return{
             ...state,
             username: action.name,
+            userid: action.id
         }
     case types.LOAD_BIO:
         return{

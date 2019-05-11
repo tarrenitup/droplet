@@ -20,8 +20,8 @@ class PostsApi {
         });
     }
 
-    static getUserPosts() {
-        const fetchURL = 'http://localhost:5000/posts/getUserPosts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
+    static getUserPosts(userID) {
+        const fetchURL = 'http://localhost:5000/posts/getUserPosts/' + userID;
 
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token
@@ -45,7 +45,6 @@ class PostsApi {
     //static getMapPosts(lng, lat, meters){
     static getMapPosts(lng, lat, meters){
       const url = 'http://localhost:5000/posts/nearby?lng=' + lng + '&lat=' + lat + '&meters=' + meters
-      console.log(url)
 
       const token = Auth.getCookie('token');
       const header = 'Bearer ' + token
@@ -63,8 +62,7 @@ class PostsApi {
       });
     }
 
-    static getYourLikedPosts(){
-        const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
+    static getYourLikedPosts(userID){
         const fetchURL = 'http://localhost:5000/posts/getUserPostsLikesInt/' + userID;
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token
@@ -148,11 +146,10 @@ class PostsApi {
     }
 
     /* POST */
-    static addNewPost(postData) {
-        const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
+    static addNewPost(postData,userID) {
+        const fetchURL = 'http://localhost:5000/posts/' + userID;
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token
-        console.log(fetchURL);
         return fetch(fetchURL,{
             method:'POST',
             headers:{

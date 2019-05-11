@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import './LikeScreen.css'
 import Card from '../Card/Card.js'
 import Auth from '../Auth/Auth.js'
-import PostList from './PostList'
+import PostList from '../PostList/PostList'
 
 import {connect} from 'react-redux'
 import {loadYourLikedPosts} from '../../actions/postActions'
@@ -12,7 +12,7 @@ class LikeScreen extends Component{
     constructor(props){
         super(props);
 
-        this.props.dispatch(loadYourLikedPosts());
+        this.props.dispatch(loadYourLikedPosts(this.props.userid));
         this.props.dispatch(likePage());
         this.props.dispatch(updateTime());
     }
@@ -20,7 +20,7 @@ class LikeScreen extends Component{
     render(){
         return(
             <main className='like-screen screen'>
-                <PostList posts={this.props.likedPosts} time={this.props.time}/>
+                <PostList posts={this.props.likedPosts} time={this.props.time} like={true}/>
             </main>
         )
     }
@@ -29,7 +29,8 @@ class LikeScreen extends Component{
 function mapStateToProps(state){
     return{
         time: state.time,
-        likedPosts: state.likedPosts
+        likedPosts: state.likedPosts,
+        userid: state.profile.userid
     }
 }
 

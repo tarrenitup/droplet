@@ -3,31 +3,22 @@ import './LoginScreen.css'
 import Auth from '../Auth/Auth.js'
 import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {loginSuccess} from '../../actions/loginActions'
-import {loadHomePosts} from '../../actions/postActions'
+import {loadLoginData} from '../../actions/loginActions'
 
 class LoginScreen extends Component{
     constructor(props){
         super(props)
         this.state = {
-            username:'',
-            password:'',
             success:null
         }
-        this.onChange = this.onChange.bind(this);
         this.login = this.login.bind(this);
-    }
-
-    onChange(event){
-        //event.target.name returns name from <input>
-        this.setState({
-            [event.target.name]: event.target.value
-        })
     }
 
     handleSubmit(event,dispatch){
         event.preventDefault();
-        this.login(this.state.username, this.state.password,dispatch);
+        const user = this.getUsernameInput.value;
+        const pass = this.getPasswordInput.value;
+        this.login(user, pass ,dispatch);
     }
 
     login(username,password,dispatch){
@@ -59,7 +50,8 @@ class LoginScreen extends Component{
         .then(function(json){
             Auth.setCookie('token', json.token, 1);
             const name = Auth.parseJwt(Auth.getCookie('token')).name;
-            dispatch(loginSuccess(name));
+            const uid = Auth.parseJwt(Auth.getCookie('token')).sub;
+            dispatch(loadLoginData(name,uid));
             this.setState({
                 success:true
             });
@@ -93,7 +85,7 @@ class LoginScreen extends Component{
                             placeholder="Username"
                             name="username"
                             type="text"
-                            onChange={this.onChange}
+                            ref={(input) => this.getUsernameInput = input}
                             required
                         />
                         <input
@@ -101,7 +93,7 @@ class LoginScreen extends Component{
                             placeholder="Password"
                             name="password"
                             type="password"
-                            onChange={this.onChange}
+                            ref={(input) => this.getPasswordInput = input}
                             required
                         />
                         <input

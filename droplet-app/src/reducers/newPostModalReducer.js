@@ -23,7 +23,7 @@ export default function newPostModalReducer(state = initialState.newPostModal, a
             ...state,
             visible: false
         }
-    case types.LOGIN_SUCCESS:
+    case types.LOGIN_DATA:
         return {
             ...state,
             username: action.name

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import './PostsScreen.css'
 import PropTypes from 'prop-types'
-import PostList from './PostList'
+import PostList from '../PostList/PostList'
 import { loadHomePosts } from '../../actions/postActions'
 import {updateTime, homePage} from '../../actions/miscActions'
 
@@ -17,7 +17,7 @@ class PostsScreen extends Component{
     render(){
         return(
             <main className='posts-screen screen'>
-               <PostList homePosts={this.props.homePosts} />
+               <PostList posts={this.props.homePosts} like={false} />
             </main>
         )
     }
@@ -39,7 +39,7 @@ PostsScreen.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        homePosts: state.homePosts 
+        homePosts: state.homePosts
     }
 }
 

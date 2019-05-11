@@ -1,9 +1,9 @@
 import * as types from './actionTypes'
 import ProfileApi from '../api/ProfileApi'
 
-export function loadBio(){
+export function loadBio(userID){
     return function(dispatch) {
-        return ProfileApi.getBio().then(bio => {
+        return ProfileApi.getBio(userID).then(bio => {
             dispatch(loadBioSuccess(bio))
         }).catch(error => {
             throw(error)

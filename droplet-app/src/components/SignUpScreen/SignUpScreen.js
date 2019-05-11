@@ -3,34 +3,25 @@ import {Redirect} from 'react-router'
 import './SignUpScreen.css'
 import Auth from '../Auth/Auth.js'
 import {connect} from 'react-redux'
-import {loginSuccess} from '../../actions/loginActions'
-import {loadHomePosts} from '../../actions/postActions'
+import {loadLoginData} from '../../actions/loginActions'
 
 class SignUpScreen extends Component{
     constructor(props){
         super(props)
         this.state = {
-            username:'',
-            password:'',
-            cpassword:'',
-            bio:'',
             success:null
         }
-        this.onChange = this.onChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.signup = this.signup.bind(this);
     }
 
-    onChange(event){
-        //event.target.name returns name from <input>
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
 
     handleSubmit(event,dispatch){
         event.preventDefault();
-        this.signup(this.state.username, this.state.password, this.state.cpassword, this.state.bio,dispatch);
+        const user = this.getUsernameInput.value;
+        const pass = this.getPassInput.value;
+        const cpass = this.getCPassInput.value;
+        const bio = this.getBioInput.value
+        this.signup(user,pass,cpass,bio,dispatch);
     }
 
 
@@ -61,13 +52,11 @@ class SignUpScreen extends Component{
             .then(function(json){
                 Auth.setCookie('token', json.token, 1);
                 const name = Auth.parseJwt(Auth.getCookie('token')).name;
-                dispatch(loginSuccess(name));
-                dispatch(loadHomePosts())
-                .then(function(){
-                    this.setState({
-                        success:1
-                    });
-                }.bind(this));
+                const uid = Auth.parseJwt(Auth.getCookie('token')).sub;
+                dispatch(loadLoginData(name,uid))
+                this.setState({
+                    success:1
+                });
             }.bind(this))
             .catch((error)=>{
                 return error;
@@ -108,7 +97,7 @@ class SignUpScreen extends Component{
                             placeholder="Username"
                             name="username"
                             type="text"
-                            onChange={this.onChange}
+                            ref={(input) => this.getUsernameInput = input}
                             required
                         />
                         <input
@@ -116,7 +105,7 @@ class SignUpScreen extends Component{
                             placeholder="Password"
                             name="password"
                             type="password"
-                            onChange={this.onChange}
+                            ref={(input) => this.getPassInput = input}
                             required
                         />
                         <input
@@ -124,14 +113,14 @@ class SignUpScreen extends Component{
                             placeholder="Confirm Password"
                             name="cpassword"
                             type="password"
-                            onChange={this.onChange}
+                            ref={(input) => this.getCPassInput = input}
                             required
                         />
                         <textarea
                             className="signup-form-textarea"
                             placeholder="Your Bio"
                             name="bio"
-                            onChange={this.onChange}
+                            ref={(input) => this.getBioInput = input}
                         />
                         <input
                             className="submitRegister"

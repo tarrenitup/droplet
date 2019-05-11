@@ -22,11 +22,13 @@ const postSchema = new mongoose.Schema({
         required: 'Comment is required'
     }],*/
     comments: [{
+        //Apparently comment id gets included automatically?
         username: {
             type: String,
             ref: 'User',
             required: 'Username is required'
         },
+        //userid: ,
         content: {
             type: String,
             required: 'Content is required'
@@ -37,12 +39,9 @@ const postSchema = new mongoose.Schema({
         },
         likes: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }],
-        likesupdated: {
-            type: Date,
-            default: undefined
-        }
+            ref: 'User',
+            default: []
+        }]
     }],
     created: {
         type: Date,

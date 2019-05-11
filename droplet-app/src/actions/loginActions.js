@@ -1,5 +1,5 @@
 import * as types from './actionTypes'
 
-export function loginSuccess(name){
-    return{type: types.LOGIN_SUCCESS, name}
+export function loadLoginData(name,id){
+    return{type: types.LOGIN_DATA, name,id}
 }

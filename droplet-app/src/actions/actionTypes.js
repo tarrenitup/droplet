@@ -19,7 +19,7 @@ export const LOAD_BIO = 'LOAD_BIO'
 export const LOAD_YOUR_LIKED_POSTS = 'LOAD_YOUR_LIKED_POSTS'    //Your posts, that have been liked
 
 /* Login */
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export const LOGIN_DATA = 'LOGIN_DATA'
 
 /* Time */
 export const UPDATE_TIME = 'UPDATE_TIME'

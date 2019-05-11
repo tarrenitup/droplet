@@ -6,8 +6,6 @@ import {updateTime} from '../../actions/miscActions'
 import PostTypeSelector from './PostTypeSelector'
 import SplashSlider from './SplashSlider'
 import submitIcon from './submit-icon.svg'
-
-//temporary fix
 import Auth from '../Auth/Auth.js'
 
 const UserInfo = (props) => (
@@ -70,11 +68,9 @@ class NewPostModal extends Component {
                     currentLocation,
                     newPostTime: new Date()
                 }
-
-                //console.log(newPost);
                 dispatch(newPostAddInitiate())
-                dispatch(sendNewPost(newPost,pageIndex))
-                dispatch(updateTime())
+                dispatch(sendNewPost(newPost,pageIndex,this.props.userid))
+                dispatch(updateTime());
             })
         }
     }
@@ -106,6 +102,7 @@ const mapStateToProps = (state) => {
         splashRangeIndex: state.newPostModal.splashRangeIndex,
         postTypeIndex: state.newPostModal.postTypeIndex,
         username: state.newPostModal.username,
+        userid: state.profile.userid,
         selectedPageIndex: state.selectedPageIndex
     }
 }

@@ -57,10 +57,9 @@ export function newPostAddInitiate() {
     return { type: types.NEW_POST_ADD_INITIATE}
 }
 
-export function sendNewPost(postData,pageIndex) {
-    console.log(pageIndex);
+export function sendNewPost(postData,pageIndex,userID) {
     return function(dispatch) {
-        return PostsApi.addNewPost(postData)
+        return PostsApi.addNewPost(postData,userID)
         .then(() => {
             switch(pageIndex){
                 case 0:
@@ -69,11 +68,13 @@ export function sendNewPost(postData,pageIndex) {
                 case 1:
                     dispatch(loadMapPosts());
                     break;
+                //Don't have to handle 2 since you'll never have a like on
+                //a post you just made
                 case 3:
-                    dispatch(loadProfilePosts());
+                    dispatch(loadProfilePosts(userID));
                     break;
                 default:
-                    dispatch(reloadAllPosts());
+                    dispatch(reloadAllPosts(userID));
                     break;
             }
             dispatch(newPostAddSuccess());
@@ -84,9 +85,16 @@ export function sendNewPost(postData,pageIndex) {
     }
 }
 
-export function loadProfilePosts(){
+//Upon add new post, update respective post arrays
+export function newPostAddSuccess() {
+    return {
+        type: types.NEW_POST_ADD_SUCCESS,
+    }
+}
+
+export function loadProfilePosts(userID){
     return function(dispatch){
-        return PostsApi.getUserPosts()
+        return PostsApi.getUserPosts(userID)
         .then(response =>{
             dispatch(loadUserPostsSuccess(response))
         }).catch(error =>{
@@ -99,9 +107,9 @@ export function loadUserPostsSuccess(userPosts) {
     return {type: types.LOAD_PROFILE_POSTS, userPosts};
 }
 
-export function loadYourLikedPosts(){
+export function loadYourLikedPosts(userID){
     return function(dispatch){
-        return PostsApi.getYourLikedPosts()
+        return PostsApi.getYourLikedPosts(userID)
         .then(posts =>{
             dispatch(loadYourLikedPostsSuccess(posts))
         }).catch(error =>{
@@ -160,19 +168,11 @@ export function likeSuccess(post,pageIndex){
 }
 */
 
-export function reloadAllPosts(){
+export function reloadAllPosts(userID){
     return function(dispatch){
         dispatch(loadHomePosts());
         dispatch(loadMapPosts());
-        dispatch(loadProfilePosts());
-        dispatch(loadYourLikedPosts());
-    }
-}
-
-
-//Upon add new post, update respective post arrays
-export function newPostAddSuccess() {
-    return {
-        type: types.NEW_POST_ADD_SUCCESS,
+        dispatch(loadProfilePosts(userID));
+        dispatch(loadYourLikedPosts(userID));
     }
 }

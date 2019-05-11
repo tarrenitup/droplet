@@ -18,6 +18,7 @@ export default {
     profile: {
         profilePictureUrl: '',  /* get default image url. */
         username: '@username',
+        userid: '',
         bio: '',
         posts: [],
     },

@@ -1,8 +1,8 @@
 import Auth from '../components/Auth/Auth.js'
 
 class ProfileApi{
-    static getBio() {
-        const fetchURL = 'http://localhost:5000/users/getBio/' + Auth.parseJwt(Auth.getCookie('token')).sub;
+    static getBio(userID) {
+        const fetchURL = 'http://localhost:5000/users/getBio/' + userID;
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token
         return fetch(fetchURL,{

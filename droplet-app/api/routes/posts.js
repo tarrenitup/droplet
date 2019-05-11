@@ -79,11 +79,9 @@ router.get('/nearby', (req, res, next) => {
 //Create a post
 router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
     //Get photo to upload
-    console.log(req.file);
-    console.log("Hello marker");
+    //console.log(req.file);
     //Find any one user to post on
     const user = await User.findOne({_id: req.params.userId});
-    console.log("Hello marker2");
 
     //If file found, upload post accordingly
     if(req.file != undefined) {
@@ -111,7 +109,6 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
     }
     //If no file found, upload content only
     else {
-        console.log("Hello marker3");
         //Create new post without image
         const post = new Post();
         post._id = new mongoose.Types.ObjectId();
@@ -315,6 +312,35 @@ router.post('/like/:userId/:postId', (req, res, next) => {
                             res.status(200).send(likedpost);
                         }
                     });
+                }
+            });
+        }
+    });
+});
+
+//Comment on a post
+router.post('/:postId/:userId/addComment', async(req, res) =>{
+    //Find any one post to comment on
+    //const user = await User.findOne({_id: req.params.userId});
+    //const post = await Post.findOne({_id: req.params.postId});
+    const Pid = req.params.postId;
+    const Uid = req.params.userId;
+    Post.updateOne({ "_id" : Pid}, {$push: { comments: {
+
+                                                username: req.body.username,
+                                                content: req.body.content,
+                                                created: new Date()
+                                            }}},(err, post) => {
+        if(err) {
+            return res.status(500).send(err);
+        }
+        else {
+            Post.findOne({_id: Pid}, (err, commentedpost) => {
+                if(err) {
+                    return res.status(500).send(err);
+                }
+                else {
+                    res.status(200).send(commentedpost);
                 }
             });
         }
