@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './Card.css'
 import likesIcon from './likes.svg'
 import commentIcon from './comment.svg'
@@ -136,10 +136,14 @@ const CommentButton = () => {
     return <p></p>
 }
 
-function makeComment(props){
+function showComment(props){
     return(
         <p></p>
     )
+}
+
+function toggleComments(){
+    return false;
 }
 
 // Removed             <img className='profile-pic' src={props.picture} alt='' />
@@ -162,45 +166,64 @@ const CommentCard = (props) => (
 )
 
 const CommentList = (props) => {
+    const [content, input] = useState("");
     return(
-        <ul className="comment-list">
-            {props.comments.map((comment,index) => (
-                <CommentCard
-                    key={comment._id}
-                    commentID={comment._id}
-                    name={comment.username}
-                    text={comment.content}
-                    date={comment.created}
-                    likes={comment.likes.length}
-                />)
-            )}
-        </ul>
+        <div  style={{display: props.display ? 'inline' : 'none'}}>
+            <form onSubmit={(e) => handleComment(e,props.dispatch)}>
+                <textarea
+                    className="comment-textarea"
+                    placeholder="Write a comment..."
+                    name="commentText"
+                    value={content}
+                    onChange={(e) => input(e.target.value)}
+                />
+                <input
+                    className="submitComment"
+                    value="Comment"
+                    type="submit"
+                />
+            </form>
+            <ul className="comment-list">
+                {props.comments.map((comment,index) => (
+                    <CommentCard
+                        key={comment._id}
+                        commentID={comment._id}
+                        name={comment.username}
+                        text={comment.content}
+                        date={comment.created}
+                        likes={comment.likes.length}
+                    />)
+                )}
+            </ul>
+        </div>
     )
 }
 
 //Pass card dispatch somehow.
-const Card = (props) => (
-    <div className='card'>
-        <div className='card-top'>
-            <img className='profile-pic' src={props.picture} alt='' />
-            <p className='username'>{props.name}</p>
-        </div>
-
-        <PostMedia mediaType={props.mediaType} mediaSource={props.mediaSource} />
-
-        <p className='card-text'>{props.text}{props.edited ? ' edited' : ''}</p>
-
-        <div className='card-bottom'>
-            <div className='likes'>
-                <img className='like' src={likesIcon} alt='like' onClick={() => modifyLikes(props)}/>
-                <p>{props.likes}</p>
-                <Note added={props}/>
-                <img className='comment' src={commentIcon} alt ='Comment' onClick={() => makeComment(props)}/>
+const Card = (props) => {
+    const [show, toggleShow] = useState(false);
+    return (
+        <div className='card'>
+            <div className='card-top'>
+                <p className='username'>{props.name}</p>
             </div>
-            <CommentList comments={props.comments} />
+
+            <PostMedia mediaType={props.mediaType} mediaSource={props.mediaSource} />
+
+            <p className='card-text'>{props.text}{props.edited ? ' edited' : ''}</p>
+
+            <div className='card-bottom'>
+                <div className='likes'>
+                    <img className='like' src={likesIcon} alt='like' onClick={() => modifyLikes(props)}/>
+                    <p>{props.likes}</p>
+                    <Note added={props}/>
+                    <img className='comment' src={commentIcon} alt ='Comment' onClick={() => toggleShow(!show)}/>
+                </div>
+                <CommentList comments={props.comments} dispatch={props.dispatch} display={show}/>
+            </div>
         </div>
-    </div>
-)
+    )
+}
 
 function mapStateToProps(state){
     return{
