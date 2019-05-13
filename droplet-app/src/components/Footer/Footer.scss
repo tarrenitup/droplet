@@ -50,17 +50,12 @@ footer.app-footer {
                     background-color: $blue;
                     border-radius: $size;
                     transform-origin: center center;
-                    transition: transform 0.2s;
+                    transition: transform 0.3s;
+                    transition-timing-function: cubic-bezier(.48,.01,.45,2.01);
 
                     &.x-btn {
                         transform: rotate(45deg);
                     }
-
-                    // span.xl, span.xr {
-                    //     position: relative;
-                    //     border-radius: 3px;
-                    //     background-color: white;
-                    // }
 
                     span.xl {
                         position: relative;
@@ -82,13 +77,6 @@ footer.app-footer {
                             width: 15px;
                         }
                     }
-
-                    // span.xr {
-                    //     // top: $size / 2 - 1px;
-                    //     // left: $size / 2 - 7.5px;
-                    //     width: 15px;
-                    //     height: 3px;
-                    // }
                 }
             }
         }
