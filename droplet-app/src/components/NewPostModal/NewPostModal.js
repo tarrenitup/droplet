@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './NewPostModal.css'
+import './NewPostModal.scss'
 import { connect } from 'react-redux'
 import { toggleNewPostModal, newPostAddInitiate, sendNewPost } from '../../actions/postActions'
 

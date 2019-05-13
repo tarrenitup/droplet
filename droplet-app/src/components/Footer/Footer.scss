@@ -14,8 +14,9 @@ footer.app-footer {
     nav {
         display: flex;
         align-items: center;
+        padding: 0 5%;
         width: 100%;
-        margin: 0 5%;
+        border-top: 1px solid white;
 
         ul.nav-buttons {
             display: flex;
@@ -35,6 +36,59 @@ footer.app-footer {
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                }
+
+                &.new-button {
+                    $blue: #00A9FF;
+                    $size: 41px;
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: $size;
+                    height: $size;
+                    background-color: $blue;
+                    border-radius: $size;
+                    transform-origin: center center;
+                    transition: transform 0.2s;
+
+                    &.x-btn {
+                        transform: rotate(45deg);
+                    }
+
+                    // span.xl, span.xr {
+                    //     position: relative;
+                    //     border-radius: 3px;
+                    //     background-color: white;
+                    // }
+
+                    span.xl {
+                        position: relative;
+                        display: block;
+                        border-radius: 3px;
+                        background-color: white;
+                        width: 3px;
+                        height: 15px;
+
+                        &::before {
+                            content: '';
+                            position: absolute;
+                            display: block;
+                            top: 6px;
+                            left: -6px;
+                            border-radius: 3px;
+                            background-color: white;
+                            height: 3px;
+                            width: 15px;
+                        }
+                    }
+
+                    // span.xr {
+                    //     // top: $size / 2 - 1px;
+                    //     // left: $size / 2 - 7.5px;
+                    //     width: 15px;
+                    //     height: 3px;
+                    // }
                 }
             }
         }
