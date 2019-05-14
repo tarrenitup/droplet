@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import './App.css'
-import { Route, Redirect } from 'react-router'
+import { Route, Redirect, withRouter } from 'react-router'
 
 import Auth from '../Auth/Auth.js'
 
@@ -29,6 +29,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   )} />
 )
 
+//Logged in users can't access signup/login pages. Reduces confusion.
+const PublicOnlyRoute= ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    Auth.isAuthenticated() === true
+      ? <Redirect to='/' />
+      : <Component {...props} />
+  )} />
+)
+
 const App = (props) => (
   <div className="App">
     <NewPostModal />
@@ -38,8 +47,8 @@ const App = (props) => (
     <PrivateRoute path="/map" component={MapScreen} />
     <PrivateRoute path="/likes" component={LikeScreen} />
     <PrivateRoute path="/profile" component={ProfileScreen} />
-    <Route path='/login' component={LoginScreen} />
-    <Route path='/signup' component={SignUpScreen} />
+    <PublicOnlyRoute path='/login' component={LoginScreen} />
+    <PublicOnlyRoute path='/signup' component={SignUpScreen} />
     <Route path='/test' component={Test} />
     <Footer />
   </div>
@@ -49,4 +58,4 @@ const App = (props) => (
 //   children: PropTypes.object.isRequired
 // };
 
-export default App
+export default withRouter(App)

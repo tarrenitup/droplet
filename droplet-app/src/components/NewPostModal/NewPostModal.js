@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import './NewPostModal.css'
 import { connect } from 'react-redux'
-import { toggleNewPostModal, newPostAddInitiate, sendNewPost } from '../../actions/postActions'
-
+import { toggleNewPostModal, newPostAddInitiate, sendNewPost, loadMapPosts, loadProfilePosts, loadHomePosts, newPostAddSuccess, reloadAllPosts } from '../../actions/postActions'
+import {updateTime} from '../../actions/miscActions'
 import PostTypeSelector from './PostTypeSelector'
 import SplashSlider from './SplashSlider'
 import submitIcon from './submit-icon.svg'
-
-//temporary fix
 import Auth from '../Auth/Auth.js'
 
 const UserInfo = (props) => (
@@ -41,14 +39,13 @@ const Buttons = ({ dispatch }) => {
 
 
 class NewPostModal extends Component {
-
     constructor(props) {
         super(props)
     }
 
     getModalStyleClasses = () => this.props.visiblity ? 'new-post-modal' : 'new-post-modal off'
 
-    handleSubmit = (e, dispatch) => {
+    handleSubmit = (e, pageIndex, dispatch) => {
         e.preventDefault()
 
         if(navigator.geolocation){
@@ -62,7 +59,7 @@ class NewPostModal extends Component {
                 const currentLocation = [long,lat] // later to get from ui..
                 const splashRangeId = 5 // later to get from ui..
                 const postTypeId = 3 // later to get from ui..
-                console.log(currentLocation);
+                //console.log(currentLocation);
                 const newPost = {
                     postContent,
                     splashRangeId,
@@ -70,11 +67,9 @@ class NewPostModal extends Component {
                     currentLocation,
                     newPostTime: new Date()
                 }
-
-                console.log(newPost)
                 dispatch(newPostAddInitiate())
-                dispatch(sendNewPost(newPost))
-                dispatch(toggleNewPostModal()) //close on successful post
+                dispatch(sendNewPost(newPost,pageIndex,this.props.userid))
+                dispatch(updateTime());
             })
         }
     }
@@ -82,11 +77,11 @@ class NewPostModal extends Component {
     render() {
         return (
             <div className={ this.getModalStyleClasses() }>
-                <form className='new-post-form' name='newPostForm' onSubmit={(e) => this.handleSubmit(e, this.props.dispatch)}>
+                <form className='new-post-form' name='newPostForm' onSubmit={(e) => this.handleSubmit(e, this.props.selectedPageIndex, this.props.dispatch)}>
                     <div className='top'>
                         <input type='hidden' name='location' ref={(input) => this.getCurrentLocation = input} />
                         <PostTypeSelector dispatch={this.props.dispatch} postTypeIndex={this.props.postTypeIndex} />
-                        <UserInfo name={Auth.parseJwt(Auth.getCookie('token')).name} picture={''} />
+                        <UserInfo name={this.props.username} picture={''} />
                         <FileUpload />
                         <div className='textarea-outer'>
                             <textarea required className='post-text' placeholder='write a post ...' ref={(input) => this.getPostContent = input} />
@@ -104,7 +99,10 @@ const mapStateToProps = (state) => {
     return {
         visiblity: state.newPostModal.visible,
         splashRangeIndex: state.newPostModal.splashRangeIndex,
-        postTypeIndex: state.newPostModal.postTypeIndex
+        postTypeIndex: state.newPostModal.postTypeIndex,
+        username: state.newPostModal.username,
+        userid: state.profile.userid,
+        selectedPageIndex: state.selectedPageIndex
     }
 }
 

@@ -46,11 +46,31 @@ class PostsApi {
         // });
     }
 
+    static getUserPosts(userID) {
+        const fetchURL = 'http://localhost:5000/posts/getUserPosts/' + userID;
+
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method: 'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        }).then(response => {
+            return response.json()
+        }).then(data =>{
+            return data.messages
+        }).catch(error => {
+            return error
+        });
+    }
+
     // TODO: Change the fetch call to nearby
     //static getMapPosts(lng, lat, meters){
     static getMapPosts(lng, lat, meters){
       const url = 'http://localhost:5000/posts/nearby?lng=' + lng + '&lat=' + lat + '&meters=' + meters
-      console.log(url)
 
       const token = Auth.getCookie('token');
       const header = 'Bearer ' + token
@@ -68,6 +88,79 @@ class PostsApi {
       });
     }
 
+    static getYourLikedPosts(userID){
+        const fetchURL = 'http://localhost:5000/posts/getUserPostsLikesInt/' + userID;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method:'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        })
+        .then(results => {
+            return results.json()
+        }).then(data =>{
+            return data.messages
+        })
+        .catch((error) => {
+            return error
+        })
+    }
+
+    /* POST */
+    static addNewPost(postData,userID) {
+        const fetchURL = 'http://localhost:5000/posts/' + userID;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            },
+            body:JSON.stringify({
+                content: postData.postContent,
+                location: {
+                    type: "Point",
+                    coordinates: postData.currentLocation
+                }
+            })
+        }).then(response => {
+            return response.json()
+        }).catch(error => {
+            return error
+        });
+    }
+
+/* Moved to card
+    static addLike(postID){
+        const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
+        const fetchURL = 'http://localhost:5000/posts/like/' + userID + '/' + postID;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method: 'POST',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        })
+        .then(result =>{
+            return result.json();
+        })
+        .then(data =>{
+            return data;
+        })
+        .catch(error=>{
+            return error
+        })
+    }
+*/
     static getSamplePosts() { // for development testing only.
 
         const post1 = {
@@ -104,33 +197,6 @@ class PostsApi {
         )
     }
 
-    /* POST */
-    static addNewPost(postData) {
-        const fetchURL = 'http://localhost:5000/posts/' + Auth.parseJwt(Auth.getCookie('token')).sub;
-        const token = Auth.getCookie('token');
-        const header = 'Bearer ' + token
-        console.log(fetchURL);
-        return fetch(fetchURL,{
-            method:'POST',
-            headers:{
-                'Accept': 'application/json',
-                'content-type': 'application/json',
-                'Authorization': header
-            },
-            body:JSON.stringify({
-                content: postData.postContent,
-                location: {
-                    type: "Point",
-                    coordinates: postData.currentLocation
-                }
-            })
-        }).then(response => {
-            console.log(response.json())
-            return response.json()
-        }).catch(error => {
-            return error
-        });
-    }
 }
 
 export default PostsApi;
