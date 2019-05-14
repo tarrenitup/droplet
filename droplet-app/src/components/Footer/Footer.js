@@ -3,26 +3,23 @@ import './Footer.scss'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { toggleNewPostModal } from '../../actions/postActions'
-
-import homeIcon from './images/home.svg'
-import mapIcon from './images/map.svg'
-import newIcon from './images/new.svg'
-import notificationsIcon from './images/notifications.svg'
-import profileIcon from './images/profile.svg'
+import { changePageIndex } from '../../actions/footerActions'
 
 const Footer = (props) => {
 
     const getNewDropBtnStyleClasses = () => props.visiblity ? 'new-button x-btn' : 'new-button'
 
+    console.log(props.currentPageIndex)
+
     return (
         <footer className='app-footer'>
             <nav>
                 <ul className='nav-buttons'>
-                    <li><NavLink activeClassName='selected' to={'/'}><img src={homeIcon} alt='Home screen icon'/></NavLink></li>
-                    <li><NavLink activeClassName='selected' to={'/map'}><img src={mapIcon} alt='Map screen icon'/></NavLink></li>
+                    <li className='home'><NavLink onClick={() => props.dispatch(changePageIndex(0))} to={'/'}><div className='nav-icon' /></NavLink></li>
+                    <li className='map'><NavLink onClick={() => props.dispatch(changePageIndex(1))} to={'/map'}><div className='nav-icon' /></NavLink></li>
                     <li className={ getNewDropBtnStyleClasses() } onClick={() => {props.dispatch(toggleNewPostModal())}}><span className='xl' /></li>
-                    <li><NavLink activeClassName='selected' to={'/likes'}><img src={notificationsIcon} alt='Notification screen icon'/></NavLink></li>
-                    <li><NavLink activeClassName='selected' to={'/profile'}><img src={profileIcon} alt='Profile screen icon'/></NavLink></li>
+                    <li className='likes'><NavLink onClick={() => props.dispatch(changePageIndex(2))} to={'/likes'}><div className='nav-icon' /></NavLink></li>
+                    <li className='profile'><NavLink onClick={() => props.dispatch(changePageIndex(3))} to={'/profile'}><div className='nav-icon' /></NavLink></li>
                 </ul>
             </nav>
         </footer>
@@ -31,7 +28,8 @@ const Footer = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        visiblity: state.newPostModal.visible
+        visiblity: state.newPostModal.visible,
+        currentPageIndex: state.currentPageIndex,
     }
 }
 

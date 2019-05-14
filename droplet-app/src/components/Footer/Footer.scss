@@ -32,10 +32,61 @@ footer.app-footer {
                 justify-content: center;
                 align-items: center;
 
+                &.home {
+                    a div.nav-icon {
+                        background-image: url('./images/home.svg');
+                    }
+
+                    a.active div.nav-icon {
+                        background-image: url('./images/home-active.svg');
+                    }
+                }
+
+                &.map {
+                    a div.nav-icon {
+                        background-image: url('./images/map.svg');
+                    }
+
+                    a.active div.nav-icon {
+                        background-image: url('./images/map-active.svg');
+                    }
+                }
+
+                &.likes {
+                    a div.nav-icon {
+                        background-image: url('./images/notifications.svg');
+                    }
+
+                    a.active div.nav-icon {
+                        background-image: url('./images/notifications-active.svg');
+                    }
+                }
+
+                &.profile {
+                    a div.nav-icon {
+                        background-image: url('./images/profile.svg');
+                    }
+
+                    a.active div.nav-icon {
+                        background-image: url('./images/profile-active.svg');
+                    }
+                }
+
                 a {
                     display: flex;
                     justify-content: center;
                     align-items: center;
+
+                    div.nav-icon {
+                        background-repeat: no-repeat;
+                        width: 20px;
+                        height: 20px;
+                        
+                    }
+
+                    &.selected {
+
+                    }    
                 }
 
                 &.new-button {
@@ -50,7 +101,7 @@ footer.app-footer {
                     background-color: $blue;
                     border-radius: $size;
                     transform-origin: center center;
-                    transition: transform 0.5s;
+                    transition: transform 0.4s;
                     // transition-timing-function: cubic-bezier(.57,0,.11,1.92); // @ 0.5s
                     transition-timing-function: cubic-bezier(.32,0,.12,2.47);
 

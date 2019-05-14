@@ -16,3 +16,6 @@ export const NEW_POST_ADD_SUCCESS = 'NEW_POST_ADD_SUCCESS'
 /* Login */
 export const ATTEMPT_LOGIN = 'ATTEMPT_LOGIN'
 export const LOGIN_SUCCESS = 'LOGIC_SUCCESS'
+
+/* Footer */
+export const CHANGE_CURRENT_PAGE = 'CHANGE_CURRENT_PAGE'
