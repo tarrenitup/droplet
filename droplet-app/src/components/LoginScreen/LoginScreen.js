@@ -1,36 +1,27 @@
 import React, {Component} from 'react'
-//import {withRouter} from 'react-router'
 import './LoginScreen.css'
 import Auth from '../Auth/Auth.js'
-import {attemptLogin} from '../../actions/loginActions'
+import { withRouter, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import {loadLoginData} from '../../actions/loginActions'
 
 class LoginScreen extends Component{
     constructor(props){
         super(props)
         this.state = {
-            username:'',
-            password:''
+            success:null
         }
-        this.onChange = this.onChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        //this.login = this.login.bind(this);
+        this.login = this.login.bind(this);
     }
 
-    onChange(event){
-        //event.target.name returns name from <input>
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
-
-    onSubmit(event){
+    handleSubmit(event,dispatch){
         event.preventDefault();
-        //dispatch(attemptLogin(this.state.username,this.state.password))
-        this.login(this.state.username, this.state.password);
+        const user = this.getUsernameInput.value;
+        const pass = this.getPasswordInput.value;
+        this.login(user, pass ,dispatch);
     }
 
-
-    login(username,password){
+    login(username,password,dispatch){
         //console.log("Login");
         //console.log("User:", username);
         //console.log("Pass:", password);
@@ -46,52 +37,72 @@ class LoginScreen extends Component{
             })
         })
         .then(function(res){
-            if(res.status == 200){
+            if(res.status === 200){
                 return res.json();
             }
             else{
+                this.setState({
+                    success:false
+                })
                 return Promise.reject(res.status);
             }
-        })
+        }.bind(this))
         .then(function(json){
-            //console.log(JSON.stringify(json.token));
             Auth.setCookie('token', json.token, 1);
-            //console.log(Auth.parseJwt(Auth.getCookie('token')).sub);
-            window.location.assign('/');
-            //console.log(Auth.isAuthenticated());
-        }).catch((error)=>{
-            //console.log(error);
-            window.location.reload();
+            const name = Auth.parseJwt(Auth.getCookie('token')).name;
+            const uid = Auth.parseJwt(Auth.getCookie('token')).sub;
+            dispatch(loadLoginData(name,uid));
+            this.setState({
+                success:true
+            });
+        }.bind(this))
+        .catch((error)=>{
+            return error;
         });
+    }
+
+    failedMessage = () => {
+        if(this.state.success === false){
+            return <span className="login_failed">Login Failed! Invalid username or password.</span>
+        }
+    }
+
+    redirection = () => {
+        if(this.state.success === true){
+            return <Redirect to='/' />
+        }
     }
 
     render() {
       return (
           <main className="login-screen screen" >
-                <div className="modal">
+                {this.redirection()}
+                <div className="login-modal">
                     <h1>Login</h1>
-                    <form>
+                    <form onSubmit={(e) => this.handleSubmit(e,this.props.dispatch)}>
                         <input
-                            className="form-text"
+                            className="login-form-text"
                             placeholder="Username"
                             name="username"
                             type="text"
-                            onChange={this.onChange}
+                            ref={(input) => this.getUsernameInput = input}
+                            required
                         />
                         <input
-                            className="form-text"
+                            className="login-form-text"
                             placeholder="Password"
                             name="password"
                             type="password"
-                            onChange={this.onChange}
+                            ref={(input) => this.getPasswordInput = input}
+                            required
                         />
                         <input
                             className="submitLogin"
                             value="Login"
                             type="submit"
-                            onClick={this.onSubmit}
                         />
                     </form>
+                    {this.failedMessage()}
                     <div className = "link">
                         New user?&nbsp;
                         <a href="http://localhost:3000/signup">Click here</a>
@@ -104,4 +115,4 @@ class LoginScreen extends Component{
     }
 }
 
-export default LoginScreen;
+export default connect()(withRouter(LoginScreen));

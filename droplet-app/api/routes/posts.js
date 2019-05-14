@@ -39,9 +39,18 @@ router.get('/',(req, res, next) => {
             return res.status(500).send(err);
         }
         else {
+            post.sort(function(a,b){
+                return b.updated - a.updated;
+            });
             res.status(200).send(post);
         }
     });
+});
+
+//return a new comment id
+router.get('/AComment',(req, res, next) => {
+    const newID = new mongoose.Types.ObjectId();
+    res.status(200).send(newID)
 });
 
 //Get all posts within 10 meters
@@ -76,8 +85,7 @@ router.get('/nearby', (req, res, next) => {
 //Create a post
 router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
     //Get photo to upload
-    console.log(req.file);
-
+    //console.log(req.file);
     //Find any one user to post on
     const user = await User.findOne({_id: req.params.userId});
 
@@ -92,14 +100,18 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         post.postImage = req.file.path;
         post.location = req.body.location;
         //Save it
-        await post.save()
+        await post.save().catch(error=>{
+            return res.send(error);
+        });
 
         //Associates the comment with a Post
         user.posts.push(post._id);
 
         //Save the post (so post is now in posts array)
-        await user.save();
-        res.send(post);
+        await user.save().catch(error=>{
+            return res.status(500).send(error);
+        });
+        return res.send(post);
     }
     //If no file found, upload content only
     else {
@@ -113,13 +125,15 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         post.location = req.body.location;
 
         //Save it
-        await post.save();
-
+        await post.save().catch(error=>{
+            return res.send(error);
+        });
         //Associates the comment with a Post
         user.posts.push(post._id);
-
         //Save the post (so post is now in posts array)
-        await user.save();
+        await user.save().catch(error=>{
+            return res.send(error);
+        });
         res.send(post);
     }
 });
@@ -133,6 +147,9 @@ router.get('/getUserPosts/:userId',(req,res,next)=>{
             return res.status(500).send(err);
         }
         else{
+            posts.sort(function(a,b){
+                return b.updated - a.updated;
+            });
             res.status(200).send({
                 messages: posts
             });
@@ -224,11 +241,12 @@ router.delete('/:postId', (req, res, next) => {
         }
         else {
             //Remove comments associated with the post
+            /*
             Comment.remove({ "post": Pid }, (err, comment) => {
                 if(err) {
                     return res.status(500).send(err);
                 }
-                else {
+                else {*/
                     //Remove post from user post array
                     User.update({}, {$pull: { posts: Pid }}, (err, user) => {
                         if(err) {
@@ -241,8 +259,8 @@ router.delete('/:postId', (req, res, next) => {
                             });
                         }
                     });
-                }
-            });
+//                }
+//            });
         }
     });
 });
@@ -264,6 +282,25 @@ router.post('/like/:userId/:postId', (req, res, next) => {
             return res.status(401).json({
                 success: false
             });
+            //unlike. incomplete. Also need to update likesscreen when unlike.
+            //Would need to update card as well (probably)
+            /*Post.updateOne({ "_id" : Pid}, {$pull: { likes: Uid},
+                                            $set: {likesupdated: new Date()}},
+                                            (err, post) => {
+                if(err) {
+                    return res.status(500).send(err);
+                }
+                else {
+                    Post.findOne({_id: Pid}, (err, likedpost) => {
+                        if(err) {
+                            return res.status(500).send(err);
+                        }
+                        else {
+                            res.status(200).send(likedpost);
+                        }
+                    });
+                }
+            });*/
          }
         else {
             //Like the post
@@ -274,18 +311,97 @@ router.post('/like/:userId/:postId', (req, res, next) => {
                     return res.status(500).send(err);
                 }
                 else {
-                    Post.likesupdated = new Date();
-                    return res.status(200).json({
-                        success: true,
-                        likesupdated: Post.likesupdated
-                    });
+                    /*Do this is you need the updated post
+                    Post.findOne({_id: Pid}, (err, likedpost) => {
+                        if(err) {
+                            return res.status(500).send(err);
+                        }
+                        else {
+                            res.status(200).send(likedpost);
+                        }
+                    });*/
+                    res.status(200).send();
                 }
             });
         }
     });
 });
 
+//Comment on a post
+router.post('/:postId/:userId/addComment', async(req, res) =>{
+    //Find any one post to comment on
+    //const user = await User.findOne({_id: req.params.userId});
+    //const post = await Post.findOne({_id: req.params.postId});
+    const Pid = req.params.postId;
+    const Uid = req.params.userId;
+    Post.updateOne({ "_id" : Pid}, {$push: { comments: {
+                                                _id: req.body.commentid,
+                                                userid: Uid,
+                                                username: req.body.username,
+                                                content: req.body.content,
+                                                created: new Date()
+                                            }}},(err, post) => {
+        if(err) {
+            return res.status(500).send(err);
+        }
+        else {
+            Post.findOne({_id: Pid}, (err, commentedpost) => {
+                if(err) {
+                    return res.status(500).send(err);
+                }
+                else {
+                    return res.status(200).send(commentedpost);
+                }
+            });
+        }
+    });
+});
+
+//lIKE A Comment
+router.post('/likeComment/:userId/:postId/:commentId', (req, res, next) => {
+    //Find comment to like
+    const Pid = req.params.postId;
+    const Uid = req.params.userId;
+    const Cid = req.params.commentId;
+    Post.findOne({_id: Pid}, (err, holdingPost) => {
+        if(err) {
+            return res.status(500).send(err);
+        }
+        else {
+            let liked = true;
+            holdingPost.comments.find((comment)=>{
+                if(comment._id == Cid){   //Liked comment
+                    comment.likes.find((likedID) =>{
+                        if(likedID == Uid)
+                            liked = false;  //User hasn't liked it yet
+                    })
+                    if(liked){
+                        comment.likes.push(Uid);
+                    }
+                    else{
+                        return res.status(401).json({
+                            success: false
+                        });
+                    }
+                }
+            })
+            if(liked){
+                Post.updateOne({ "_id" : Pid}, {$set: { comments: holdingPost.comments}},
+                                                (err, post) => {
+                    if(err) {
+                        return res.status(500).send(err);
+                    }
+                    else {
+                        res.status(200).send();
+                    }
+                });
+            }
+        }
+    });
+});
+
 //Create a comment on a post
+/*UNUSED VER
 router.post('/:userId/:postId/comment', async (req, res) => {
 
     //Find any one post to comment on
@@ -302,7 +418,9 @@ router.post('/:userId/:postId/comment', async (req, res) => {
     comment.uid = user._id;
 
     //save the comment
-    await comment.save();
+    await comment.save().catch(error=>{
+        return res.send(error);
+    });;
 
     //Associates the comment with a Post
     post.comments.push(comment._id);
@@ -311,10 +429,12 @@ router.post('/:userId/:postId/comment', async (req, res) => {
     post.interactedTime = new Date();
 
     //Save the post (so comment is now in comments array)
-    await post.save();
+    await post.save().catch(error=>{
+        return res.send(error);
+    });;
     res.send(comment);
 });
-
+*/
 //Read all comments on a post
 router.get('/getcomments/:postId', async (req, res) => {
 
