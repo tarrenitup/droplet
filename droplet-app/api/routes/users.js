@@ -34,7 +34,6 @@ router.get('/',(req, res, next) => {
 
 //Create a user
 router.post('/',(req, res, next) => {
-
     //encrypt password
     bcrypt.hash(req.body.password, 10, function(err, hash){
         if(err){
@@ -49,12 +48,13 @@ router.post('/',(req, res, next) => {
                 password: hash,
                 bio: req.body.bio
             });
-            user
-            .save()
+            user.save()
             .then(function(result){
-                console.log(result);
-                res.status(200).json({
-                    success: 'New User has been created!'
+                return generateJWT(result._id,result.username);
+            })
+            .then(function(token){
+                res.status(200).json({ //consider sending in additional information i.e. user id?
+                    token : token
                 });
             })
             .catch(error => {
@@ -185,6 +185,24 @@ router.get('/:userId', (req, res, next) => {
         else {
             res.status(200).send({
                 message: user
+            });
+        }
+    });
+});
+
+//get a user's bio by id
+router.get('/getBio/:userId', (req, res, next) => {
+    //Get id of user
+    const Uid = req.params.userId;
+    User.find({ _id: Uid }, function(err, user) {
+        if(err) {
+            return res.status(500).json({
+                error: err
+            });
+        }
+        else {
+            res.status(200).send({
+                bio: user[0].bio
             });
         }
     });
@@ -1152,21 +1170,6 @@ router.post('/demo', async (req, res, next) => {
             //res.send(p26);
         }
 
-});
-
-//MASS CLEAN
-router.post('/clean',(req, res, next) => {
-    User.deleteMany({})
-    .then(function(result) {
-        console.log("Demo Cleaned!");
-        res.send("Demo Cleaned!");
-    });
-    //Second, deletes all comments
-    Post.deleteMany({})
-    .then(function(result) {
-        console.log("Demo posts Cleaned!");
-        res.send("Demo posts Cleaned!");
-    });
 });
 
 module.exports = router;
