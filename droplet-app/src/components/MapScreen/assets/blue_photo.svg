@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="33px" viewBox="0 0 22 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>droplet icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="maps" transform="translate(-211.000000, -276.000000)" fill-rule="nonzero">
+            <g id="blue-drops" transform="translate(112.000000, 276.000000)">
+                <g id="droplet-icon" transform="translate(99.000000, 0.000000)">
+                    <circle id="Oval-15" fill="#00A9FF" cx="11" cy="22" r="11"></circle>
+                    <polygon id="Triangle" fill="#00A9FF" points="11.0549316 0.59765625 20.5761719 16.3444824 1.53369141 16.3444824"></polygon>
+                    <g id="camera-icon" transform="translate(5.500000, 17.000000)" fill="#FFFFFF">
+                        <path d="M2,0 L9,0 C10.1045695,-2.02906125e-16 11,0.8954305 11,2 L11,6.55555556 C11,7.66012506 10.1045695,8.55555556 9,8.55555556 L2,8.55555556 C0.8954305,8.55555556 1.3527075e-16,7.66012506 0,6.55555556 L0,2 C-1.3527075e-16,0.8954305 0.8954305,-4.63227689e-16 2,-6.66133815e-16 Z M5.5,6.41666667 C6.71502645,6.41666667 7.7,5.45905349 7.7,4.27777778 C7.7,3.09650206 6.71502645,2.13888889 5.5,2.13888889 C4.28497355,2.13888889 3.3,3.09650206 3.3,4.27777778 C3.3,5.45905349 4.28497355,6.41666667 5.5,6.41666667 Z" id="Combined-Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

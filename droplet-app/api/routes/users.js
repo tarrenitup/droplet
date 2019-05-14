@@ -189,7 +189,6 @@ router.get('/:userId', (req, res, next) => {
         }
     });
 });
-
 //get a user's bio by id
 router.get('/getBio/:userId', (req, res, next) => {
     //Get id of user

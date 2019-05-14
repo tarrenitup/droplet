@@ -9,6 +9,7 @@
     "body-parser": "^1.18.3",
     "docker": "^1.0.0",
     "express": "^4.16.4",
+    "hammerjs": "^2.0.8",
     "jsonwebtoken": "^8.4.0",
     "mapbox-gl": "^0.53.0-beta.1",
     "mongo": "^0.1.0",
@@ -21,7 +22,7 @@
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.5",
+    "react-scripts": "^2.1.8",
     "react-transition-group": "^2.5.3",
     "redux": "^4.0.1",
     "redux-starter-kit": "^0.4.3",
@@ -32,7 +33,9 @@
     "rstart": "react-scripts start",
     "rbuild": "react-scripts build",
     "rtest": "react-scripts test",
-    "reject": "react-scripts eject"
+    "reject": "react-scripts eject",
+    "grading-w": "npm install && npm audit fix && start npm start & npm run rstart",
+    "grading-u": "npm install && npm audit fix"
   },
   "proxy": "http://localhost:3000",
   "eslintConfig": {

@@ -1,14 +1,166 @@
+import Auth from '../components/Auth/Auth.js'
+
 class PostsApi {
+
+    // static getLocation(){
+        // let temp = [42,42];
+        // if(navigator.geolocation){
+            // navigator.geolocation.getCurrentPosition((position)=>{
+                // temp = [position.coords.longitude, position.coords.latitude];
+            // });
+        // }
+        // return temp;
+    // }
 
     /* GET */
     static getPosts() {
-        return fetch('http://localhost:5000/posts').then(response => {
+        
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token;
+        
+        
+        return fetch('http://localhost:5000/posts/nearby?lng=' + '-123.2620' + '&lat=' + '44.5646' + '&meters=1000',{
+            method: 'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        }).then(response => {
+            return response.json();
+        }).catch(error => {
+            return error
+        });
+        
+        // return fetch('http://localhost:5000/posts/',{
+            // method: 'GET',
+            // headers:{
+                // 'Accept': 'application/json',
+                // 'content-type': 'application/json',
+                // 'Authorization': header
+            // }
+        // }).then(response => {
+            // return response.json()
+        // }).catch(error => {
+            // return error
+        // });
+    }
+
+    static getUserPosts(userID) {
+        const fetchURL = 'http://localhost:5000/posts/getUserPosts/' + userID;
+
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method: 'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        }).then(response => {
+            return response.json()
+        }).then(data =>{
+            return data.messages
+        }).catch(error => {
+            return error
+        });
+    }
+
+    // TODO: Change the fetch call to nearby
+    //static getMapPosts(lng, lat, meters){
+    static getMapPosts(lng, lat, meters){
+      const url = 'http://localhost:5000/posts/nearby?lng=' + lng + '&lat=' + lat + '&meters=' + meters
+
+      const token = Auth.getCookie('token');
+      const header = 'Bearer ' + token
+      return fetch(url,{
+          method: 'GET',
+          headers:{
+              'Accept': 'application/json',
+              'content-type': 'application/json',
+              'Authorization': header
+          }
+      }).then(response => {
+          return response.json()
+      }).catch(error => {
+          return error
+      });
+    }
+
+    static getYourLikedPosts(userID){
+        const fetchURL = 'http://localhost:5000/posts/getUserPostsLikesInt/' + userID;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method:'GET',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        })
+        .then(results => {
+            return results.json()
+        }).then(data =>{
+            return data.messages
+        })
+        .catch((error) => {
+            return error
+        })
+    }
+
+    /* POST */
+    static addNewPost(postData,userID) {
+        const fetchURL = 'http://localhost:5000/posts/' + userID;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            },
+            body:JSON.stringify({
+                content: postData.postContent,
+                location: {
+                    type: "Point",
+                    coordinates: postData.currentLocation
+                }
+            })
+        }).then(response => {
             return response.json()
         }).catch(error => {
             return error
         });
     }
 
+/* Moved to card
+    static addLike(postID){
+        const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
+        const fetchURL = 'http://localhost:5000/posts/like/' + userID + '/' + postID;
+        const token = Auth.getCookie('token');
+        const header = 'Bearer ' + token
+        return fetch(fetchURL,{
+            method: 'POST',
+            headers:{
+                'Accept': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': header
+            }
+        })
+        .then(result =>{
+            return result.json();
+        })
+        .then(data =>{
+            return data;
+        })
+        .catch(error=>{
+            return error
+        })
+    }
+*/
     static getSamplePosts() { // for development testing only.
 
         const post1 = {
@@ -45,14 +197,6 @@ class PostsApi {
         )
     }
 
-    /* POST */
-    static addNewPost() {
-        return fetch('http://localhost:5000/posts').then(response => {
-            return response.json()
-        }).catch(error => {
-            return error
-        });
-    }
 }
 
-export default PostsApi; 
+export default PostsApi;

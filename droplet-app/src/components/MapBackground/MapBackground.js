@@ -25,7 +25,8 @@ class MapBackground extends Component {
             position: 'absolute',
             top: 0,
             bottom: 0,
-            width: '100%'
+            width: '100%',
+            background: 'black'
         }
 
         return (

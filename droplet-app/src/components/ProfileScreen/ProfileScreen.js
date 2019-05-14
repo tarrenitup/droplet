@@ -1,10 +1,48 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './ProfileScreen.css'
+import ProfileCard from './ProfileCard.js'
+import Auth from '../Auth/Auth.js'
+import PostList from '../PostList/PostList'
+import {loadProfilePosts} from '../../actions/postActions'
+import {loadBio} from '../../actions/profileActions'
+import {updateTime,profilePage} from '../../actions/miscActions'
 
-const ProfileScreen = () => (
-    <main className='profile-screen screen'>
-        profile stuff here.
-    </main>
-)
+import {connect} from 'react-redux'
 
-export default ProfileScreen;
+class ProfileScreen extends Component{
+    constructor(props){
+        super(props);
+        this.props.dispatch(loadProfilePosts(this.props.userid));
+        this.props.dispatch(loadBio(this.props.userid));
+        this.props.dispatch(profilePage());
+        this.props.dispatch(updateTime());
+        console.log(this.props.userid);
+    }
+
+    render(){
+        const head = (
+            <ProfileCard
+                username={this.props.username}
+                bio={this.props.bio}
+            />
+        )
+        return(
+            <main className='profile-screen'>
+                {head}
+                <PostList posts={this.props.posts} like={false}/>
+            </main>
+        )
+    }
+}
+//                <PostList posts={this.props.posts}/>
+
+function mapStateToProps(state){
+    return {
+        username: state.profile.username,
+        posts: state.profile.posts,
+        userid: state.profile.userid,
+        bio: state.profile.bio,
+        time: state.time
+    }
+}
+export default connect(mapStateToProps)(ProfileScreen);

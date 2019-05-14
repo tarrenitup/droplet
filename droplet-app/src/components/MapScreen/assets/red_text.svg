@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="32px" viewBox="0 0 22 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>droplet icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="maps" transform="translate(-295.000000, -302.000000)" fill-rule="nonzero">
+            <g id="red-drops" transform="translate(43.000000, 94.000000)">
+                <g id="droplet-icon" transform="translate(252.000000, 208.000000)">
+                    <circle id="Oval-15" fill="#E25858" cx="11" cy="21" r="11"></circle>
+                    <polygon id="Triangle" fill="#E25858" points="11.0549316 0.216796875 20.5761719 15.3444824 1.53369141 15.3444824"></polygon>
+                    <g id="lines" transform="translate(7.000000, 16.000000)" stroke="#FFFFFF" stroke-linecap="square" stroke-width="1.5">
+                        <path d="M0.666666667,4.66666667 L7.33333333,4.66666667" id="Line"></path>
+                        <path d="M0.666666667,7.73333333 L7.33333333,7.73333333" id="Line"></path>
+                        <path d="M0.666666667,1.6 L7.33333333,1.6" id="Line"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

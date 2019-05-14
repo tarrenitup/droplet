@@ -1,7 +1,7 @@
 main.signup-screen {
     position: relative;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     top: 0px;
     left: 0px;
     background-color: #EFECEA;
@@ -11,32 +11,58 @@ main.signup-screen {
     justify-content: center;
 }
 
-.modal > form{
+.signup-modal{
+    width:250px;
+}
+
+.signup-modal > form{
     display: flex;
     flex-direction: column;
 }
 
-.modal > h1{
+.signup-modal > h1{
     text-align: center;
-    padding-top: 200px;
+    padding-top: 150px;
     padding-bottom: 15px;
 }
 
-.form-text{
+.signup-form-text{
     font-family: 'Arial';
     padding: 5px;
     margin-bottom: 20px;
     height: 30px;
-    width: 250px;
+    width: inherit;
     border: 1px solid grey;
 }
 
-.submit{
+.signup-form-textarea{
+    font-family: 'Arial';
+    padding: 5px;
+    margin-bottom: 20px;
+    height: 100px;
+    width: inherit;
+    border: 1px solid grey;
+}
+
+.signup_failed{
+    text-align: center;
+    color: red;
+    padding-bottom: 15px;
+    display:block;
+}
+
+.submitRegister{
     height: 35px;
     color: #fff;
     background-color: #42c5f4;
     border: none;
+    margin-bottom: 15px;
     letter-spacing: 2px;
     transition: .3s opacity ease;
     cursor: pointer;
+}
+
+
+.link{
+    text-align: center;
 }

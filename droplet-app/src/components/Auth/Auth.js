@@ -1,10 +1,13 @@
 const jwt = require('jsonwebtoken')
 
-const secret = 'temporaryKey'
+const secret = 'evMv2bY5PmPb1XnRuERkOI0wbVxNXKpo8RU1dBIO7xFhfb6Ui78ZSEN9ye5L8YRk1n32S11vkhvzyNkeowXImgAXFpdg0wphoI3cqZ763o69uaF33hvYdEP2qPzGRB'
 
-function generateJWT(userID){
+function generateJWT(userID,username){
     return new Promise((resolve, reject) => {
-        const payload = {sub: userID};
+        const payload = {
+            sub: userID,
+            name: username
+        };
         jwt.sign(payload, secret, {expiresIn: '24h'}, function(err, token){
             if(err){
                 reject(err);
@@ -31,6 +34,19 @@ function requireAuthentication(req, res, next){
     });
 }
 
+function isAuthenticated(){
+    if(getCookie('token') != null){
+        try{
+            jwt.verify(getCookie('token'), secret);
+        }
+        catch(error){
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
 function setCookie(name,value,days) {
     let expires = "";
     if (days) {
@@ -38,7 +54,7 @@ function setCookie(name,value,days) {
         date.setTime(date.getTime() + (days*24*60*60*1000));
         expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/;";
 }
 function getCookie(name) {
     let nameEQ = name + "=";
@@ -52,13 +68,20 @@ function getCookie(name) {
     return null;
 }
 function eraseCookie(name) {
-    document.cookie = name+'=; Max-Age=-99999999;';
+    if(getCookie(name) != null){
+        document.cookie = name+'=; Max-Age=-99999999;';
+    }
 }
 
 function parseJwt (token) {
-            var base64Url = token.split('.')[1];
-            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            return JSON.parse(window.atob(base64));
+            if(token){
+                var base64Url = token.split('.')[1];
+                var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                return JSON.parse(window.atob(base64));
+            }
+            else{
+                return "No User";
+            }
         };
 
 exports.generateJWT = generateJWT;
@@ -67,3 +90,4 @@ exports.setCookie = setCookie;
 exports.getCookie = getCookie;
 exports.eraseCookie = eraseCookie;
 exports.parseJwt = parseJwt;
+exports.isAuthenticated = isAuthenticated;

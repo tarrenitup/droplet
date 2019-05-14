@@ -1,26 +1,46 @@
-import React from 'react'
+import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import './PostsScreen.css'
 import PropTypes from 'prop-types'
-import PostList from './PostList';
+import PostList from '../PostList/PostList'
+import { loadHomePosts } from '../../actions/postActions'
+import {updateTime, homePage} from '../../actions/miscActions'
 
-import * as postsActions from '../../actions/postActions';
+class PostsScreen extends Component{
+    constructor(props){
+        super(props);
+        this.props.dispatch(loadHomePosts());
+        this.props.dispatch(homePage());
+        this.props.dispatch(updateTime());
+    }
 
-const PostsScreen = (props) => (
+    render(){
+        return(
+            <main className='posts-screen screen'>
+               <PostList posts={this.props.homePosts} like={false} />
+            </main>
+        )
+    }
+}
+
+/*
+const PostsScreen = (props) => {
+    props.dispatch(loadHomePosts());
+    return(
     <main className='posts-screen screen'>
-       <PostList posts={props.posts} />
+       <PostList homePosts={props.homePosts} />
     </main>
-)
+    );
+}*/
 
 PostsScreen.propTypes = {
-    posts: PropTypes.array.isRequired
+    homePosts: PropTypes.array.isRequired
 };
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        // props for PostsScreen: state from store (updates on each state change)
-        posts: state.posts
-    };
-} 
+        homePosts: state.homePosts
+    }
+}
 
-export default connect(mapStateToProps)(PostsScreen); 
+export default connect(mapStateToProps)(PostsScreen);
