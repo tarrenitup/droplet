@@ -75,16 +75,16 @@ router.get('/nearby', (req, res, next) => {
         }
     ])
     .then(function(posts){
-        var postLength = posts.length;
+        let postLength = posts.length;
        //console.log(postLength);
        //console.log([lng, lat]);
-        var splashPosts = [];
-        var i;
+        let splashPosts = [];
+        let i;
         for(i = 0; i < postLength; i++){
              if (posts[i].dist.calculated <= 1000)
                 splashPosts.push(posts[i]);
         }
-        //console.log(splashPosts)
+        //console.log(splashPosts);
         res.send(posts);
     })
     .catch(next)
