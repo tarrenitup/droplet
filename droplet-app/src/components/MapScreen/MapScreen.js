@@ -25,19 +25,19 @@ class Map extends React.Component {
   onFindLocation(map){
     if(navigator.geolocation){
         navigator.geolocation.watchPosition((position)=>{
-            console.log(position);
-            console.log(position.coords.latitude);
-            console.log(position.coords.longitude);
+            //console.log(position);
+            //console.log(position.coords.latitude);
+            //console.log(position.coords.longitude);
             this.userLng = position.coords.longitude
             this.userLat = position.coords.latitude
             this.updatePosts(map)
-            console.log("Updatings");
+            //console.log("Updatings");
         })
     }
   }
 
   componentDidMount() {
-    console.log("MOUNTED")
+    //console.log("MOUNTED")
     const { lng, lat, zoom } = this.state;
 
     const map = new mapboxgl.Map({

@@ -53,13 +53,15 @@ router.get('/AComment',(req, res, next) => {
     res.status(200).send(newID)
 });
 
-//Get all posts nearby
+//Get all posts within 10 meters
 router.get('/nearby', (req, res, next) => {
-    //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32&meters=1000
+    //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32&meters=100000
     //maxDistance is in meters
     var lng = parseFloat(req.query.lng);
     var lat = parseFloat(req.query.lat);
     var meters = parseFloat(req.query.meters);
+//    console.log(lng);
+//    console.log(lat);
     //Find posts
     Post.aggregate([
         {
@@ -75,16 +77,6 @@ router.get('/nearby', (req, res, next) => {
         }
     ])
     .then(function(posts){
-        var postLength = posts.length;
-       //console.log(postLength);
-       //console.log([lng, lat]);
-        var splashPosts = [];
-        var i;
-        for(i = 0; i < postLength; i++){
-             if (posts[i].dist.calculated <= 1000)
-                splashPosts.push(posts[i]);
-        }
-        //console.log(splashPosts)
         res.send(posts);
     })
     .catch(next)
@@ -183,6 +175,19 @@ router.get('/getUserPostsLikesInt/:userId',(req,res,next)=>{
             res.status(200).send({
                 messages: posts
             });
+            Post.update({userid: Uid,
+                       likesupdated: {$ne: null}},
+                       {$set: {numNewLikes: 0,
+                                newLikes: false}},
+                        {multi: true},
+                        function(err, res){
+                            if(err){
+                                return res.status(500).send(err);
+                            }
+                            else{
+                                return
+                            }
+                        });
         }
     });
 });
@@ -313,7 +318,9 @@ router.post('/like/:userId/:postId', (req, res, next) => {
         else {
             //Like the post
             Post.updateOne({ "_id" : Pid}, {$push: { likes: Uid},
-                                            $set: {likesupdated: new Date()}},
+                                            $set: {likesupdated: new Date(),
+                                                    newLikes: true},
+                                            $inc: {numNewLikes: 1}},
                                             (err, post) => {
                 if(err) {
                     return res.status(500).send(err);
@@ -411,31 +418,24 @@ router.post('/likeComment/:userId/:postId/:commentId', (req, res, next) => {
 //Create a comment on a post
 /*UNUSED VER
 router.post('/:userId/:postId/comment', async (req, res) => {
-
     //Find any one post to comment on
     const user = await User.findOne({_id: req.params.userId});
     const post = await Post.findOne({_id: req.params.postId});
-
     //Create a new comment
     const comment = new Comment();
-
     //Grab comment content and postId as described in comment.js
     comment.username = user.username;
     comment.content = req.body.content;
     comment.post = post._id;
     comment.uid = user._id;
-
     //save the comment
     await comment.save().catch(error=>{
         return res.send(error);
     });;
-
     //Associates the comment with a Post
     post.comments.push(comment._id);
-
     //Update interacted time on Post
     post.interactedTime = new Date();
-
     //Save the post (so comment is now in comments array)
     await post.save().catch(error=>{
         return res.send(error);

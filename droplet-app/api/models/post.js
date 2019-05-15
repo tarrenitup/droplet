@@ -59,6 +59,14 @@ const postSchema = new mongoose.Schema({
         type: Date,
         default: undefined
     },
+    numNewLikes:{
+        type: Number,
+        default: 0
+    },
+    newLikes:{
+        type: Boolean,
+        default: false
+    },
     location: {
         type: {
             type: String,

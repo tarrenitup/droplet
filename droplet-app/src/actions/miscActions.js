@@ -1,5 +1,9 @@
 import * as types from './actionTypes'
 
+export function updateLocation(location){
+    return{type: types.UPDATE_LOCATION, location}
+}
+
 export function updateTime(){
     return{type: types.UPDATE_TIME}
 }

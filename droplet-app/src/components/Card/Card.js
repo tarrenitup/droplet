@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import './Card.css'
 import likesIcon from './likes.svg'
+import redDot from './RedDot.png'
 import commentIcon from './comment.svg'
 import Auth from '../Auth/Auth.js'
 import {connect} from 'react-redux'
@@ -102,6 +103,20 @@ function modifyLikes(props){
     }
 }
 
+const Updates = (props) => {
+    if(props.new){
+        return (
+            <div className = 'reddot'>
+                <img className='like' src={redDot} alt='like'/>
+                <p>(+{props.numNew})</p>
+            </div>
+        )
+    }
+    else{
+        return <p></p>
+    }
+}
+
 const Note = (props) => {
     if(props.added.timeSinceLike !== undefined){
         return <p> &nbsp;&nbsp;&nbsp;&nbsp;{props.added.timeSinceLike}</p>
@@ -129,6 +144,7 @@ const Card = (props) => {
                     <img className='like' src={likesIcon} alt='like' onClick={() => modifyLikes(props)}/>
                     <p>{props.likes}</p>
                     <Note added={props}/>
+                    <Updates new={props.newLikes} numNew={props.numNewLikes} />
                     <img className='comment' src={commentIcon} alt ='Comment' onClick={() => toggleShow(!show)}/>
                     <p>{props.comments.length}</p>
                 </div>
