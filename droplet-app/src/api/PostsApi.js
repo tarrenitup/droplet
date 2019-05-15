@@ -2,11 +2,24 @@ import Auth from '../components/Auth/Auth.js'
 
 class PostsApi {
 
+    // static getLocation(){
+        // let temp = [42,42];
+        // if(navigator.geolocation){
+            // navigator.geolocation.getCurrentPosition((position)=>{
+                // temp = [position.coords.longitude, position.coords.latitude];
+            // });
+        // }
+        // return temp;
+    // }
+
     /* GET */
     static getPosts() {
+        
         const token = Auth.getCookie('token');
-        const header = 'Bearer ' + token
-        return fetch('http://localhost:5000/posts',{
+        const header = 'Bearer ' + token;
+        
+        
+        return fetch('http://localhost:5000/posts/nearby?lng=' + '-123.2620' + '&lat=' + '44.5646' + '&meters=1000',{
             method: 'GET',
             headers:{
                 'Accept': 'application/json',
@@ -14,10 +27,23 @@ class PostsApi {
                 'Authorization': header
             }
         }).then(response => {
-            return response.json()
+            return response.json();
         }).catch(error => {
             return error
         });
+        
+        // return fetch('http://localhost:5000/posts/',{
+            // method: 'GET',
+            // headers:{
+                // 'Accept': 'application/json',
+                // 'content-type': 'application/json',
+                // 'Authorization': header
+            // }
+        // }).then(response => {
+            // return response.json()
+        // }).catch(error => {
+            // return error
+        // });
     }
 
     static getUserPosts(userID) {

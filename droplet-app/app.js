@@ -15,7 +15,7 @@ const postRoutes = require('./api/routes/posts');
 
 const mongoDBName = process.env.MONGO_DATABASE || 'test';
 
-mongoose.connect('mongodb://admin:'+ process.env.MONGO_ATLAS_PW +'@droplet-shard-00-00-8shns.mongodb.net:27017,droplet-shard-00-01-8shns.mongodb.net:27017,droplet-shard-00-02-8shns.mongodb.net:27017/test?ssl=true&replicaSet=Droplet-shard-0&authSource=admin&retryWrites=true', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://admin:'+ process.env.MONGO_ATLAS_PW +'@dropletdemo-r8dtp.mongodb.net/test?retryWrites=true', {useNewUrlParser: true});
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
