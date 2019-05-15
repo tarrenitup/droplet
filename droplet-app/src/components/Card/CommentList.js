@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
-import './Card.css'
+import './Card.scss'
+import './CommentList.scss'
 import Auth from '../Auth/Auth.js'
 import {connect} from 'react-redux'
 import CommentCard from './CommentCard'
@@ -121,7 +122,7 @@ function modifyComment(e,content, props){
 const CommentList = (props) => {
     const [content, input] = useState("");
     return(
-        <div  style={{display: props.display ? 'inline' : 'none'}}>
+        <div className='comment-list' style={{display: props.display ? 'block' : 'none'}}>
             <form onSubmit={(e) => modifyComment(e,content,props)}>
                 <textarea
                     className="comment-textarea"
@@ -132,11 +133,11 @@ const CommentList = (props) => {
                 />
                 <input
                     className="submitComment"
-                    value="Comment"
+                    value="comment"
                     type="submit"
                 />
             </form>
-            <ul className="comment-list">
+            <ul className="comments">
                 {props.comments.map((comment,index) => (
                     <CommentCard
                         key={comment._id}
