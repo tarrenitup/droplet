@@ -23,6 +23,11 @@ export default function newPostModalReducer(state = initialState.newPostModal, a
             ...state,
             visible: false
         }
+    case types.NEW_POST_ADD_FAILURE:
+        return{
+            ...state,
+            visible:false
+        }
     case types.LOGIN_DATA:
         return {
             ...state,

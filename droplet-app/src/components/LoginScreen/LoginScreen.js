@@ -4,6 +4,7 @@ import Auth from '../Auth/Auth.js'
 import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {loadLoginData} from '../../actions/loginActions'
+import {updateLocation} from '../../actions/miscActions'
 
 class LoginScreen extends Component{
     constructor(props){
@@ -52,6 +53,12 @@ class LoginScreen extends Component{
             const name = Auth.parseJwt(Auth.getCookie('token')).name;
             const uid = Auth.parseJwt(Auth.getCookie('token')).sub;
             dispatch(loadLoginData(name,uid));
+            if(navigator.geolocation){
+                navigator.geolocation.watchPosition((pos) =>{
+                    let location = [pos.coords.longitude, pos.coords.latitude];
+                    dispatch(updateLocation(location));
+                })
+            }
             this.setState({
                 success:true
             });

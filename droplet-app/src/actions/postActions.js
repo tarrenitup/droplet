@@ -92,6 +92,12 @@ export function newPostAddSuccess() {
     }
 }
 
+export function newPostAddFailure(){
+    return{
+        type: types.NEW_POST_ADD_FAILURE
+    }
+}
+
 export function loadProfilePosts(userID){
     return function(dispatch){
         return PostsApi.getUserPosts(userID)

@@ -1,6 +1,7 @@
 export default {
     loadingSpinner: false,
     overlay: false,
+    location: [],
     newPostModal: {
         visible: false,
         postTypeIndex: 0,

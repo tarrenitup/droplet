@@ -9,6 +9,8 @@ export default function overlayReducer(state = initialState.overlay, action) {
         return true
     case types.NEW_POST_ADD_SUCCESS:
         return false
+    case types.NEW_POST_ADD_FAILURE:
+        return false
     default:
         return state
   }

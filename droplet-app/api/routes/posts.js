@@ -175,6 +175,19 @@ router.get('/getUserPostsLikesInt/:userId',(req,res,next)=>{
             res.status(200).send({
                 messages: posts
             });
+            Post.update({userid: Uid,
+                       likesupdated: {$ne: null}},
+                       {$set: {numNewLikes: 0,
+                                newLikes: false}},
+                        {multi: true},
+                        function(err, res){
+                            if(err){
+                                return res.status(500).send(err);
+                            }
+                            else{
+                                return
+                            }
+                        });
         }
     });
 });
@@ -305,7 +318,9 @@ router.post('/like/:userId/:postId', (req, res, next) => {
         else {
             //Like the post
             Post.updateOne({ "_id" : Pid}, {$push: { likes: Uid},
-                                            $set: {likesupdated: new Date()}},
+                                            $set: {likesupdated: new Date(),
+                                                    newLikes: true},
+                                            $inc: {numNewLikes: 1}},
                                             (err, post) => {
                 if(err) {
                     return res.status(500).send(err);
