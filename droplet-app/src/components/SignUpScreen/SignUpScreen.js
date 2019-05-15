@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Redirect} from 'react-router'
-import './SignUpScreen.css'
+import './SignUpScreen.scss'
 import Auth from '../Auth/Auth.js'
 import {connect} from 'react-redux'
 import {loadLoginData} from '../../actions/loginActions'
@@ -97,7 +97,7 @@ class SignUpScreen extends Component{
           <main className="signup-screen screen" >
                 {this.redirection()}
                 <div className="signup-modal">
-                    <h1>Sign Up</h1>
+                    <h1>sign up</h1>
                     <form onSubmit={(e) => this.handleSubmit(e,this.props.dispatch)}>
                         <input
                             className="signup-form-text"
@@ -137,7 +137,7 @@ class SignUpScreen extends Component{
                         {this.failedMessage()}
                         <div className = "link">
                             Already a user?&nbsp;
-                            <a href="http://localhost:3000/login">Click here</a>
+                            <a href="http://localhost:3000/login">tap here</a>
                             &nbsp;to login.
                         </div>
                     </form>
