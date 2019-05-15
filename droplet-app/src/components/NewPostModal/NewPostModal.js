@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './NewPostModal.scss'
 import { connect } from 'react-redux'
-import { toggleNewPostModal, newPostAddInitiate, sendNewPost, loadMapPosts, loadProfilePosts, loadHomePosts, newPostAddSuccess, reloadAllPosts } from '../../actions/postActions'
+import { toggleNewPostModal, newPostAddInitiate, sendNewPost, loadMapPosts, loadProfilePosts, loadHomePosts, newPostAddSuccess, reloadAllPosts, newPostAddFailure } from '../../actions/postActions'
 import {updateTime} from '../../actions/miscActions'
 import PostTypeSelector from './PostTypeSelector'
 import SplashSlider from './SplashSlider'
@@ -45,39 +45,36 @@ class NewPostModal extends Component {
 
     getModalStyleClasses = () => this.props.visiblity ? 'new-post-modal' : 'new-post-modal off'
 
-    handleSubmit = (e, pageIndex, dispatch) => {
+    handleSubmit = (e, pageIndex, loc, dispatch) => {
         e.preventDefault()
-
-        if(navigator.geolocation){
-            let lat = undefined;
-            let long = undefined;
-            navigator.geolocation.getCurrentPosition((position)=>{
-                lat = position.coords.latitude;
-                long = position.coords.longitude;
-
-                const postContent = this.getPostContent.value
-                const currentLocation = [long,lat] // later to get from ui..
-                const splashRangeId = 5 // later to get from ui..
-                const postTypeId = 3 // later to get from ui..
-                //console.log(currentLocation);
-                const newPost = {
-                    postContent,
-                    splashRangeId,
-                    postTypeId,
-                    currentLocation,
-                    newPostTime: new Date()
-                }
-                dispatch(newPostAddInitiate())
-                dispatch(sendNewPost(newPost,pageIndex,this.props.userid))
-                dispatch(updateTime());
-            })
+        if(Array.isArray(loc) && loc.length === 2){
+            let lat = loc[1];
+            let long = loc[0];
+            const postContent = this.getPostContent.value
+            const currentLocation = [long,lat] // later to get from ui..
+            const splashRangeId = 5 // later to get from ui..
+            const postTypeId = 3 // later to get from ui..
+            //console.log(currentLocation);
+            const newPost = {
+                postContent,
+                splashRangeId,
+                postTypeId,
+                currentLocation,
+                newPostTime: new Date()
+            }
+            dispatch(newPostAddInitiate())
+            dispatch(sendNewPost(newPost,pageIndex,this.props.userid))
+            dispatch(updateTime());
+        }
+        else{   //No location access.
+            dispatch(newPostAddFailure());
         }
     }
 
     render() {
         return (
             <div className={ this.getModalStyleClasses() }>
-                <form className='new-post-form' name='newPostForm' onSubmit={(e) => this.handleSubmit(e, this.props.selectedPageIndex, this.props.dispatch)}>
+                <form className='new-post-form' name='newPostForm' onSubmit={(e) => this.handleSubmit(e, this.props.selectedPageIndex, this.props.location, this.props.dispatch)}>
                     <div className='top'>
                         <input type='hidden' name='location' ref={(input) => this.getCurrentLocation = input} />
                         <PostTypeSelector dispatch={this.props.dispatch} postTypeIndex={this.props.postTypeIndex} />
@@ -102,7 +99,8 @@ const mapStateToProps = (state) => {
         postTypeIndex: state.newPostModal.postTypeIndex,
         username: state.newPostModal.username,
         userid: state.profile.userid,
-        selectedPageIndex: state.selectedPageIndex
+        selectedPageIndex: state.selectedPageIndex,
+        location: state.location
     }
 }
 
