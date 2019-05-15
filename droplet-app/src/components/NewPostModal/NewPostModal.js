@@ -28,7 +28,7 @@ const Buttons = ({ dispatch }) => {
     <div className='new-post-buttons'>
         <div onClick={() => dispatch(toggleNewPostModal())} className='cancel button'>
             <span className='cancel new post'/>
-            <p>cancel</p>
+            <p>nvm</p>
         </div>
         <input name='submit' type='submit'  className='submit button' value="Drop" >
             {/* <img src={submitIcon} alt='submit new post'/>

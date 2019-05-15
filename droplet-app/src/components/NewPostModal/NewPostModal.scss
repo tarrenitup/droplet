@@ -121,12 +121,14 @@ div.new-post-buttons {
         border-bottom-left-radius: 15px;
         border-right: 1px solid rgba(255, 255, 255, 0.34);
         padding: 12px 0;
+        margin: 0;
         text-transform: lowercase;
         cursor: pointer;
     }
 
     input.submit {
         text-transform: lowercase;
+        margin: 0;
         padding: 12px 0;
         flex: 0 0 50%;
         height: 100%;

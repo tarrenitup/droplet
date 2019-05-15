@@ -8,7 +8,7 @@ export default {
         profilePictureUrl: '',
         username: '@username',
         postContent: '',
-        splashRangeIndex: 0,
+        splashRangeIndex: 3,
     },
     backgroundOverlay: 0,
     themeId: 0,

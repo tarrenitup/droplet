@@ -126,7 +126,7 @@ const CommentList = (props) => {
             <form onSubmit={(e) => modifyComment(e,content,props)}>
                 <textarea
                     className="comment-textarea"
-                    placeholder="Write a comment..."
+                    placeholder="write a comment..."
                     name="commentText"
                     value={content}
                     onChange={(e) => input(e.target.value)}
