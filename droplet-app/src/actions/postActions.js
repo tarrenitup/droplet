@@ -1,11 +1,14 @@
 import PostsApi from '../api/PostsApi'
 import * as types from './actionTypes'
+import {isEmpty} from './utility'
 
 /* Home posts */
 export function loadHomePosts() {
     return function(dispatch) {
         return PostsApi.getPosts().then(homePosts => {
-            dispatch(loadHomePostsSuccess(homePosts))
+            if(!isEmpty(homePosts)){
+                dispatch(loadHomePostsSuccess(homePosts))
+            }
         }).catch(error => {
             throw(error)
         })
@@ -16,12 +19,15 @@ export function loadHomePostsSuccess(homePosts) {
     return {type: types.LOAD_HOME_POSTS_SUCCESS, homePosts};
 }
 
+
 /* Map posts */
 // TODO: Change getPosts to getMapPosts after setup
 export function loadMapPosts(lng, lat, meters) {
     return function(dispatch) {
         return PostsApi.getMapPosts(lng, lat, meters).then(mapPosts => {
-            dispatch(loadMapPostsSuccess(mapPosts))
+            if(!isEmpty(mapPosts)){
+                dispatch(loadMapPostsSuccess(mapPosts))
+            }
         }).catch(error => {
             throw(error)
         })
@@ -102,7 +108,9 @@ export function loadProfilePosts(userID){
     return function(dispatch){
         return PostsApi.getUserPosts(userID)
         .then(response =>{
-            dispatch(loadUserPostsSuccess(response))
+            if(!isEmpty(response)){
+                dispatch(loadUserPostsSuccess(response))
+            }
         }).catch(error =>{
             throw(error)
         })
@@ -117,7 +125,9 @@ export function loadYourLikedPosts(userID){
     return function(dispatch){
         return PostsApi.getYourLikedPosts(userID)
         .then(posts =>{
-            dispatch(loadYourLikedPostsSuccess(posts))
+            if(!isEmpty(posts)){
+                dispatch(loadYourLikedPostsSuccess(posts))
+            }
         }).catch(error =>{
             throw(error)
         })
