@@ -1,20 +1,10 @@
 import PostsApi from '../api/PostsApi'
 import * as types from './actionTypes'
 
-function isEmpty(obj) {
-    for(var prop in obj) {
-        if(obj.hasOwnProperty(prop))
-            return false;
-    }
-
-    return true;
-}
-
 /* Home posts */
 export function loadHomePosts() {
     return function(dispatch) {
         return PostsApi.getPosts().then(homePosts => {
-            console.log(isEmpty(homePosts));
             dispatch(loadHomePostsSuccess(homePosts))
         }).catch(error => {
             throw(error)
