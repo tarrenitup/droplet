@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import './LoginScreen.css'
+import './LoginScreen.scss'
 import Auth from '../Auth/Auth.js'
 import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -85,11 +85,11 @@ class LoginScreen extends Component{
           <main className="login-screen screen" >
                 {this.redirection()}
                 <div className="login-modal">
-                    <h1>Login</h1>
+                    <h1>login</h1>
                     <form onSubmit={(e) => this.handleSubmit(e,this.props.dispatch)}>
                         <input
                             className="login-form-text"
-                            placeholder="Username"
+                            placeholder="username"
                             name="username"
                             type="text"
                             ref={(input) => this.getUsernameInput = input}
@@ -97,7 +97,7 @@ class LoginScreen extends Component{
                         />
                         <input
                             className="login-form-text"
-                            placeholder="Password"
+                            placeholder="password"
                             name="password"
                             type="password"
                             ref={(input) => this.getPasswordInput = input}
@@ -105,14 +105,14 @@ class LoginScreen extends Component{
                         />
                         <input
                             className="submitLogin"
-                            value="Login"
+                            value="login"
                             type="submit"
                         />
                     </form>
                     {this.failedMessage()}
                     <div className = "link">
                         New user?&nbsp;
-                        <a href="http://localhost:3000/signup">Click here</a>
+                        <a href="http://localhost:3000/signup">click here</a>
                         &nbsp;to sign up.
                     </div>
                 </div>
