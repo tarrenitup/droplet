@@ -194,7 +194,7 @@ router.get('/:userId', (req, res, next) => {
 router.get('/getBio/:userId', (req, res, next) => {
     //Get id of user
     const Uid = req.params.userId;
-    User.find({ _id: Uid }, function(err, user) {
+    User.findById({ _id: Uid }, function(err, user) {
         if(err) {
             return res.status(500).json({
                 error: err
@@ -202,7 +202,7 @@ router.get('/getBio/:userId', (req, res, next) => {
         }
         else {
             res.status(200).send({
-                bio: user[0].bio
+                bio: user.bio
             });
         }
     });
