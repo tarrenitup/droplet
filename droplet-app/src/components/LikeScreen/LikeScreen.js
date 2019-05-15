@@ -2,86 +2,36 @@ import React, {Component} from 'react'
 import './LikeScreen.css'
 import Card from '../Card/Card.js'
 import Auth from '../Auth/Auth.js'
+import PostList from '../PostList/PostList'
 
+import {connect} from 'react-redux'
+import {loadYourLikedPosts} from '../../actions/postActions'
+import {updateTime, likePage} from '../../actions/miscActions'
 
 class LikeScreen extends Component{
-    constructor(){
-        super();
-        this.state = {
-            messages: [],
-            now: new Date()
-        }
-        this.createPosts = this.createPosts.bind(this);
-        this.createPosts();
-    }
+    constructor(props){
+        super(props);
 
-    //DEFINE NUMPOSTS
-    createPosts(){
-        const userID = Auth.parseJwt(Auth.getCookie('token')).sub;
-        const fetchURL = 'http://localhost:5000/posts/getUserPostsLikesInt/' + userID;
-        const token = Auth.getCookie('token');
-        const header = 'Bearer ' + token
-        fetch(fetchURL,{
-            method:'GET',
-            headers:{
-                'Accept': 'application/json',
-                'content-type': 'application/json',
-                'Authorization': header
-            }
-        })
-            .then(results => {
-                return results.json()
-            }).then(data =>{
-                this.setState({
-                    messages: data.messages
-                });
-            })
-            .catch((error) => {
-                return error
-            })
-
+        this.props.dispatch(loadYourLikedPosts(this.props.userid));
+        this.props.dispatch(likePage());
+        this.props.dispatch(updateTime());
     }
 
     render(){
-        const items = this.state.messages.map((message, key)=>{
-            let timeSince = Math.round((this.state.now-(new Date(message.likesupdated)))/1000);
-            let timeSinceString = "";
-            console.log(timeSince);
-            if (timeSince > (60*60*24*7)){
-                timeSinceString = "Liked " + Math.round(timeSince/(60*60*24*7)) + " weeks ago"
-            }
-            else if(timeSince > (60*60*24)){
-                timeSinceString = "Liked " +Math.round(timeSince/(60*60*24)) + " days ago"
-            }
-            else if (timeSince > (60*60)){
-                timeSinceString = "Liked " +Math.round(timeSince/(60*60)) + " hours ago"
-            }
-            else if (timeSince > 60){
-                timeSinceString = "Liked " +Math.round(timeSince/60) + " minutes ago"
-            }
-            else if (timeSince < 60){
-                timeSinceString = "Liked " + timeSince + " seconds ago"
-            }
-
-            return <Card
-                key={message._id}
-                postID={message._id}
-                name={message.username}
-                text={message.content}
-                date={message.created}
-                picture={message.postImage}
-                likes={message.likes.length}
-                timeSinceLike={timeSinceString}
-            />
-        });
-        //Example...
-        //let PostItems = Posts.map((p) => <Card key = p.name>{p.name}</Card>);
         return(
             <main className='like-screen screen'>
-                {items}
+                <PostList posts={this.props.likedPosts} time={this.props.time} like={true}/>
             </main>
         )
     }
 }
 
-export default LikeScreen;
+function mapStateToProps(state){
+    return{
+        time: state.time,
+        likedPosts: state.likedPosts,
+        userid: state.profile.userid
+    }
+}
+
+export default connect(mapStateToProps)(LikeScreen);

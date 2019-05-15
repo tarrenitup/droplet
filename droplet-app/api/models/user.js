@@ -14,11 +14,12 @@ const userSchema = new mongoose.Schema({
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post',
-        required: 'Post is required'
+        required: 'Post is required',
     }],
     bio: {
         type: String,
-        required: true
+        required: true,
+        default: ""
     }
 });
 
