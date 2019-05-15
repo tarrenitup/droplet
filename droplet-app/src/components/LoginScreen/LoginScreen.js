@@ -112,7 +112,7 @@ class LoginScreen extends Component{
                     {this.failedMessage()}
                     <div className = "link">
                         New user?&nbsp;
-                        <a href="http://localhost:3000/signup">click here</a>
+                        <a href="http://localhost:3000/signup">tap here</a>
                         &nbsp;to sign up.
                     </div>
                 </div>
