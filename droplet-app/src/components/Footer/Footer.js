@@ -9,13 +9,14 @@ const Footer = (props) => {
 
     const getNewDropBtnStyleClasses = () => props.visiblity ? 'new-button x-btn' : 'new-button'
 
-    console.log(props.currentPageIndex)
+    console.log(props.selectedPageIndex)
 
     return (
         <footer className='app-footer'>
             <nav>
                 <ul className='nav-buttons'>
-                    <li className='home'><NavLink to={'/'}><div className='nav-icon' /></NavLink></li>
+
+                    <li className='home'><NavLink exact to={'/'}><div className='nav-icon' /></NavLink></li>
                     <li className='map'><NavLink to={'/map'}><div className='nav-icon' /></NavLink></li>
                     <li className={ getNewDropBtnStyleClasses() } onClick={() => {
                         if(isAuthenticated()){

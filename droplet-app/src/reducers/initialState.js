@@ -23,5 +23,5 @@ export default {
         bio: '',
         posts: [],
     },
-    selectedPageIndex: 0,
+    selectedPageIndex: 1,
 }
