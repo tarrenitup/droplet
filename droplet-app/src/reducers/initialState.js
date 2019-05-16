@@ -11,7 +11,7 @@ export default {
         splashRangeIndex: 3,
     },
     backgroundOverlay: 0,
-    themeId: 0,
+    themeId: true,
     homePosts: [],
     mapPosts: [],
     likedPosts: [],

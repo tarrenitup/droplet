@@ -60,3 +60,6 @@ export const PROFILE_PAGE = 'PROFILE_PAGE'
 
 /* Location */
 export const UPDATE_LOCATION = 'GET_LOCATION'
+
+/* Header */
+export const TOGGLE_THEME = 'TOGGLE_THEME'

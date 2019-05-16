@@ -10,10 +10,10 @@ const Footer = (props) => {
 
     const getNewDropBtnStyleClasses = () => props.visiblity ? 'new-button x-btn' : 'new-button'
 
-    console.log(props.currentPageIndex)
+    const footerStyleClass = props.theme ? 'app-footer dark' : 'app-footer'
 
     return (
-        <footer className='app-footer'>
+        <footer className={footerStyleClass}>
             <nav>
                 <ul className='nav-buttons'>
                     <li className='home'><NavLink onClick={() => props.dispatch(changePageIndex(0))} to={'/'}><div className='nav-icon' /></NavLink></li>
@@ -35,6 +35,7 @@ const mapStateToProps = (state) => {
     return {
         visiblity: state.newPostModal.visible,
         currentPageIndex: state.currentPageIndex,
+        theme: state.themeId
     }
 }
 
