@@ -28,8 +28,8 @@ class Map extends React.Component {
     if(navigator.geolocation){
         navigator.geolocation.watchPosition((position)=>{
             //console.log(position);
-            //console.log(position.coords.latitude);
-            //console.log(position.coords.longitude);
+            console.log("LOCATION CHANGE" + position.coords.latitude + " " +position.coords.longitude);
+
             this.userLng = position.coords.longitude
             this.userLat = position.coords.latitude
             this.updatePosts(map)
@@ -39,7 +39,9 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    //console.log("MOUNTED")
+    console.log("MOUNTED")
+    console.log(this.props)
+
     const { lng, lat, zoom } = this.state;
 
     const map = new mapboxgl.Map({
@@ -48,7 +50,17 @@ class Map extends React.Component {
       center: [lng, lat],
       zoom
     });
+    //map.setStyle('mapbox://styles/mapbox/' + "dark-v10");
     this.onFindLocation(map);
+
+    const geolocation = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true,
+    });
+    geolocation.className = "mapboxgl-ctrl-top-right"
+    map.addControl(geolocation)
 
 
     map.on('touchend', () => {
@@ -66,7 +78,6 @@ class Map extends React.Component {
     });
   }
 
-
   render() {
     const { lng, lat, zoom } = this.state;
     return (
@@ -79,24 +90,17 @@ class Map extends React.Component {
     const bounds = map.getBounds();
     const dist = distance(lat,lng,bounds.getNorthWest().lat,bounds.getNorthWest().lng, "K");
     const meterRadius = dist *1000
-    this.props.dispatch(loadMapPosts(lng, lat, meterRadius))
-    console.log(this.props.mapPosts)
+    this.props.dispatch(loadMapPosts(this.props.location[0], this.props.location[1], 1000))
     for(var i = 0; i < this.props.mapPosts.length; i++){
       const longitude = this.props.mapPosts[i].location.coordinates[0]
       const latitude = this.props.mapPosts[i].location.coordinates[1]
       const username = this.props.mapPosts[i].username
       const data = this.props.mapPosts[i].content
-      //meterRadius
-      console.log("UserPosition: " + this.userLng+ " "+  this.userLat)
-      const distFromUser = distance(this.userLng, this.userLat, longitude, latitude, "K") * 1000
-      console.log(distFromUser)
-      if(distFromUser < 10){
-        this.createMarker(longitude, latitude, map, true, username, data);
-      }else{
-        this.createMarker(longitude, latitude, map, false, username, data);
-      }
+      this.createMarker(longitude, latitude, map, true, username, data);
     }
   }
+
+
 
   createMarker(lng, lat, map, inbound, popupName, popupData, popupImage){
     var m = document.createElement('div');
@@ -150,7 +154,8 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 
 function mapStateToProps(state) {
     return {
-      mapPosts: state.mapPosts
+      mapPosts: state.mapPosts,
+      location: state.location
     }
 }
 
