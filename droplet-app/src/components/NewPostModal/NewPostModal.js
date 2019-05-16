@@ -63,7 +63,7 @@ class NewPostModal extends Component {
                 newPostTime: new Date()
             }
             dispatch(newPostAddInitiate())
-            dispatch(sendNewPost(newPost,pageIndex,this.props.userid))
+            dispatch(sendNewPost(newPost,pageIndex,this.props.userid, this.props.location))
             dispatch(updateTime());
         }
         else{   //No location access.

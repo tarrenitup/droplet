@@ -9,7 +9,9 @@ import {updateTime, homePage} from '../../actions/miscActions'
 class PostsScreen extends Component{
     constructor(props){
         super(props);
-        this.props.dispatch(loadHomePosts());
+        if(Array.isArray(this.props.location) && this.props.location.length === 2){
+            this.props.dispatch(loadHomePosts(this.props.location));
+        }
         this.props.dispatch(homePage());
         this.props.dispatch(updateTime());
     }
@@ -39,7 +41,8 @@ PostsScreen.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        homePosts: state.homePosts
+        homePosts: state.homePosts,
+        location: state.location
     }
 }
 

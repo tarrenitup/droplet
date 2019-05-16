@@ -3,9 +3,9 @@ import * as types from './actionTypes'
 import {isEmpty} from './utility'
 
 /* Home posts */
-export function loadHomePosts() {
+export function loadHomePosts(location) {
     return function(dispatch) {
-        return PostsApi.getPosts().then(homePosts => {
+        return PostsApi.getPosts(location).then(homePosts => {
             if(!isEmpty(homePosts)){
                 dispatch(loadHomePostsSuccess(homePosts))
             }
@@ -63,13 +63,13 @@ export function newPostAddInitiate() {
     return { type: types.NEW_POST_ADD_INITIATE}
 }
 
-export function sendNewPost(postData,pageIndex,userID) {
+export function sendNewPost(postData,pageIndex,userID,location) {
     return function(dispatch) {
         return PostsApi.addNewPost(postData,userID)
         .then(() => {
             switch(pageIndex){
                 case 0:
-                    dispatch(loadHomePosts());
+                    dispatch(loadHomePosts(location));
                     break;
                 case 1:
                     dispatch(loadMapPosts());

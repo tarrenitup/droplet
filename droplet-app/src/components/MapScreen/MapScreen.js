@@ -6,6 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import './MapScreen.css'
 import Logo from './logo.png'
 import { loadMapPosts } from '../../actions/postActions'
+import {mapPage} from '../../actions/miscActions'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGlkZW5uIiwiYSI6ImNqcmg2NDU5czA4b3A0M25udmUxcWpjcmEifQ.J9ThJ9sMDK7ANhYkSpVnyg';
 
@@ -21,6 +22,7 @@ class Map extends React.Component {
       userLng: 0,
       userLat: 0
     };
+    this.props.dispatch(mapPage());
   }
   onFindLocation(map){
     if(navigator.geolocation){
