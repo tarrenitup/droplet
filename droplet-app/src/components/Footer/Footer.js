@@ -8,23 +8,23 @@ import { isAuthenticated } from '../Auth/Auth.js'
 
 const Footer = (props) => {
 
-    const getNewDropBtnStyleClasses = () => props.visiblity ? 'new-button x-btn' : 'new-button'
+    const getNewDropBtnStyleClasses = () => props.visiblity ? 'new-button x-btn' : 'new-button' 
 
-    console.log(props.currentPageIndex)
+    console.log(props.selectedPageIndex)
 
     return (
         <footer className='app-footer'>
             <nav>
                 <ul className='nav-buttons'>
-                    <li className='home'><NavLink onClick={() => props.dispatch(changePageIndex(0))} to={'/'}><div className='nav-icon' /></NavLink></li>
-                    <li className='map'><NavLink onClick={() => props.dispatch(changePageIndex(1))} to={'/map'}><div className='nav-icon' /></NavLink></li>
+                    <li className='home'><NavLink exact to={'/'}><div className='nav-icon' /></NavLink></li>
+                    <li className='map'><NavLink to={'/map'}><div className='nav-icon' /></NavLink></li>
                     <li className={ getNewDropBtnStyleClasses() } onClick={() => {
                         if(isAuthenticated()){
                             props.dispatch(toggleNewPostModal())
                         }
                     }}><span className='xl' /></li>
-                    <li className='likes'><NavLink onClick={() => props.dispatch(changePageIndex(2))} to={'/likes'}><div className='nav-icon' /></NavLink></li>
-                    <li className='profile'><NavLink onClick={() => props.dispatch(changePageIndex(3))} to={'/profile'}><div className='nav-icon' /></NavLink></li>
+                    <li className='likes'><NavLink to={'/likes'}><div className='nav-icon' /></NavLink></li>
+                    <li className='profile'><NavLink to={'/profile'}><div className='nav-icon' /></NavLink></li>
                 </ul>
             </nav>
         </footer>
@@ -34,7 +34,7 @@ const Footer = (props) => {
 const mapStateToProps = (state) => {
     return {
         visiblity: state.newPostModal.visible,
-        currentPageIndex: state.currentPageIndex,
+        selectedPageIndex: state.selectedPageIndex,
     }
 }
 
