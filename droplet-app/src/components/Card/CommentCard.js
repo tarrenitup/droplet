@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import './Card.css'
+import './CommentCard.scss'
 import Auth from '../Auth/Auth.js'
 import likesIcon from './likes.svg'
 import {connect} from 'react-redux'
@@ -108,7 +108,7 @@ function modifyCommentLikes(props){
 // Used to be right under div card-top, was the profile image.
 // Need to find way to get profile image
 const CommentCard = (props) => (
-    <div className='card'>
+    <li className='comment-card'>
         <div className='card-top'>
             <p className='username'>{props.name}</p>
         </div>
@@ -120,7 +120,7 @@ const CommentCard = (props) => (
                 <p>{props.likes}</p>
             </div>
         </div>
-    </div>
+    </li>
 )
 
 function mapStateToProps(state){

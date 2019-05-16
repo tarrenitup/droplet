@@ -14,11 +14,11 @@ class PostsApi {
 
     /* GET */
     static getPosts() {
-        
+
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token;
-        
-        
+
+
         return fetch('http://localhost:5000/posts/nearby?lng=' + '-123.2620' + '&lat=' + '44.5646' + '&meters=1000',{
             method: 'GET',
             headers:{
@@ -31,7 +31,7 @@ class PostsApi {
         }).catch(error => {
             return error
         });
-        
+
         // return fetch('http://localhost:5000/posts/',{
             // method: 'GET',
             // headers:{

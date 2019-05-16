@@ -1,34 +1,41 @@
 import React from 'react'
-import './Footer.css'
-import { Link } from 'react-router-dom'
+import './Footer.scss'
+import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { toggleNewPostModal } from '../../actions/postActions'
+import { changePageIndex } from '../../actions/footerActions'
 import { isAuthenticated } from '../Auth/Auth.js'
 
-import homeIcon from './images/home.svg'
-import mapIcon from './images/map.svg'
-import newIcon from './images/new.svg'
-import notificationsIcon from './images/notifications.svg'
-import profileIcon from './images/profile.svg'
-
 const Footer = (props) => {
+
+    const getNewDropBtnStyleClasses = () => props.visiblity ? 'new-button x-btn' : 'new-button' 
+
+    console.log(props.selectedPageIndex)
+
     return (
         <footer className='app-footer'>
             <nav>
                 <ul className='nav-buttons'>
-                    <li><Link to={'/'}><img src={homeIcon} alt='Home screen icon'/></Link></li>
-                    <li><Link to={'/map'}><img src={mapIcon} alt='Map screen icon'/></Link></li>
-                    <li><img onClick={() => {
+                    <li className='home'><NavLink exact to={'/'}><div className='nav-icon' /></NavLink></li>
+                    <li className='map'><NavLink to={'/map'}><div className='nav-icon' /></NavLink></li>
+                    <li className={ getNewDropBtnStyleClasses() } onClick={() => {
                         if(isAuthenticated()){
                             props.dispatch(toggleNewPostModal())
                         }
-                    }} src={newIcon} alt='New Droplet screen icon'/></li>
-                    <li><Link to={'/likes'}><img src={notificationsIcon} alt='Notification screen icon'/></Link></li>
-                    <li><Link to={'/profile'}><img src={profileIcon} alt='Profile screen icon'/></Link></li>
+                    }}><span className='xl' /></li>
+                    <li className='likes'><NavLink to={'/likes'}><div className='nav-icon' /></NavLink></li>
+                    <li className='profile'><NavLink to={'/profile'}><div className='nav-icon' /></NavLink></li>
                 </ul>
             </nav>
         </footer>
     )
 }
 
-export default connect()(Footer);
+const mapStateToProps = (state) => {
+    return {
+        visiblity: state.newPostModal.visible,
+        selectedPageIndex: state.selectedPageIndex,
+    }
+}
+
+export default connect(mapStateToProps)(Footer);

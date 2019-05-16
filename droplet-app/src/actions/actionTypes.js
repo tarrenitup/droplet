@@ -12,6 +12,7 @@ export const CHANGE_SPLASH_RANGE = 'CHANGE_SPLASH_RANGE'
 export const CHANGE_NEW_POST_TYPE = 'CHANGE_NEW_POST_TYPE'
 export const NEW_POST_ADD_INITIATE = 'NEW_POST_ADD_INITIATE'
 export const NEW_POST_ADD_SUCCESS = 'NEW_POST_ADD_SUCCESS'
+export const NEW_POST_ADD_FAILURE = 'NEW_POST_ADD_FAILURE'
 
 //Load profile stuff
 export const LOAD_PROFILE_POSTS = 'LOAD_PROFILE_POSTS'
@@ -19,6 +20,11 @@ export const LOAD_BIO = 'LOAD_BIO'
 export const LOAD_YOUR_LIKED_POSTS = 'LOAD_YOUR_LIKED_POSTS'    //Your posts, that have been liked
 
 /* Login */
+export const ATTEMPT_LOGIN = 'ATTEMPT_LOGIN'
+export const LOGIN_SUCCESS = 'LOGIC_SUCCESS'
+
+/* Footer */
+export const CHANGE_CURRENT_PAGE = 'CHANGE_CURRENT_PAGE'
 export const LOGIN_DATA = 'LOGIN_DATA'
 
 /* Time */
@@ -51,3 +57,6 @@ export const HOME_PAGE = 'HOME_PAGE'
 export const MAP_PAGE = 'MAP_PAGE'
 export const LIKE_PAGE = 'LIKE_PAGE'
 export const PROFILE_PAGE = 'PROFILE_PAGE'
+
+/* Location */
+export const UPDATE_LOCATION = 'GET_LOCATION'

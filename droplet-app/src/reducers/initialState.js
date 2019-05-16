@@ -1,13 +1,14 @@
 export default {
     loadingSpinner: false,
     overlay: false,
+    location: [],
     newPostModal: {
         visible: false,
         postTypeIndex: 0,
         profilePictureUrl: '',
         username: '@username',
         postContent: '',
-        splashRangeIndex: 0,
+        splashRangeIndex: 3,
     },
     backgroundOverlay: 0,
     themeId: 0,
@@ -22,5 +23,5 @@ export default {
         bio: '',
         posts: [],
     },
-    selectedPageIndex: 0,
+    selectedPageIndex: 1,
 }

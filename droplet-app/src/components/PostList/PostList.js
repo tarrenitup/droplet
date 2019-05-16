@@ -31,6 +31,8 @@ const PostList = (props) => {
                 date={post.created}
                 picture={post.postImage}
                 likes={post.likes.length}
+                newLikes={post.newLikes}
+                numNewLikes={post.numNewLikes}
                 comments={post.comments}
                 timeSinceLike={timeSinceString}
             />

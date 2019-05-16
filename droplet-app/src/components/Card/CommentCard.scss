@@ -1,0 +1,64 @@
+
+li.comment-card {
+    background-color: #F1F1F1;
+    border-radius: 8px;
+    padding: 20px;
+
+    &:not(:last-child) {
+        margin-bottom: 25px;
+    }
+
+    div.card-top {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+
+        p.username{
+            margin-left: 7px;
+            font-weight: 700;
+            font-size: 14px;
+         }
+
+         img.profile-pic {
+            width: 30px;
+            height: 30px;
+            background-size: 30px 30px;
+            border-radius: 50%;
+        }
+    }
+
+    p.card-text {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 23px;
+        margin-bottom: 15px;
+    }
+
+    div.card-bottom {
+        border-top: 1px solid #DDDDDD;
+        padding-top: 15px;
+
+        div.likes {
+            display: flex;
+
+            img.like {
+                margin-right: 5px;
+                cursor: pointer;
+            }
+
+            p {
+                font-size: 12px;
+                color: #63605F;
+            }
+
+            img.comment{
+                margin-left: 5px;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+div.reddot{
+    display:flex;
+}

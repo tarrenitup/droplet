@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
-import './Card.css'
+import './Card.scss'
 import likesIcon from './likes.svg'
+import redDot from './RedDot.png'
 import commentIcon from './comment.svg'
 import Auth from '../Auth/Auth.js'
 import {connect} from 'react-redux'
@@ -102,6 +103,20 @@ function modifyLikes(props){
     }
 }
 
+const Updates = (props) => {
+    if(props.new){
+        return (
+            <div className = 'reddot'>
+                <img className='like' src={redDot} alt='like'/>
+                <p>(+{props.numNew})</p>
+            </div>
+        )
+    }
+    else{
+        return <p></p>
+    }
+}
+
 const Note = (props) => {
     if(props.added.timeSinceLike !== undefined){
         return <p> &nbsp;&nbsp;&nbsp;&nbsp;{props.added.timeSinceLike}</p>
@@ -126,11 +141,21 @@ const Card = (props) => {
 
             <div className='card-bottom'>
                 <div className='likes'>
-                    <img className='like' src={likesIcon} alt='like' onClick={() => modifyLikes(props)}/>
-                    <p>{props.likes}</p>
-                    <Note added={props}/>
-                    <img className='comment' src={commentIcon} alt ='Comment' onClick={() => toggleShow(!show)}/>
-                    <p>{props.comments.length}</p>
+                    <div className='likes-outer'>
+                        <img className='like' src={likesIcon} alt='like' onClick={() => modifyLikes(props)}/>
+                        <p>{props.likes}</p>
+                    </div>
+                    
+                    <div className='messages-outer'>
+                        <Note added={props}/>
+                        <Updates new={props.newLikes} numNew={props.numNewLikes} />
+                    </div>
+
+                    <div className='comments-outer'>
+                        <p>{props.comments.length}</p>
+                        <img className='comment' src={commentIcon} alt ='Comment' onClick={() => toggleShow(!show)}/>
+                    </div>
+                        
                 </div>
                 <CommentList comments={props.comments} username={props.username} userid={props.userid} postid={props.postID} dispatch={props.dispatch} selectedPageIndex={props.selectedPageIndex} display={show}/>
             </div>

@@ -3,9 +3,11 @@ import homePostsReducer from './homePostsReducer'
 import newPostModalReducer from './newPostModalReducer'
 import overlayReducer from './overlayReducer'
 import mapPostsReducer from './mapPostsReducer'
+import currentPageReducer from './currentPageReducer'
 import profileReducer from './profileReducer'
 import likesReducer from './likesReducer'
 import pageReducer from './pageReducer'
+import locationReducer from './locationReducer'
 import timeReducer from './timeReducer'
 
 const rootReducer = combineReducers({
@@ -13,9 +15,11 @@ const rootReducer = combineReducers({
   homePosts: homePostsReducer,
   newPostModal: newPostModalReducer,
   mapPosts: mapPostsReducer,
+  selectedPageIndex: currentPageReducer,
   profile: profileReducer,
   likedPosts: likesReducer,
   selectedPageIndex: pageReducer,
+  location: locationReducer,
   time: timeReducer
 })
 

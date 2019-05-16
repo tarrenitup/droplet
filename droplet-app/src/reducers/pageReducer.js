@@ -1,7 +1,7 @@
 import * as types from '../actions/actionTypes';
 import initialState from './initialState';
 
-export default function timeReducer(state = initialState.selectedPageIndex, action) {
+export default function pageReducer(state = initialState.selectedPageIndex, action) {
   switch(action.type) {
     case types.HOME_PAGE:
         return 0
