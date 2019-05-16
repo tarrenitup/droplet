@@ -14,10 +14,6 @@ main.posts-screen.dark {
         background-color: #686868;
         color: white;
 
-        textarea {
-            background-color: #555;
-        }
-
         div.card-bottom {
             border-color: #888;
 
@@ -25,6 +21,19 @@ main.posts-screen.dark {
                 p {
                     color:white;
                 }
+            }
+
+            textarea {
+                background-color: #555;
+                color: white;
+            }
+    
+            input {
+                background-color: #555;
+            }
+
+            li.comment-card {
+                background-color: #555;
             }
         }
     }

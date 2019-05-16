@@ -30,7 +30,7 @@ const Header = (props) => {
 
     return (
         <header className={headerStyleClass}>
-            <div className='theme-dot' onClick={() => props.dispatch(toggleTheme())} alt='Theme switcher'></div>
+            <span className='theme-pad' onClick={() => props.dispatch(toggleTheme())}><div className='theme-dot' alt='Theme switcher'></div></span>
             <img className='logo' src={Logo} alt='Droplet logo' />
             <DisplayLogout/>
         </header>
