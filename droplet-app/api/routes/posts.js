@@ -9,7 +9,7 @@ const {requireAuthentication} = require('../../src/components/Auth/Auth');
 //Create local directory to save pictures in
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, './uploads');
+        cb(null, './images');
     },
     filename: function(req, file, cb) {
         cb(null, file.originalname + '-' + Date.now());
@@ -67,7 +67,7 @@ router.get('/nearby', (req, res, next) => {
         {
             $geoNear: {
                 //Find the location from given coords.
-                near: { type: "Point", coordinates: [lng, lat] },
+                near: { formtype: "Point", coordinates: [lng, lat] },
                 distanceField: "dist.calculated",
                 key: "location",
                 includeLocs: "dist.location",
@@ -77,9 +77,9 @@ router.get('/nearby', (req, res, next) => {
         }
     ])
     .then(function(posts){
-        var postLength = posts.length;
-        //console.log(postLength);
-        //console.log([lng, lat]);
+       var postLength = posts.length;
+       //console.log(postLength);
+       //console.log([lng, lat]);
         var splashPosts = [];
         var i;
         for(i = 0; i < postLength; i++){
@@ -144,7 +144,7 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         await user.save().catch(error=>{
             return res.send(error);
         });
-        res.send(post);
+        //res.send(post);
     }
 });
 

@@ -12,7 +12,7 @@ const PostMedia = (props) => {
 
     switch(props.mediaType) {
         case 'photo':
-            return (<div className='post-media'><img src={props.mediaSource} /></div>)
+            return (<div className='post-media'><img src={props.mediaSource} alt=''/></div>)
         case 'video':
             return (<div className='post-media'><video src={props.mediaSource} /></div>)
         default:

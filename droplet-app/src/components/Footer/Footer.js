@@ -9,8 +9,6 @@ const Footer = (props) => {
 
     const getNewDropBtnStyleClasses = () => props.visiblity ? 'new-button x-btn' : 'new-button'
 
-    console.log(props.selectedPageIndex)
-
     return (
         <footer className='app-footer'>
             <nav>

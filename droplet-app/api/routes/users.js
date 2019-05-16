@@ -6,6 +6,21 @@ mongoose.set('useFindAndModify', false);
 const multer = require('multer');
 const {generateJWT, requireAuthentication} = require('../../src/components/Auth/Auth');
 
+//Create local directory to save pictures in
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './images');
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname + '-' + Date.now());
+    }
+});
+
+//Set max file upload size to 5 MB
+const upload = multer({storage: storage, limits: {
+    fileSize: 1024 * 1024 * 5
+}});
+
 
 //Models
 const User = require('../models/user');
@@ -273,7 +288,7 @@ router.delete('/:userId',
 });
 
 //BUILD DEMO USERS
-router.post('/demo', async (req, res, next) => {
+router.post('/demo', upload.single('postImage'), async (req, res, next) => {
 
     //First, deletes all Users
     User.deleteMany({})

@@ -2,10 +2,16 @@
     position: relative;
     width: 100vw;
     height: 100vh;
-    top: 40px;
+    top: 0px;
     left: 0px;
     background-color: #EFECEA;
 }
+
+.mapboxgl-ctrl-top-right{
+  top: 84%;
+  right: 0;
+}
+
 
 .marker-red{
   background-image: url('./assets/red_text.svg');
