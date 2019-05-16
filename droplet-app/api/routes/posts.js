@@ -92,6 +92,36 @@ router.get('/nearby', (req, res, next) => {
     .catch(next)
 });
 
+//Get all posts within 10 meters
+router.get('/nearbyAll', (req, res, next) => {
+    //url ex: 'localhost:3000/posts/nearby?lng=32.23&lat=32.32&meters=100000
+    //maxDistance is in meters
+    var lng = parseFloat(req.query.lng);
+    var lat = parseFloat(req.query.lat);
+    var meters = parseFloat(req.query.meters);
+//    console.log(lng);
+//    console.log(lat);
+    //Find posts
+    Post.aggregate([
+        {
+            $geoNear: {
+                //Find the location from given coords.
+                near: { formtype: "Point", coordinates: [lng, lat] },
+                distanceField: "dist.calculated",
+                key: "location",
+                includeLocs: "dist.location",
+                maxDistance: meters,
+                spherical: true
+            }
+        }
+    ])
+    .then(function(posts){
+        res.send(posts);
+    })
+    .catch(next)
+});
+
+
 //Create a post
 router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
     //Get photo to upload

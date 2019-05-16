@@ -34,8 +34,24 @@ export function loadMapPosts(lng, lat, meters) {
     }
 }
 
+export function loadAllMapPosts(lng, lat, meters) {
+    return function(dispatch) {
+        return PostsApi.getAllMapPosts(lng, lat, meters).then(allMapPosts => {
+            if(!isEmpty(allMapPosts)){
+                dispatch(loadAllMapPostsSuccess(allMapPosts))
+            }
+        }).catch(error => {
+            throw(error)
+        })
+    }
+}
+
 export function loadMapPostsSuccess(mapPosts) {
     return {type: types.LOAD_MAP_POSTS_SUCCESS, mapPosts};
+}
+
+export function loadAllMapPostsSuccess(allMapPosts) {
+    return {type: types.LOAD_ALL_MAP_POSTS_SUCCESS, allMapPosts};
 }
 
 

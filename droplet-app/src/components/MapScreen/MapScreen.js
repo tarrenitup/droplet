@@ -5,7 +5,7 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './MapScreen.css'
 import Logo from './logo.png'
-import { loadMapPosts } from '../../actions/postActions'
+import { loadMapPosts, loadAllMapPosts } from '../../actions/postActions'
 import { mapPage } from '../../actions/miscActions'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGlkZW5uIiwiYSI6ImNqcmg2NDU5czA4b3A0M25udmUxcWpjcmEifQ.J9ThJ9sMDK7ANhYkSpVnyg';
@@ -90,7 +90,15 @@ class Map extends React.Component {
     const bounds = map.getBounds();
     const dist = distance(lat,lng,bounds.getNorthWest().lat,bounds.getNorthWest().lng, "K");
     const meterRadius = dist *1000
+    this.props.dispatch(loadAllMapPosts(lng, lat, meterRadius))
     this.props.dispatch(loadMapPosts(this.props.location[0], this.props.location[1], 1000))
+    for(var i = 0; i < this.props.allMapPosts.length; i++){
+      const longitude = this.props.allMapPosts[i].location.coordinates[0]
+      const latitude = this.props.allMapPosts[i].location.coordinates[1]
+      const username = this.props.allMapPosts[i].username
+      const data = this.props.allMapPosts[i].content
+      this.createMarker(longitude, latitude, map, false, username, data);
+    }
     for(var i = 0; i < this.props.mapPosts.length; i++){
       const longitude = this.props.mapPosts[i].location.coordinates[0]
       const latitude = this.props.mapPosts[i].location.coordinates[1]
@@ -154,6 +162,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 
 function mapStateToProps(state) {
     return {
+      allMapPosts: state.allMapPosts,
       mapPosts: state.mapPosts,
       location: state.location
     }
