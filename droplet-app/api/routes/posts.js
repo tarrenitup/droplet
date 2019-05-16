@@ -87,6 +87,9 @@ router.get('/nearby', (req, res, next) => {
                 splashPosts.push(posts[i]);
         }
         //console.log(splashPosts)
+        posts.sort(function(a,b){
+            return b.updated - a.updated;
+        });
         res.send(posts);
     })
     .catch(next)
