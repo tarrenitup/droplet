@@ -3,12 +3,11 @@ import './Footer.scss'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { toggleNewPostModal } from '../../actions/postActions'
-import { changePageIndex } from '../../actions/footerActions'
 import { isAuthenticated } from '../Auth/Auth.js'
 
 const Footer = (props) => {
 
-    const getNewDropBtnStyleClasses = () => props.visiblity ? 'new-button x-btn' : 'new-button' 
+    const getNewDropBtnStyleClasses = () => props.visiblity ? 'new-button x-btn' : 'new-button'
 
     console.log(props.selectedPageIndex)
 
@@ -16,6 +15,7 @@ const Footer = (props) => {
         <footer className='app-footer'>
             <nav>
                 <ul className='nav-buttons'>
+
                     <li className='home'><NavLink exact to={'/'}><div className='nav-icon' /></NavLink></li>
                     <li className='map'><NavLink to={'/map'}><div className='nav-icon' /></NavLink></li>
                     <li className={ getNewDropBtnStyleClasses() } onClick={() => {

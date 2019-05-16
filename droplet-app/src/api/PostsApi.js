@@ -13,13 +13,13 @@ class PostsApi {
     // }
 
     /* GET */
-    static getPosts() {
+    static getPosts(location) {
 
         const token = Auth.getCookie('token');
         const header = 'Bearer ' + token;
 
 
-        return fetch('http://localhost:5000/posts/nearby?lng=' + '-123.2620' + '&lat=' + '44.5646' + '&meters=1000',{
+        return fetch('http://localhost:5000/posts/nearby?lng=' + location[0] + '&lat=' + location[1] + '&meters=1000',{
             method: 'GET',
             headers:{
                 'Accept': 'application/json',

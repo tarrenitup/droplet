@@ -1,4 +1,4 @@
-import * as types from '../actions/actionTypes';  
+import * as types from '../actions/actionTypes';
 import initialState from './initialState';
 
 export default function currentPageReducer(state = initialState.selectedPageIndex, action) {  
@@ -8,7 +8,7 @@ export default function currentPageReducer(state = initialState.selectedPageInde
         ...state,
         selectedPageIndex: action.pageIndex,
       }
-    default: 
+    default:
       return state;
   }
 }
