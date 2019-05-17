@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 //Models
 //require('./models/post');
@@ -20,6 +21,10 @@ mongoose.connect('mongodb+srv://admin:'+ process.env.MONGO_ATLAS_PW +'@dropletde
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+app.get('/',function(req,res){
+    res.sendFile(path.join(__dirname,'build','index.html'));
+})
 
 //CORS error handling
 app.use((req, res, next) => {

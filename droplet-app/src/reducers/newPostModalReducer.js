@@ -31,7 +31,8 @@ export default function newPostModalReducer(state = initialState.newPostModal, a
     case types.LOGIN_DATA:
         return {
             ...state,
-            username: action.name
+            username: action.name,
+            profilePic: action.pic
         }
     default:
       return state

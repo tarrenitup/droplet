@@ -12,7 +12,8 @@ export default function profileReducer(state = initialState.profile, action) {
         return{
             ...state,
             username: action.name,
-            userid: action.id
+            userid: action.id,
+            profilePic: action.pic
         }
     case types.LOAD_BIO:
         return{

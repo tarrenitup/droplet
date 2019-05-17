@@ -22,6 +22,7 @@ export default {
         username: '@username',
         userid: '',
         bio: '',
+        profilePic: '',
         posts: [],
     },
     selectedPageIndex: 1,

@@ -17,7 +17,9 @@ const store = configureStore()
 if(Auth.isAuthenticated()){
     const name = Auth.parseJwt(Auth.getCookie('token')).name;
     const id = Auth.parseJwt(Auth.getCookie('token')).sub;
-    store.dispatch(loadLoginData(name,id));
+    const pic = Auth.parseJwt(Auth.getCookie('token')).pic;
+
+    store.dispatch(loadLoginData(name,id,pic));
     if(navigator.geolocation){
         navigator.geolocation.watchPosition((pos) =>{
             let location = [pos.coords.longitude, pos.coords.latitude];

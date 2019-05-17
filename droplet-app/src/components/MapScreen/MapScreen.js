@@ -133,9 +133,9 @@ class Map extends React.Component {
        userlat = this.props.location[1]
     }
     //Radius in meters for red, non clickable posts
-    const largeRange = 5000
+    const largeRange = 5000000
     //Radius in meters for blue, clickable posts
-    const smallRange = 1000
+    const smallRange = 1000000
 
     this.props.dispatch(loadAllMapPosts(lng, lat, largeRange))
     this.props.dispatch(loadMapPosts(userlng, userlat, smallRange))
