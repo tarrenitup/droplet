@@ -1,11 +1,10 @@
 
 div.profilecard {
     background-color: #FFFFFF;
-    margin: 20px;
-    margin-bottom: 25px;
+    
     padding: 20px;
-    box-shadow: 0px 6px 40px rgba(0, 0, 0, 0.2),
-                0px 1px 3px rgba(0, 0, 0, 0.1);
+
+    transition: background-color 1.5s, color 1.5s;
 }
 
 div.profilecard div.profilecard-top {
@@ -28,7 +27,8 @@ div.profilecard div.profilecard-top img.profilecard-pic {
 }
 
 div.profilecard p.profilecard-text {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
-    padding-top: 8px;
+    padding-top: 15px;
+    line-height: 22px;
 }

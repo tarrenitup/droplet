@@ -3,6 +3,7 @@ import homePostsReducer from './homePostsReducer'
 import newPostModalReducer from './newPostModalReducer'
 import overlayReducer from './overlayReducer'
 import mapPostsReducer from './mapPostsReducer'
+import themeReducer from './headerReducer'
 import currentPageReducer from './currentPageReducer'
 import profileReducer from './profileReducer'
 import likesReducer from './likesReducer'
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   homePosts: homePostsReducer,
   newPostModal: newPostModalReducer,
   mapPosts: mapPostsReducer,
+  themeId: themeReducer,
   selectedPageIndex: currentPageReducer,
   profile: profileReducer,
   likedPosts: likesReducer,

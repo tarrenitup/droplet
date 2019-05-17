@@ -43,7 +43,10 @@ class NewPostModal extends Component {
         super(props)
     }
 
-    getModalStyleClasses = () => this.props.visiblity ? 'new-post-modal' : 'new-post-modal off'
+    getModalStyleClasses = () => {
+        const darkClass = this.props.theme ? ' dark' : ''
+        return this.props.visiblity ? 'new-post-modal'+darkClass : 'new-post-modal off'+darkClass
+    }
 
     handleSubmit = (e, pageIndex, loc, dispatch) => {
         e.preventDefault()
@@ -73,7 +76,7 @@ class NewPostModal extends Component {
 
     render() {
         return (
-            <div className={ this.getModalStyleClasses() }>
+            <div className={this.getModalStyleClasses()}>
                 <form className='new-post-form' name='newPostForm' onSubmit={(e) => this.handleSubmit(e, this.props.selectedPageIndex, this.props.location, this.props.dispatch)}>
                     <div className='top'>
                         <input type='hidden' name='location' ref={(input) => this.getCurrentLocation = input} />
@@ -100,7 +103,8 @@ const mapStateToProps = (state) => {
         username: state.newPostModal.username,
         userid: state.profile.userid,
         selectedPageIndex: state.selectedPageIndex,
-        location: state.location
+        location: state.location,
+        theme: state.themeId,
     }
 }
 

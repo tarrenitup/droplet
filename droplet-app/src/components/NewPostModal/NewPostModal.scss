@@ -16,7 +16,7 @@ div.new-post-modal {
     border-radius: 15px;
     box-shadow: 0px 6px 40px rgba(0, 0, 0, 0.2), 
                 0px 1px 3px rgba(0, 0, 0, 0.1);
-    transition: visibility 0.25s, opacity 0.25s, transform 0.25s, bottom 0.25s;
+    transition: visibility 0.25s, opacity 0.25s, transform 0.25s, bottom 0.25s, background-color 1.5s;
 
     &.new-post-modal.off {
         transform: scale(0.3);
@@ -80,6 +80,7 @@ div.new-post-modal {
                     border-radius: 3px;
                     resize: none;
                     box-sizing: border-box;
+                    transition: background-color 1.5s;
 
                     &::placeholder {
                         font-style: italic;
