@@ -145,7 +145,7 @@ const Card = (props) => {
                         <img className='like' src={likesIcon} alt='like' onClick={() => modifyLikes(props)}/>
                         <p>{props.likes}</p>
                     </div>
-                    
+
                     <div className='messages-outer'>
                         <Note added={props}/>
                         <Updates new={props.newLikes} numNew={props.numNewLikes} />
@@ -155,7 +155,7 @@ const Card = (props) => {
                         <p>{props.comments.length}</p>
                         <img className='comment' src={commentIcon} alt ='Comment' onClick={() => toggleShow(!show)}/>
                     </div>
-                        
+
                 </div>
                 <CommentList comments={props.comments} username={props.username} userid={props.userid} postid={props.postID} dispatch={props.dispatch} selectedPageIndex={props.selectedPageIndex} display={show}/>
             </div>

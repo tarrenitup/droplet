@@ -23,13 +23,17 @@ const PostList = (props) => {
             else if (timeSince < 60){
                 timeSinceString = "Liked " + timeSince + " seconds ago"
             }
+            let mediaType = ''
+            if(post.postImage !== undefined){
+                mediaType = 'photo'
+            }
             return <Card
                 key={post._id}
                 postID={post._id}
                 name={post.username}
                 text={post.content}
                 date={post.created}
-                picture={post.postImage}
+                mediaSource={post.postImage}
                 likes={post.likes.length}
                 newLikes={post.newLikes}
                 numNewLikes={post.numNewLikes}
@@ -46,17 +50,23 @@ const PostList = (props) => {
     else{
         return (
             <ul className="post-list">
-                {props.posts.map((post, index) => (
+                {props.posts.map((post, index) => {
+                    let mediaType = ''
+                    if(post.postImage !== undefined){
+                        mediaType = 'photo'
+                    }
+                    return(
                     <Card
                         key={post._id}
                         postID={post._id}
                         name={post.username}
                         text={post.content}
                         date={post.created}
-                        picture={post.postImage}
+                        mediaSource={post.postImage}
+                        mediaType={mediaType}
                         likes={post.likes.length}
                         comments={post.comments}
-                    />)
+                    />)}
                 )}
             </ul>
         )

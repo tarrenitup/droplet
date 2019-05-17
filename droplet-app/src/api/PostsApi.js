@@ -19,7 +19,7 @@ class PostsApi {
         const header = 'Bearer ' + token;
 
 
-        return fetch('http://localhost:5000/posts/nearby?lng=' + location[0] + '&lat=' + location[1] + '&meters=1000',{
+        return fetch('http://localhost:5000/posts/nearby?lng=' + location[0] + '&lat=' + location[1] + '&meters=1000000',{
             method: 'GET',
             headers:{
                 'Accept': 'application/json',
