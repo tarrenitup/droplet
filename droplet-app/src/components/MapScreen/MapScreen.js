@@ -11,8 +11,8 @@ import {arrayEquals} from '../../actions/utility.js'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGlkZW5uIiwiYSI6ImNqcmg2NDU5czA4b3A0M25udmUxcWpjcmEifQ.J9ThJ9sMDK7ANhYkSpVnyg';
 
-//
-
+//To change view radius for posts, go to updatePosts
+//Lines 137, 139
 class Map extends React.Component {
 
   constructor(props) {
@@ -133,8 +133,13 @@ class Map extends React.Component {
        userlng = this.props.location[0]
        userlat = this.props.location[1]
     }
-    this.props.dispatch(loadAllMapPosts(lng, lat, 5000))
-    this.props.dispatch(loadMapPosts(userlng, userlat, 1000))
+    //Radius in meters for red, non clickable posts
+    const largeRange = 5000
+    //Radius in meters for blue, clickable posts
+    const smallRange = 1000
+
+    this.props.dispatch(loadAllMapPosts(lng, lat, largeRange))
+    this.props.dispatch(loadMapPosts(userlng, userlat, smallRange))
 //    this.props.dispatch(loadAllMapPosts(lng, lat, 5000))
 //    .then(()=>{
 //        this.props.dispatch(loadMapPosts(userlng, userlat, 1000))
