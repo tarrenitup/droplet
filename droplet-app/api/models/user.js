@@ -20,7 +20,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: ""
-    }
+    },
+    profilePic: {
+        data: Buffer,
+        type: String,
+        default: undefined
+    },
 });
 
 userSchema.pre('remove', function(next) {

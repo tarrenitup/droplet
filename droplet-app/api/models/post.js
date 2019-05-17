@@ -25,6 +25,7 @@ const postSchema = new mongoose.Schema({
         type: String
     },
     postImage: {
+        data: Buffer,
         type: String,
         default: undefined
     },
