@@ -11,36 +11,29 @@ import {arrayEquals} from '../../actions/utility.js'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGlkZW5uIiwiYSI6ImNqcmg2NDU5czA4b3A0M25udmUxcWpjcmEifQ.J9ThJ9sMDK7ANhYkSpVnyg';
 
+//
+
 class Map extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(props.mapPosts)
     this.state = {
       zoom: 10,
-      map: 0
+      map: undefined,
     };
-
-  }
-  onFindLocation(map){
-    if(navigator.geolocation){
-        navigator.geolocation.watchPosition((position)=>{
-            this.updatePosts(map)
-        })
-    }
   }
 
   componentDidMount() {
     this.props.dispatch(mapPage())
-
-    let lng = -123.262
-    let lat = 44.5646
+    //Starting coords, centered on Corvallis
+    let lng = -123.278711
+    let lat = 44.567325
+    //Grab user location is available.
     if(Array.isArray(this.props.location) && this.props.location.length === 2){
        lng = this.props.location[0]
        lat = this.props.location[1]
     }
     const zoom = this.state.zoom
-
 
     //Init Map
     const map = new mapboxgl.Map({
@@ -55,9 +48,6 @@ class Map extends React.Component {
       map.setStyle('mapbox://styles/mapbox/dark-v10');
     }
 
-    //Find Posts
-    //this.updatePosts(map);
-
     //User Location
     const geolocation = new mapboxgl.GeolocateControl({
       positionOptions: {
@@ -69,7 +59,7 @@ class Map extends React.Component {
     map.addControl(geolocation)
 
 
-
+/*
     map.on('touchend', () => {
   //    this.updatePosts(map)
     })
@@ -82,17 +72,21 @@ class Map extends React.Component {
       //   lat: lat.toFixed(4),
       //   zoom: map.getZoom().toFixed(2)
       // });
-    });
-
-    console.log(map)
+  });*/
     this.setState({map:map})
   }
 
   componentDidUpdate(prevProps, prevState){
+      if(this.props.selectedPageIndex !== prevProps.selectedPageIndex){
+          this.updatePosts()
+      }
     if(!arrayEquals(this.props.location, prevProps.location)){
-      console.log("LOC: "+ prevProps.location)
-        console.log("LOC: "+ this.props.location)
-        this.updatePosts(this.state.map)
+        if(this.state.map !== undefined){
+            this.updatePosts()
+        }
+    }
+    if(this.props.mapPosts.length !== prevProps.mapPosts.length){
+        this.updatePosts()
     }
     if(this.props.themeId !== prevProps.themeId){
       const tempMap = this.state.map
@@ -107,41 +101,68 @@ class Map extends React.Component {
   }
 
   render() {
-    const { lng, lat, zoom } = this.state;
+      /*
+      //Starting coords, centered on Corvallis
+      let lng = -123.278711
+      let lat = 44.567325
+      //Grab user location is available.
+      if(Array.isArray(this.props.location) && this.props.location.length === 2){
+         lng = this.props.location[0]
+         lat = this.props.location[1]
+      }
+      const zoom = this.state.zoom
+      */
+
     return (
         <main ref={el => this.mapContainer = el} className="map-screen" ></main>
     );
   }
 
-  updatePosts(map){
+  updatePosts(){
+    const map = this.state.map
     const { lng, lat } = map.getCenter();
   //  const bounds = map.getBounds();
   //  const dist = distance(lat,lng,bounds.getNorthWest().lat,bounds.getNorthWest().lng, "K");
   //  const meterRadius = dist *1000
 
-    this.props.dispatch(loadAllMapPosts(lng, lat, 5000))
-    this.props.dispatch(loadMapPosts(this.props.location[0], this.props.location[1], 1000))
 
-    for(var i = 0; i < this.props.allMapPosts.length; i++){
-      const longitude = this.props.allMapPosts[i].location.coordinates[0]
-      const latitude = this.props.allMapPosts[i].location.coordinates[1]
-      const username = this.props.allMapPosts[i].username
-      const data = this.props.allMapPosts[i].content
-      this.createMarker(longitude, latitude, false, username, data);
+    let userlng = -123.278711
+    let userlat = 44.567325
+    //Grab user location is available.
+    if(Array.isArray(this.props.location) && this.props.location.length === 2){
+       userlng = this.props.location[0]
+       userlat = this.props.location[1]
     }
-    for(var i = 0; i < this.props.mapPosts.length; i++){
-      const longitude = this.props.mapPosts[i].location.coordinates[0]
-      const latitude = this.props.mapPosts[i].location.coordinates[1]
-      const username = this.props.mapPosts[i].username
-      const data = this.props.mapPosts[i].content
-      this.createMarker(longitude, latitude, true, username, data);
-    }
+    this.props.dispatch(loadAllMapPosts(lng, lat, 5000))
+    this.props.dispatch(loadMapPosts(userlng, userlat, 1000))
+//    this.props.dispatch(loadAllMapPosts(lng, lat, 5000))
+//    .then(()=>{
+//        this.props.dispatch(loadMapPosts(userlng, userlat, 1000))
+//        .then(()=>{
+            for(var i = 0; i < this.props.allMapPosts.length; i++){
+              const longitude = this.props.allMapPosts[i].location.coordinates[0]
+              const latitude = this.props.allMapPosts[i].location.coordinates[1]
+              const username = this.props.allMapPosts[i].username
+              const data = this.props.allMapPosts[i].content
+              this.createMarker(longitude, latitude, map, false, username, data);
+            }
+            for(var i = 0; i < this.props.mapPosts.length; i++){
+              const longitude = this.props.mapPosts[i].location.coordinates[0]
+              const latitude = this.props.mapPosts[i].location.coordinates[1]
+              const username = this.props.mapPosts[i].username
+              const data = this.props.mapPosts[i].content
+              this.createMarker(longitude, latitude, map, true, username, data);
+            }
+            this.setState({
+                map:map
+            })
+//        })
+//    })
   }
 
 
 
-  createMarker(lng, lat, inbound, popupName, popupData, popupImage){
-    let tempMap = this.state.map
+  createMarker(lng, lat, map, inbound, popupName, popupData, popupImage){
     var m = document.createElement('div');
     //m.style.backgroundImage = "url('./assets/red_text.svg')";
     if(inbound == true){
@@ -160,10 +181,8 @@ class Map extends React.Component {
     //Add popup to marker
     let marker = new mapboxgl.Marker(m)
       .setLngLat([lng, lat])
-      .addTo(tempMap)
+      .addTo(map)
       .setPopup(popup);
-
-    this.setState({map:tempMap})
   }
 }
 
@@ -198,7 +217,8 @@ function mapStateToProps(state) {
       allMapPosts: state.allMapPosts,
       mapPosts: state.mapPosts,
       location: state.location,
-      themeId: state.themeId
+      themeId: state.themeId,
+      selectedPageIndex: state.selectedPageIndex
     }
 }
 
