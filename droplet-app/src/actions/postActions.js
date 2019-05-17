@@ -34,8 +34,24 @@ export function loadMapPosts(lng, lat, meters) {
     }
 }
 
+export function loadAllMapPosts(lng, lat, meters) {
+    return function(dispatch) {
+        return PostsApi.getAllMapPosts(lng, lat, meters).then(allMapPosts => {
+            if(!isEmpty(allMapPosts)){
+                dispatch(loadAllMapPostsSuccess(allMapPosts))
+            }
+        }).catch(error => {
+            throw(error)
+        })
+    }
+}
+
 export function loadMapPostsSuccess(mapPosts) {
     return {type: types.LOAD_MAP_POSTS_SUCCESS, mapPosts};
+}
+
+export function loadAllMapPostsSuccess(allMapPosts) {
+    return {type: types.LOAD_ALL_MAP_POSTS_SUCCESS, allMapPosts};
 }
 
 
@@ -72,7 +88,7 @@ export function sendNewPost(postData,pageIndex,userID,location) {
                     dispatch(loadHomePosts(location));
                     break;
                 case 1:
-                    dispatch(loadMapPosts());
+                    dispatch(loadMapPosts(location[0], location[1], 1000));
                     break;
                 //Don't have to handle 2 since you'll never have a like on
                 //a post you just made

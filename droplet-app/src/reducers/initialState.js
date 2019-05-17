@@ -14,6 +14,7 @@ export default {
     themeId: false,
     homePosts: [],
     mapPosts: [],
+    allMapPosts: [],
     likedPosts: [],
     time: 0,
     profile: {

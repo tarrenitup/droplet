@@ -4,6 +4,7 @@ export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
 
 /*Map screen posts*/
 export const LOAD_MAP_POSTS_SUCCESS = 'LOAD_MAP_POSTS_SUCCESS'
+export const LOAD_ALL_MAP_POSTS_SUCCESS = 'LOAD_ALL_MAP_POSTS_SUCCESS'
 export const ADD_MAP_SUCCESS = 'ADD_MAP_SUCCESS'
 
 /* New post */

@@ -5,54 +5,50 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './MapScreen.css'
 import Logo from './logo.png'
-import { loadMapPosts } from '../../actions/postActions'
+import { loadMapPosts, loadAllMapPosts } from '../../actions/postActions'
 import { mapPage } from '../../actions/miscActions'
+import {arrayEquals} from '../../actions/utility.js'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGlkZW5uIiwiYSI6ImNqcmg2NDU5czA4b3A0M25udmUxcWpjcmEifQ.J9ThJ9sMDK7ANhYkSpVnyg';
 
+//To change view radius for posts, go to updatePosts
+//Lines 137, 139
 class Map extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(props.mapPosts)
     this.state = {
-      lng: -123.2620,
-      lat: 44.5646,
       zoom: 10,
-      userLng: 0,
-      userLat: 0
+      map: undefined,
     };
-    this.props.dispatch(mapPage())
-  }
-  onFindLocation(map){
-    if(navigator.geolocation){
-        navigator.geolocation.watchPosition((position)=>{
-            //console.log(position);
-            console.log("LOCATION CHANGE" + position.coords.latitude + " " +position.coords.longitude);
-
-            this.userLng = position.coords.longitude
-            this.userLat = position.coords.latitude
-            this.updatePosts(map)
-            //console.log("Updatings");
-        })
-    }
   }
 
   componentDidMount() {
-    console.log("MOUNTED")
-    console.log(this.props)
+    this.props.dispatch(mapPage())
+    //Starting coords, centered on Corvallis
+    let lng = -123.278711
+    let lat = 44.567325
+    //Grab user location is available.
+    if(Array.isArray(this.props.location) && this.props.location.length === 2){
+       lng = this.props.location[0]
+       lat = this.props.location[1]
+    }
+    const zoom = this.state.zoom
 
-    const { lng, lat, zoom } = this.state;
-
+    //Init Map
     const map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v9',
       center: [lng, lat],
       zoom
     });
-    //map.setStyle('mapbox://styles/mapbox/' + "dark-v10");
-    this.onFindLocation(map);
+    if(this.props.themeId == 0){
+      map.setStyle('mapbox://styles/mapbox/streets-v9');
+    }
+    else{
+      map.setStyle('mapbox://styles/mapbox/dark-v10');
+    }
 
+    //User Location
     const geolocation = new mapboxgl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true
@@ -63,41 +59,109 @@ class Map extends React.Component {
     map.addControl(geolocation)
 
 
+/*
     map.on('touchend', () => {
-      this.updatePosts(map)
+  //    this.updatePosts(map)
     })
     map.on('zoom', ()=>{
-      this.updatePosts(map)
+  //    this.updatePosts(map)
     })
     map.on('move', () => {
-      this.setState({
-        lng: lng.toFixed(4),
-        lat: lat.toFixed(4),
-        zoom: map.getZoom().toFixed(2)
-      });
-    });
+      // this.setState({
+      //   lng: lng.toFixed(4),
+      //   lat: lat.toFixed(4),
+      //   zoom: map.getZoom().toFixed(2)
+      // });
+  });*/
+    this.setState({map:map})
+  }
+
+  componentDidUpdate(prevProps, prevState){
+      if(this.props.selectedPageIndex !== prevProps.selectedPageIndex){
+          this.updatePosts()
+      }
+    if(!arrayEquals(this.props.location, prevProps.location)){
+        if(this.state.map !== undefined){
+            this.updatePosts()
+        }
+    }
+    if(this.props.mapPosts.length !== prevProps.mapPosts.length){
+        this.updatePosts()
+    }
+    if(this.props.themeId !== prevProps.themeId){
+      const tempMap = this.state.map
+      if(this.props.themeId == 0){
+        tempMap.setStyle('mapbox://styles/mapbox/streets-v9');
+      }
+      else{
+        tempMap.setStyle('mapbox://styles/mapbox/dark-v10');
+      }
+      this.setState({map:tempMap})
+    }
   }
 
   render() {
-    const { lng, lat, zoom } = this.state;
+      /*
+      //Starting coords, centered on Corvallis
+      let lng = -123.278711
+      let lat = 44.567325
+      //Grab user location is available.
+      if(Array.isArray(this.props.location) && this.props.location.length === 2){
+         lng = this.props.location[0]
+         lat = this.props.location[1]
+      }
+      const zoom = this.state.zoom
+      */
+
     return (
         <main ref={el => this.mapContainer = el} className="map-screen" ></main>
     );
   }
 
-  updatePosts(map){
+  updatePosts(){
+    const map = this.state.map
     const { lng, lat } = map.getCenter();
-    const bounds = map.getBounds();
-    const dist = distance(lat,lng,bounds.getNorthWest().lat,bounds.getNorthWest().lng, "K");
-    const meterRadius = dist *1000
-    this.props.dispatch(loadMapPosts(this.props.location[0], this.props.location[1], 1000))
-    for(var i = 0; i < this.props.mapPosts.length; i++){
-      const longitude = this.props.mapPosts[i].location.coordinates[0]
-      const latitude = this.props.mapPosts[i].location.coordinates[1]
-      const username = this.props.mapPosts[i].username
-      const data = this.props.mapPosts[i].content
-      this.createMarker(longitude, latitude, map, true, username, data);
+  //  const bounds = map.getBounds();
+  //  const dist = distance(lat,lng,bounds.getNorthWest().lat,bounds.getNorthWest().lng, "K");
+  //  const meterRadius = dist *1000
+
+    let userlng = -123.278711
+    let userlat = 44.567325
+    //Grab user location is available.
+    if(Array.isArray(this.props.location) && this.props.location.length === 2){
+       userlng = this.props.location[0]
+       userlat = this.props.location[1]
     }
+    //Radius in meters for red, non clickable posts
+    const largeRange = 5000
+    //Radius in meters for blue, clickable posts
+    const smallRange = 1000
+
+    this.props.dispatch(loadAllMapPosts(lng, lat, largeRange))
+    this.props.dispatch(loadMapPosts(userlng, userlat, smallRange))
+//    this.props.dispatch(loadAllMapPosts(lng, lat, 5000))
+//    .then(()=>{
+//        this.props.dispatch(loadMapPosts(userlng, userlat, 1000))
+//        .then(()=>{
+            for(var i = 0; i < this.props.allMapPosts.length; i++){
+              const longitude = this.props.allMapPosts[i].location.coordinates[0]
+              const latitude = this.props.allMapPosts[i].location.coordinates[1]
+              const username = this.props.allMapPosts[i].username
+              const data = this.props.allMapPosts[i].content
+              this.createMarker(longitude, latitude, map, false, username, data);
+            }
+            for(var i = 0; i < this.props.mapPosts.length; i++){
+              const longitude = this.props.mapPosts[i].location.coordinates[0]
+              const latitude = this.props.mapPosts[i].location.coordinates[1]
+              const username = this.props.mapPosts[i].username
+              const data = this.props.mapPosts[i].content
+              this.createMarker(longitude, latitude, map, true, username, data);
+            }
+            this.setState({
+                map:map
+            })
+//        })
+//    })
   }
 
 
@@ -154,8 +218,11 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 
 function mapStateToProps(state) {
     return {
+      allMapPosts: state.allMapPosts,
       mapPosts: state.mapPosts,
-      location: state.location
+      location: state.location,
+      themeId: state.themeId,
+      selectedPageIndex: state.selectedPageIndex
     }
 }
 

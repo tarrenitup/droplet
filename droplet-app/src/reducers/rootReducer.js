@@ -10,12 +10,14 @@ import likesReducer from './likesReducer'
 import pageReducer from './pageReducer'
 import locationReducer from './locationReducer'
 import timeReducer from './timeReducer'
+import allMapPostsReducer from './allMapPostsReducer'
 
 const rootReducer = combineReducers({
   overlay: overlayReducer,
   homePosts: homePostsReducer,
   newPostModal: newPostModalReducer,
   mapPosts: mapPostsReducer,
+  allMapPosts: allMapPostsReducer,
   themeId: themeReducer,
   selectedPageIndex: currentPageReducer,
   profile: profileReducer,

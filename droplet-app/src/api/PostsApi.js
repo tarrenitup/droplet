@@ -88,6 +88,25 @@ class PostsApi {
       });
     }
 
+    static getAllMapPosts(lng, lat, meters){
+      const url = 'http://localhost:5000/posts/nearbyAll?lng=' + lng + '&lat=' + lat + '&meters=' + meters
+
+      const token = Auth.getCookie('token');
+      const header = 'Bearer ' + token
+      return fetch(url,{
+          method: 'GET',
+          headers:{
+              'Accept': 'application/json',
+              'content-type': 'application/json',
+              'Authorization': header
+          }
+      }).then(response => {
+          return response.json()
+      }).catch(error => {
+          return error
+      });
+    }
+
     static getYourLikedPosts(userID){
         const fetchURL = 'http://localhost:5000/posts/getUserPostsLikesInt/' + userID;
         const token = Auth.getCookie('token');
