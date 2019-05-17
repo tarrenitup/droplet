@@ -125,7 +125,6 @@ class Map extends React.Component {
   //  const dist = distance(lat,lng,bounds.getNorthWest().lat,bounds.getNorthWest().lng, "K");
   //  const meterRadius = dist *1000
 
-
     let userlng = -123.278711
     let userlat = 44.567325
     //Grab user location is available.
