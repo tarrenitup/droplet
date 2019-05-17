@@ -12,6 +12,9 @@ import {connect} from 'react-redux'
 class ProfileScreen extends Component{
     constructor(props){
         super(props);
+    }
+
+    componentDidMount(){
         this.props.dispatch(loadProfilePosts(this.props.userid));
         this.props.dispatch(loadBio(this.props.userid));
         this.props.dispatch(profilePage());

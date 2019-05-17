@@ -87,6 +87,9 @@ router.get('/nearby', (req, res, next) => {
                 splashPosts.push(posts[i]);
         }
         //console.log(splashPosts)
+        posts.sort(function(a,b){
+            return b.updated - a.updated;
+        });
         res.send(posts);
     })
     .catch(next)
@@ -97,8 +100,9 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
     //Get photo to upload
     //console.log(req.file);
     //Find any one user to post on
-    const user = await User.findOne({_id: req.params.userId});
-
+    const user = await User.findOne({_id: req.params.userId}).catch(error=>{
+        return res.send(error);
+    });
     //If file found, upload post accordingly
     if(req.file != undefined) {
         //Create new post with image
@@ -116,7 +120,6 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
 
         //Associates the comment with a Post
         user.posts.push(post._id);
-
         //Save the post (so post is now in posts array)
         await user.save().catch(error=>{
             return res.status(500).send(error);
@@ -133,7 +136,6 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         post.content = req.body.content;
         post.postImage = undefined;
         post.location = req.body.location;
-
         //Save it
         await post.save().catch(error=>{
             return res.send(error);
@@ -144,7 +146,7 @@ router.post('/:userId', upload.single('postImage'), async (req, res, next) => {
         await user.save().catch(error=>{
             return res.send(error);
         });
-        //res.send(post);
+        res.send(post);
     }
 });
 

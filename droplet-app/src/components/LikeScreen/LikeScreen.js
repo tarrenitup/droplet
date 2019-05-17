@@ -11,7 +11,9 @@ import {updateTime, likePage} from '../../actions/miscActions'
 class LikeScreen extends Component{
     constructor(props){
         super(props);
+    }
 
+    componentDidMount(){
         this.props.dispatch(loadYourLikedPosts(this.props.userid));
         this.props.dispatch(likePage());
         this.props.dispatch(updateTime());
