@@ -5,15 +5,25 @@ import PropTypes from 'prop-types'
 import PostList from '../PostList/PostList'
 import { loadHomePosts } from '../../actions/postActions'
 import {updateTime, homePage} from '../../actions/miscActions'
+import {arrayEquals} from '../../actions/utility.js'
 
 class PostsScreen extends Component{
     constructor(props){
         super(props);
+    }
+
+    componentDidMount(){
         if(Array.isArray(this.props.location) && this.props.location.length === 2){
             this.props.dispatch(loadHomePosts(this.props.location));
         }
         this.props.dispatch(homePage());
         this.props.dispatch(updateTime());
+    }
+
+    componentDidUpdate(prevProps){
+        if(!arrayEquals(this.props.location, prevProps.location)){
+            this.props.dispatch(loadHomePosts(this.props.location));
+        }
     }
 
     render(){

@@ -22,12 +22,6 @@ if(Auth.isAuthenticated()){
         navigator.geolocation.watchPosition((pos) =>{
             let location = [pos.coords.longitude, pos.coords.latitude];
             store.dispatch(updateLocation(location));
-            if(store.getState().selectedPageIndex === 0){
-                store.dispatch(loadHomePosts(location));
-            }
-            if(store.getState().selectedPageIndex === 1){
-                //store.dispatch(loadMapPosts(location));
-            }
         },
         (err) =>{
             console.log("Error");
