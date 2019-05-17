@@ -1,5 +1,19 @@
 const mongoose = require('mongoose');
 
+//const pointSchema = new mongoose.Schema({
+//    type: {
+//        type: String,
+//        enum: ['Point'],
+//        default: 'Point',
+//        required: true
+//    },
+//    coordinates: {
+//        type: [Number],
+//        index: '2dsphere',
+//        required: true
+//    }
+//});
+
 const postSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     username: {
@@ -14,7 +28,7 @@ const postSchema = new mongoose.Schema({
         type: String,
         default: undefined
     },
-//    splash_rad: Number,
+    splash_rad: Number,
 /*
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -70,13 +84,13 @@ const postSchema = new mongoose.Schema({
     location: {
         type: {
             type: String,
-            default: "Point",
-            required: true
+            default: 'Point',
+            //required: true
         },
         coordinates: {
-            type: [],
+            type: [Number],
             index: '2dsphere',
-            required: true
+            //required: true
         }
     },
     userid: {
@@ -95,6 +109,7 @@ postSchema.post('remove', function(next){
   postSchema.remove({ comments: this._id });
 });
 
-postSchema.index({location: '2dsphere'});
+postSchema.index({location: "2dsphere"});
 
 module.exports = mongoose.model('Post', postSchema);
+//module.exports = mongoose.model('Point', pointSchema);
