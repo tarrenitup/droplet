@@ -139,7 +139,7 @@ class SignUpScreen extends Component{
                         {this.failedMessage()}
                         <div className = "link">
                             Already a user?&nbsp;
-                            <a href="http://localhost:3000/login">tap here</a>
+                            <a href={"/login"}>tap here</a>
                             &nbsp;to login.
                         </div>
                     </form>
