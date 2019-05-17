@@ -28,7 +28,7 @@ const postSchema = new mongoose.Schema({
         type: String,
         default: undefined
     },
-//    splash_rad: Number,
+    splash_rad: Number,
 /*
     comments: [{
         type: mongoose.Schema.Types.ObjectId,

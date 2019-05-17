@@ -10,13 +10,13 @@ footer.app-footer {
     z-index: 25;
     border-top: 1px solid rgba(0,0,0,0.14);
     backdrop-filter: blur(7px);
+    transition: background-color 1.5s, border-color 1.5s;
 
     nav {
         display: flex;
         align-items: center;
         padding: 0 5%;
         width: 100%;
-        border-top: 1px solid white;
 
         ul.nav-buttons {
             display: flex;
@@ -76,6 +76,7 @@ footer.app-footer {
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    transition: filter 1.5s;
 
                     div.nav-icon {
                         background-repeat: no-repeat;
@@ -131,6 +132,18 @@ footer.app-footer {
                     }
                 }
             }
+        }
+    }
+}
+
+footer.dark {
+    background-color: rgba(110, 110, 110, 0.7);
+    border-top: 1px solid #777;
+
+    ul.nav-buttons {
+
+        li a {
+            filter: invert(100%) contrast(250%);
         }
     }
 }

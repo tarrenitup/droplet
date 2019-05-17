@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react'
-import './PostTypeSelector.css'
+import './PostTypeSelector.scss'
 import { changeNewPostType } from '../../actions/postActions'
 
 const selectPostType = (dispatch, els, event) => {

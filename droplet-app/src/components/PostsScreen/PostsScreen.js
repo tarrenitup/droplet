@@ -17,8 +17,9 @@ class PostsScreen extends Component{
     }
 
     render(){
+
         return(
-            <main className='posts-screen screen'>
+            <main className={this.props.theme ? 'posts-screen screen dark' : 'posts-screen screen'}>
                <PostList posts={this.props.homePosts} like={false} />
             </main>
         )
@@ -41,8 +42,9 @@ PostsScreen.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        homePosts: state.homePosts,
-        location: state.location
+      homePosts: state.homePosts,
+      location: state.location,
+      theme: state.themeId,
     }
 }
 

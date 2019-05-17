@@ -7,15 +7,17 @@ div.comment-list {
             height: 85px;
             margin: 0;
             padding: 10px;
-            font-size: 10px;
+            font-size: 14px;
+            border: none;
             background-color: #F1F1F1;
-            border: 1px solid #F3F3F3;
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
             border-bottom-left-radius: 3px;
             border-bottom-right-radius: 3px;
             resize: none;
             box-sizing: border-box;
+            transition: background-color 1.5s, color 1.5s;
+
 
             &::placeholder {
                 font-style: italic;
@@ -37,6 +39,7 @@ div.comment-list {
             font-size: 14px;
             font-weight: 500;
             color: #00A9FF;
+            transition: background-color 1.5s, color 1.5s;
         }
     }
 

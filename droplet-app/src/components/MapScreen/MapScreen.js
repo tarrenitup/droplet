@@ -64,10 +64,10 @@ class Map extends React.Component {
 
 
     map.on('touchend', () => {
-      this.updatePosts(map)
+  //    this.updatePosts(map)
     })
     map.on('zoom', ()=>{
-      this.updatePosts(map)
+  //    this.updatePosts(map)
     })
     map.on('move', () => {
       this.setState({
@@ -90,7 +90,7 @@ class Map extends React.Component {
     const bounds = map.getBounds();
     const dist = distance(lat,lng,bounds.getNorthWest().lat,bounds.getNorthWest().lng, "K");
     const meterRadius = dist *1000
-    this.props.dispatch(loadAllMapPosts(lng, lat, meterRadius))
+    this.props.dispatch(loadAllMapPosts(lng, lat, 5000))
     this.props.dispatch(loadMapPosts(this.props.location[0], this.props.location[1], 1000))
     for(var i = 0; i < this.props.allMapPosts.length; i++){
       const longitude = this.props.allMapPosts[i].location.coordinates[0]
