@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import './CommentCard.scss'
 import Auth from '../Auth/Auth.js'
 import likesIcon from './likes.svg'

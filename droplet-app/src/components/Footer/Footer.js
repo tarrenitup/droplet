@@ -34,7 +34,7 @@ const Footer = (props) => {
 const mapStateToProps = (state) => {
     return {
         visiblity: state.newPostModal.visible,
-        currentPageIndex: state.currentPageIndex,
+        selectedPageIndex: state.selectedPageIndex,
         theme: state.themeId
     }
 }

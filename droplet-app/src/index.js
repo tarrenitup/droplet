@@ -8,7 +8,7 @@ import configureStore from './store/configureStore'
 import { loadHomePosts } from './actions/postActions'
 import { loadLoginData } from './actions/loginActions'
 import { updateLocation } from './actions/miscActions'
-import {updateTime} from './actions/miscActions'
+//import {updateTime} from './actions/miscActions'
 import App from './components/App/App'
 import Auth from './components/Auth/Auth.js'
 
@@ -22,12 +22,6 @@ if(Auth.isAuthenticated()){
         navigator.geolocation.watchPosition((pos) =>{
             let location = [pos.coords.longitude, pos.coords.latitude];
             store.dispatch(updateLocation(location));
-            if(store.getState().selectedPageIndex === 0){
-                store.dispatch(loadHomePosts(location));
-            }
-            if(store.getState().selectedPageIndex === 1){
-                //store.dispatch(loadMapPosts(location));
-            }
         },
         (err) =>{
             console.log("Error");
