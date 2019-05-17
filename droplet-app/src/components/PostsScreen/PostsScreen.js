@@ -16,7 +16,6 @@ class PostsScreen extends Component{
 
     render(){
 
-        console.log(this.props)
         return(
             <main className={this.props.theme ? 'posts-screen screen dark' : 'posts-screen screen'}>
                <PostList posts={this.props.homePosts} like={false} />

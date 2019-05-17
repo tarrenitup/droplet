@@ -10,7 +10,11 @@ div.overlay {
     backdrop-filter: blur(10px);
     width: 100%;
     height: calc(100vh - 97px);
-    transition: visibility 0.3s, opacity 0.3s;
+    transition: visibility 0.3s, opacity 0.3s, background-color 0.3s;
+}
+
+div.overlay.dark {
+  background-color: rgba(0,0,0,0.5);
 }
 
 div.overlay.off {
@@ -27,8 +31,8 @@ div.overlay.off {
 }
 
 .spinner.off {
-    visibility: hidden;
-    opacity: 0;
+  visibility: hidden;
+  opacity: 0;
 }
 
 .double-bounce1, .double-bounce2 {
