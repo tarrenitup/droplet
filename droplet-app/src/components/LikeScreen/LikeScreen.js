@@ -21,7 +21,7 @@ class LikeScreen extends Component{
 
     render(){
         return(
-            <main className='like-screen screen'>
+            <main className={this.props.theme ? 'like-screen screen dark' : 'like-screen screen'}>
                 <PostList posts={this.props.likedPosts} time={this.props.time} like={true}/>
             </main>
         )
@@ -32,7 +32,8 @@ function mapStateToProps(state){
     return{
         time: state.time,
         likedPosts: state.likedPosts,
-        userid: state.profile.userid
+        userid: state.profile.userid,
+        theme: state.themeId,
     }
 }
 

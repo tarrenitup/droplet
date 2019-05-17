@@ -29,7 +29,7 @@ class ProfileScreen extends Component{
             />
         )
         return(
-            <main className='profile-screen'>
+            <main className={this.props.theme ? 'profile-screen screen dark' : 'profile-screen screen'}>
                 {head}
                 <PostList posts={this.props.posts} like={false}/>
             </main>
@@ -44,7 +44,8 @@ function mapStateToProps(state){
         posts: state.profile.posts,
         userid: state.profile.userid,
         bio: state.profile.bio,
-        time: state.time
+        time: state.time,
+        theme: state.themeId,
     }
 }
 export default connect(mapStateToProps)(ProfileScreen);

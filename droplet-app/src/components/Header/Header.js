@@ -1,8 +1,9 @@
 import React from 'react'
-import './Header.css'
+import './Header.scss'
 import Logo from './logo.png'
 import Signout from './signout.svg'
 import Auth from '../Auth/Auth.js'
+import { toggleTheme } from '../../actions/headerActions'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 
@@ -23,12 +24,19 @@ const DisplayLogout = () => {
     }
 }
 
-const Header = () => (
-    <header className="app-header">
-        <div className='theme-dot' alt='Theme switcher'></div>
-        <img className='logo' src={Logo} alt='Droplet logo' />
-        <DisplayLogout/>
-    </header>
-)
+const Header = (props) => {
+    
+    const headerStyleClass = props.theme ? 'app-header dark' : 'app-header'
 
-export default Header
+    return (
+        <header className={headerStyleClass}>
+            <span className='theme-pad' onClick={() => props.dispatch(toggleTheme())}><div className='theme-dot' alt='Theme switcher'></div></span>
+            <img className='logo' src={Logo} alt='Droplet logo' />
+            <DisplayLogout/>
+        </header>
+    )
+}
+
+const mapStateToProps = (state) => ({theme: state.themeId})
+
+export default connect(mapStateToProps)(Header)
