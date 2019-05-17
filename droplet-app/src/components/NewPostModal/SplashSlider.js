@@ -78,13 +78,9 @@ const SplashSlider = (props) => {
                     <li>10 feet</li>
                     <li>100 feet</li>
                     <li>300 feet</li>
-                    <li>1 blah</li>
-                    <li>2 blah</li>
-                    <li>3 blah</li>
-                    <li>4 blah</li>
-                    <li>5 blah</li>
-                    <li>6 blah</li>
-                    <li>7 blah</li>
+                    <li>500 feet</li>
+                    <li>1 Mile</li>
+                    <li>5 Miles</li>
                 </ol>
             </div>
             <span className='arrow right' onClick={() => incrementSplash({dispatch: props.dispatch, currentSplash: props.splashRangeIndex})}>

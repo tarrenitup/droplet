@@ -6,6 +6,7 @@ div.splash-slider {
     box-sizing: border-box;
     flex-direction: column;
     background-color: #F9F9F9;
+    transition: background-color 1.5s;
 }
 
 div.splash-slider p {
@@ -20,7 +21,7 @@ div.splash-slider p {
 span.arrow {
     position: absolute;
     top: 0px;
-    width: 75px;
+    width: 110px;
     height: 100%;
 }
 

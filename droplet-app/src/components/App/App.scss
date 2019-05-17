@@ -49,6 +49,8 @@ main.like-screen.dark {
 div.new-post-modal.dark {
     background-color: #555;
     color: white;
+    box-shadow: 0px 6px 40px rgba(0, 0, 0, 0.4), 
+                0px 1px 3px rgba(0, 0, 0, 0.2);
 
     form.new-post-form {
        
@@ -83,7 +85,6 @@ div.new-post-modal.dark {
                 position: relative;
 
                 textarea.post-text {
-                   
                     background-color: #444;
                     border: 1px solid #444;
                     color: white;
@@ -95,6 +96,35 @@ div.new-post-modal.dark {
                         color: #818181;
                     }
                 }
+            }
+        }
+
+        div.splash-slider {
+            background-color: #444;
+
+            p {
+                color: #aaa;
+            }
+
+            span.arrow {
+                span {
+                    background-color: white;
+                    &::after {
+                        background-color: white;
+                    }
+                }
+            }
+
+            span.arrow.left {
+                background-image: linear-gradient(to right, #444 , rgba(255,255,255,0.001));
+            }
+
+            span.arrow.right {
+                background-image: linear-gradient(to right, rgba(255,255,255,0.001) , #444);
+            }
+
+            div.slide-outer ol li {
+                color: white;
             }
         }
     }
