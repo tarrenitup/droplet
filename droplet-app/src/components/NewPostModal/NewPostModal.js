@@ -81,7 +81,7 @@ class NewPostModal extends Component {
                     <div className='top'>
                         <input type='hidden' name='location' ref={(input) => this.getCurrentLocation = input} />
                         <PostTypeSelector dispatch={this.props.dispatch} postTypeIndex={this.props.postTypeIndex} />
-                        <UserInfo name={this.props.username} picture={''} />
+                        <UserInfo name={this.props.username} picture={this.props.profilePic} />
                         <FileUpload />
                         <div className='textarea-outer'>
                             <textarea required className='post-text' placeholder='write a post ...' ref={(input) => this.getPostContent = input} />
@@ -105,6 +105,7 @@ const mapStateToProps = (state) => {
         selectedPageIndex: state.selectedPageIndex,
         location: state.location,
         theme: state.themeId,
+        profilePic: state.profile.profilePic
     }
 }
 

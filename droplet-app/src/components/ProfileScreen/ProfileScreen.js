@@ -25,6 +25,7 @@ class ProfileScreen extends Component{
         const head = (
             <ProfileCard
                 username={this.props.username}
+                picture={this.props.profilePic}
                 bio={this.props.bio}
             />
         )
@@ -46,6 +47,7 @@ function mapStateToProps(state){
         bio: state.profile.bio,
         time: state.time,
         theme: state.themeId,
+        profilePic: state.profile.profilePic
     }
 }
 export default connect(mapStateToProps)(ProfileScreen);

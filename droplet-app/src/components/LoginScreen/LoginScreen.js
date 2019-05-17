@@ -52,7 +52,9 @@ class LoginScreen extends Component{
             Auth.setCookie('token', json.token, 1);
             const name = Auth.parseJwt(Auth.getCookie('token')).name;
             const uid = Auth.parseJwt(Auth.getCookie('token')).sub;
-            dispatch(loadLoginData(name,uid));
+            const pic = Auth.parseJwt(Auth.getCookie('token')).pic;
+
+            dispatch(loadLoginData(name,uid,pic));
             if(navigator.geolocation){
                 navigator.geolocation.watchPosition((pos) =>{
                     let location = [pos.coords.longitude, pos.coords.latitude];

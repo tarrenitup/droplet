@@ -61,11 +61,12 @@ router.post('/',(req, res, next) => {
                 _id: new mongoose.Types.ObjectId(),
                 username: req.body.username,
                 password: hash,
-                bio: req.body.bio
+                bio: req.body.bio,
+                profilePic: ""
             });
             user.save()
             .then(function(result){
-                return generateJWT(result._id,result.username);
+                return generateJWT(result._id,result.username, result.profilePic);
             })
             .then(function(token){
                 res.status(200).json({ //consider sending in additional information i.e. user id?
@@ -100,7 +101,7 @@ router.post('/signin', function(req, res){
                 return Promise.reject(401);
             }
         }).then(function(user){
-            return generateJWT(user._id,user.username);
+            return generateJWT(user._id,user.username,user.profilePic);
         }).then(function(token){
             res.status(200).json({ //consider sending in additional information i.e. user id?
                 token : token

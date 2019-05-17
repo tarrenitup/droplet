@@ -31,6 +31,7 @@ const PostList = (props) => {
                 key={post._id}
                 postID={post._id}
                 name={post.username}
+                picture={post.profilePic}
                 text={post.content}
                 date={post.created}
                 mediaSource={post.postImage}
@@ -60,6 +61,7 @@ const PostList = (props) => {
                         key={post._id}
                         postID={post._id}
                         name={post.username}
+                        picture={post.profilePic}
                         text={post.content}
                         date={post.created}
                         mediaSource={post.postImage}

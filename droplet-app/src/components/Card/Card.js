@@ -132,6 +132,7 @@ const Card = (props) => {
     return (
         <div className='card'>
             <div className='card-top'>
+                 <img className='profile-pic' src={props.picture} alt='' />
                 <p className='username'>{props.name}</p>
             </div>
 

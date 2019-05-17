@@ -29,6 +29,12 @@ const postSchema = new mongoose.Schema({
         type: String,
         default: undefined
     },
+    profilePic: {
+        data: Buffer,
+        type: String,
+        ref:'User',
+        default: ""
+    },
     splash_rad: Number,
 /*
     comments: [{

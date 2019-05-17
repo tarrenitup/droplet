@@ -110,6 +110,7 @@ function modifyCommentLikes(props){
 const CommentCard = (props) => (
     <li className='comment-card'>
         <div className='card-top'>
+         <img className='profile-pic' src={props.picture} alt='profile' />
             <p className='username'>{props.name}</p>
         </div>
         <p className='card-text'>{props.text}{props.edited ? ' edited' : ''}</p>
