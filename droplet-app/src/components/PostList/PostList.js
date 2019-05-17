@@ -35,6 +35,7 @@ const PostList = (props) => {
                 text={post.content}
                 date={post.created}
                 mediaSource={post.postImage}
+                mediaType={mediaType}
                 likes={post.likes.length}
                 newLikes={post.newLikes}
                 numNewLikes={post.numNewLikes}
