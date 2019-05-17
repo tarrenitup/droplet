@@ -43,7 +43,7 @@ PostsScreen.propTypes = {
 function mapStateToProps(state) {
     return {
         homePosts: state.homePosts,
-        location: state.location
+        location: state.location,
         theme: state.themeId,
     }
 }
