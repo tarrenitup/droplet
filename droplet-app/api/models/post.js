@@ -32,7 +32,6 @@ const postSchema = new mongoose.Schema({
     profilePic: {
         data: Buffer,
         type: String,
-        ref:'User',
         default: ""
     },
     splash_rad: Number,
