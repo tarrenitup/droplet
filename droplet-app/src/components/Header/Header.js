@@ -15,8 +15,8 @@ function logout(){
     //return <Redirect to='/login' />
 }
 
-const DisplayLogout = () => {
-    if(Auth.isAuthenticated() === true){
+const DisplayLogout = (props) => {
+    if(props.isAuthenticated !== ""){
         return (<img alt='logout icon' src={Signout} className='logout' onClick={logout} />)
     }
     else {
@@ -25,18 +25,21 @@ const DisplayLogout = () => {
 }
 
 const Header = (props) => {
-    
+
     const headerStyleClass = props.theme ? 'app-header dark' : 'app-header'
 
     return (
         <header className={headerStyleClass}>
             <span className='theme-pad' onClick={() => props.dispatch(toggleTheme())}><div className='theme-dot' alt='Theme switcher'></div></span>
             <img className='logo' src={Logo} alt='Droplet logo' />
-            <DisplayLogout/>
+            <DisplayLogout isAuthenticated={props.userid}/>
         </header>
     )
 }
 
-const mapStateToProps = (state) => ({theme: state.themeId})
+const mapStateToProps = (state) => ({
+        theme: state.themeId,
+        userid: state.profile.userid
+    })
 
 export default connect(mapStateToProps)(Header)
